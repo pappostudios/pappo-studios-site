@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Projects — Pappo Studios</title>
+    <meta name="description" content="Upcoming projects from Pappo Studios: 3D PVP multiplayer game in Unity, and more.">
+    <style>
+        :root {
+            --primary: #00bcd4;
+            --bg: #121212;
+            --card: #1e1e1e;
+            --border: #2a2a2a;
+            --text: #e0e0e0;
+            --muted: #b0b0b0;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ── Header ── */
+        header {
+            background: #000;
+            border-bottom: 2px solid var(--primary);
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        nav { display: flex; gap: 28px; }
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+        }
+        nav a:hover { color: #fff; }
+        nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+        /* ── Page hero ── */
+        .page-hero {
+            padding: 4rem 2rem 3rem;
+            background: radial-gradient(ellipse at 50% 0%, #0d2b2e 0%, var(--bg) 65%);
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .page-hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        /* ── Container ── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* ── Section title ── */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Future card (main, highlighted) ── */
+        .future-card-main {
+            background: var(--card);
+            border: 1px dashed #3a3a3a;
+            border-radius: 14px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .future-card-main::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .future-card-main h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.2rem; }
+
+        .tag {
+            display: inline-block;
+            background: #282828;
+            color: #ccc;
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            border: 1px solid #383838;
+        }
+
+        .tag-accent {
+            background: rgba(0, 188, 212, 0.12);
+            border-color: rgba(0, 188, 212, 0.3);
+            color: var(--primary);
+        }
+
+        .future-card-main p {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-dev { background: rgba(0, 188, 212, 0.15); color: var(--primary); border: 1px solid rgba(0, 188, 212, 0.3); }
+        .status-planning { background: rgba(180, 180, 0, 0.1); color: #d4c400; border: 1px solid rgba(180, 180, 0, 0.3); }
+        .status-concept { background: rgba(160, 100, 255, 0.1); color: #b07aff; border: 1px solid rgba(160, 100, 255, 0.3); }
+
+        /* ── Feature list ── */
+        .feature-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list li {
+            font-size: 0.92rem;
+            color: var(--muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .feature-list li::before {
+            content: '–';
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── Smaller future cards grid ── */
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 3rem;
+        }
+
+        .future-card-sm {
+            background: var(--card);
+            border: 1px dashed #383838;
+            border-radius: 10px;
+            padding: 1.6rem;
+        }
+
+        .future-card-sm .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .future-card-sm h3 {
+            font-size: 1.05rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .future-card-sm p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Back link ── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #555;
+            border-top: 1px solid var(--border);
+            font-size: 0.88rem;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .feature-list { grid-template-columns: 1fr; }
+            nav { gap: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">Pappo Studios</a>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="future.html" class="active">Future</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <h1>Future Projects</h1>
+        <p>What's in the pipeline at Pappo Studios.</p>
+    </section>
+
+    <div class="container">
+
+        <!-- Featured upcoming: 3D PVP Game -->
+        <h2 class="section-title">In Development</h2>
+
+        <div class="future-card-main">
+            <span class="status-badge status-dev">&#9679; In Development</span>
+            <h2>Untitled 3D PVP Multiplayer Game</h2>
+            <div class="tag-row">
+                <span class="tag tag-accent">Unity</span>
+                <span class="tag">C#</span>
+                <span class="tag">Multiplayer</span>
+                <span class="tag">PVP</span>
+                <span class="tag">3D</span>
+            </div>
+            <p>
+                A competitive 3D PVP game built in Unity. The core loop is fast-paced player-versus-player combat in a 3D environment, focused on skill expression and replayability. Multiplayer networking is a central challenge &mdash; designing for low-latency feel, fair matchmaking, and a responsive combat system that works well across network conditions.
+            </p>
+            <p>
+                This project is an opportunity to go deeper into Unity's architecture, multiplayer frameworks, and 3D game feel design &mdash; areas I'm actively building expertise in.
+            </p>
+            <ul class="feature-list">
+                <li>Real-time 3D PVP combat</li>
+                <li>Networked multiplayer</li>
+                <li>Custom character controller</li>
+                <li>Matchmaking system</li>
+                <li>Leaderboards &amp; progression</li>
+                <li>Cross-platform (PC &amp; mobile)</li>
+            </ul>
+        </div>
+
+        <!-- Smaller cards: other planned projects -->
+        <h2 class="section-title">On the Radar</h2>
+
+        <div class="future-grid">
+
+            <div class="future-card-sm">
+                <span class="card-icon">&#128241;</span>
+                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">Planning</span>
+                <h3>Milometri v2</h3>
+                <p>Major update to Milometri: spaced-repetition scheduling, progress analytics dashboard, iCloud/Drive sync, and an expanded word bank with audio pronunciation.</p>
+                <div class="tag-row">
+                    <span class="tag">Flutter</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+
+            <div class="future-card-sm">
+                <span class="card-icon">&#128640;</span>
+                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">Concept</span>
+                <h3>General-purpose Coaching Platform</h3>
+                <p>Generalise the KJ Fitness platform into a white-label SaaS product any personal trainer or coach can use &mdash; with multi-coach workspaces and subscription billing.</p>
+                <div class="tag-row">
+                    <span class="tag">React Native</span>
+                    <span class="tag">Firebase</span>
+                    <span class="tag">SaaS</span>
+                </div>
+            </div>
+
+            <div class="future-card-sm">
+                <span class="card-icon">&#127919;</span>
+                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">Concept</span>
+                <h3>Mobile Puzzle / Casual Game</h3>
+                <p>A casual mobile puzzle game with a distinctive visual style and satisfying mechanics, targeting a broad audience. Still in early concept phase.</p>
+                <div class="tag-row">
+                    <span class="tag">Unity</span>
+                    <span class="tag">Mobile</span>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="projects.html" class="back-link">&larr; See current projects</a>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

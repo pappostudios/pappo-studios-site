@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects — Pappo Studios</title>
-    <meta name="description" content="Projects by Erez Pappo: Milometri (Flutter, Google Play), KJ Fitness App (React Native + Firebase), KJ Fitness Website.">
+    <meta name="description" content="Projects by Erez Pappo: Milometri, KJ Fitness App, KJ Fitness Website.">
+    <script>
+        (function () {
+            var s = localStorage.getItem('lang');
+            if (s === 'he') {
+                document.documentElement.setAttribute('lang', 'he');
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('data-lang', 'he');
+            }
+        })();
+    </script>
     <style>
         :root {
             --primary: #00bcd4;
@@ -23,6 +33,24 @@
             color: var(--text);
             line-height: 1.7;
         }
+
+        /* ── Language visibility ── */
+        html[data-lang="he"] .en { display: none !important; }
+        html:not([data-lang="he"]) .he { display: none !important; }
+
+        /* ── Language button ── */
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-family: inherit;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
 
         /* ── Header ── */
         header {
@@ -52,7 +80,7 @@
             text-decoration: none;
         }
 
-        nav { display: flex; gap: 28px; }
+        nav { display: flex; gap: 20px; align-items: center; }
         nav a {
             color: var(--muted);
             text-decoration: none;
@@ -65,7 +93,7 @@
         nav a:hover { color: #fff; }
         nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-        /* ── Page header ── */
+        /* ── Page hero ── */
         .page-hero {
             padding: 4rem 2rem 3rem;
             background: radial-gradient(ellipse at 50% 0%, #0d2b2e 0%, var(--bg) 65%);
@@ -79,10 +107,7 @@
             margin-bottom: 0.6rem;
         }
 
-        .page-hero p {
-            color: var(--muted);
-            font-size: 1.05rem;
-        }
+        .page-hero p { color: var(--muted); font-size: 1.05rem; }
 
         /* ── Container ── */
         .container {
@@ -277,13 +302,6 @@
         }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* ── Divider ── */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 0;
-        }
-
         /* ── Footer ── */
         footer {
             text-align: center;
@@ -296,8 +314,8 @@
         /* ── Responsive ── */
         @media (max-width: 640px) {
             .detail-grid { grid-template-columns: 1fr; }
-            .project-icon { width: 60px; height: 60px; }
-            nav { gap: 18px; }
+            .project-icon, .project-icon-text { width: 60px; height: 60px; }
+            nav { gap: 12px; }
         }
     </style>
 </head>
@@ -307,30 +325,44 @@
         <div class="header-inner">
             <a href="index.html" class="logo">Pappo Studios</a>
             <nav>
-                <a href="index.html">About</a>
-                <a href="projects.html" class="active">Projects</a>
-                <a href="future.html">Future</a>
+                <a href="index.html">
+                    <span class="en">About</span><span class="he">אודות</span>
+                </a>
+                <a href="projects.html" class="active">
+                    <span class="en">Projects</span><span class="he">פרויקטים</span>
+                </a>
+                <a href="future.html">
+                    <span class="en">Future</span><span class="he">עתידי</span>
+                </a>
+                <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
             </nav>
         </div>
     </header>
 
     <section class="page-hero">
-        <h1>Projects</h1>
-        <p>Real products, shipped to real users.</p>
+        <h1>
+            <span class="en">Projects</span>
+            <span class="he">פרויקטים</span>
+        </h1>
+        <p>
+            <span class="en">Real products, shipped to real users.</span>
+            <span class="he">מוצרים אמיתיים, שנשלחו למשתמשים אמיתיים.</span>
+        </p>
     </section>
 
     <div class="container">
 
-        <!-- ══════════════════════════════════
-             PROJECT 1 — MILOMETRI
-        ══════════════════════════════════ -->
+        <!-- ══ PROJECT 1 — MILOMETRI ══ -->
         <h2 class="section-title" id="milometri">Milometri</h2>
 
         <div class="project-card">
             <div class="project-header">
                 <img src="images/icon.png" alt="Milometri icon" class="project-icon">
                 <div class="project-meta">
-                    <h2>Milometri &mdash; Psychometric Vocabulary App</h2>
+                    <h2>
+                        <span class="en">Milometri &mdash; Psychometric Vocabulary App</span>
+                        <span class="he">מילומטרי &mdash; אפליקציית אוצר מילים לפסיכומטרי</span>
+                    </h2>
                     <div class="tag-row">
                         <span class="tag tag-accent">Flutter</span>
                         <span class="tag">Dart</span>
@@ -342,39 +374,44 @@
             </div>
 
             <p class="project-desc">
-                A mobile vocabulary learning app for students preparing for Israel's psychometric (college admissions) exam. Built entirely solo, from the data pipeline and ML difficulty classification to the Flutter UI and store releases. Milometri uses adaptive learning to surface the words each user finds hardest, in both Hebrew and English. Available on both <strong>Google Play</strong> and the <strong>App Store</strong>.
+                <span class="en">A mobile vocabulary learning app for students preparing for Israel's psychometric (college admissions) exam. Built entirely solo, from the data pipeline and ML difficulty classification to the Flutter UI and store releases. Milometri uses adaptive learning to surface the words each user finds hardest, in both Hebrew and English. Available on both <strong>Google Play</strong> and the <strong>App Store</strong>.</span>
+                <span class="he">אפליקציית מובייל ללימוד אוצר מילים לתלמידים המתכוננים לפסיכומטרי. נבנתה לגמרי לבד, מה-Pipeline של הנתונים וסיווג הקושי ב-ML ועד ה-UI ב-Flutter ופרסום ב-Stores. מילומטרי משתמשת בלמידה אדפטיבית כדי להציג לכל משתמש את המילים שהוא מתקשה בהן ביותר, בעברית ובאנגלית. זמינה ב-<strong>Google Play</strong> ובאפ <strong>Store</strong>.</span>
             </p>
 
             <div class="detail-grid">
                 <div class="detail-block">
-                    <h4>What I Built</h4>
-                    <p>Complete Flutter app with clean state management, local data persistence, and a smooth card-based review UI. Supports two word banks (Hebrew + English) with thousands of vocabulary items.</p>
+                    <h4><span class="en">What I Built</span><span class="he">מה בניתי</span></h4>
+                    <p>
+                        <span class="en">Complete Flutter app with clean state management, local data persistence, and a smooth card-based review UI. Supports two word banks (Hebrew + English) with thousands of vocabulary items.</span>
+                        <span class="he">אפליקציית Flutter מלאה עם ניהול State נקי, שמירת נתונים מקומית וממשק כרטיסיות חלק לחזרה על מילים. תומכת בשני בנקי מילים (עברית + אנגלית) עם אלפי פריטי אוצר מילים.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Data Pipeline</h4>
-                    <p>Wrote Python scripts (<code>classify_levels.py</code>, <code>rate_difficulty.py</code>) to automatically classify and rank vocabulary words by difficulty using frequency analysis and ML techniques.</p>
+                    <h4><span class="en">Data Pipeline</span><span class="he">Pipeline נתונים</span></h4>
+                    <p>
+                        <span class="en">Wrote Python scripts (<code>classify_levels.py</code>, <code>rate_difficulty.py</code>) to automatically classify and rank vocabulary words by difficulty using frequency analysis and ML techniques.</span>
+                        <span class="he">כתבתי סקריפטים ב-Python (<code>classify_levels.py</code>, <code>rate_difficulty.py</code>) לסיווג ודירוג אוטומטי של מילות אוצר לפי רמת קושי בעזרת ניתוח תדירות וטכניקות ML.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Architecture</h4>
-                    <p>Clean architecture with separated layers for data, domain, and presentation. Optimised for fast startup and smooth performance on low-end Android devices.</p>
+                    <h4><span class="en">Architecture</span><span class="he">ארכיטקטורה</span></h4>
+                    <p>
+                        <span class="en">Clean architecture with separated layers for data, domain, and presentation. Optimised for fast startup and smooth performance on low-end Android devices.</span>
+                        <span class="he">ארכיטקטורה נקייה עם שכבות מופרדות לנתונים, Domain ו-Presentation. אופטימיזציה לזמן הפעלה מהיר וביצועים חלקים גם על מכשירי Android חלשים.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Deployment</h4>
-                    <p>Published to both Google Play and the App Store using Codemagic CI/CD. Maintained a privacy policy page and handled full store compliance end-to-end.</p>
+                    <h4><span class="en">Deployment</span><span class="he">פרסום</span></h4>
+                    <p>
+                        <span class="en">Published to both Google Play and the App Store using Codemagic CI/CD. Maintained a privacy policy page and handled full store compliance end-to-end.</span>
+                        <span class="he">פורסם ב-Google Play ובאפ סטור בעזרת Codemagic CI/CD. טיפול מלא בדרישות ה-Store כולל דף מדיניות פרטיות.</span>
+                    </p>
                 </div>
             </div>
 
             <div class="gallery">
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/logo.jpg"
-                    alt="Milometri logo"
-                    class="logo-style"
-                >
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/icon.png"
-                    alt="Milometri app icon"
-                    class="logo-style"
-                >
+                <img src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/logo.jpg" alt="Milometri logo" class="logo-style">
+                <img src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/icon.png" alt="Milometri app icon" class="logo-style">
             </div>
 
             <div class="project-links">
@@ -385,22 +422,24 @@
                     &#63743; App Store
                 </a>
                 <a href="https://github.com/pappostudios/milometry" target="_blank" rel="noopener" class="btn-outline">
-                    GitHub Repository
+                    <span class="en">GitHub Repository</span>
+                    <span class="he">מאגר GitHub</span>
                 </a>
             </div>
         </div>
 
 
-        <!-- ══════════════════════════════════
-             PROJECT 2 — KJ FITNESS APP
-        ══════════════════════════════════ -->
+        <!-- ══ PROJECT 2 — KJ FITNESS APP ══ -->
         <h2 class="section-title" id="kj-app">KJ Fitness App</h2>
 
         <div class="project-card">
             <div class="project-header">
                 <div class="project-icon-text">KJ</div>
                 <div class="project-meta">
-                    <h2>KJ Fitness &mdash; Coaching Mobile App</h2>
+                    <h2>
+                        <span class="en">KJ Fitness &mdash; Coaching Mobile App</span>
+                        <span class="he">KJ Fitness &mdash; אפליקציית אימון מובייל</span>
+                    </h2>
                     <div class="tag-row">
                         <span class="tag tag-accent">React Native</span>
                         <span class="tag">Expo</span>
@@ -412,62 +451,66 @@
             </div>
 
             <p class="project-desc">
-                A full fitness coaching platform built for a real client &mdash; KJ Fitness. The app serves two roles: clients see their weekly training plans, track sessions, and pay for sessions; coaches manage client rosters, create weekly content, and monitor progress. Built with React Native + Expo for cross-platform delivery and Firebase for real-time backend.
+                <span class="en">A full fitness coaching platform built for a real client &mdash; KJ Fitness. The app serves two roles: clients see their weekly training plans, track sessions, and pay for sessions; coaches manage client rosters, create weekly content, and monitor progress. Built with React Native + Expo for cross-platform delivery and Firebase for real-time backend.</span>
+                <span class="he">פלטפורמת אימון מלאה שנבנתה עבור לקוח אמיתי — KJ Fitness. האפליקציה משרתת שני תפקידים: לקוחות רואים תוכניות אימון שבועיות, עוקבים אחרי אימונים ומשלמים; מאמנים מנהלים לקוחות, יוצרים תוכן שבועי ועוקבים אחרי התקדמות. נבנה עם React Native + Expo לפיתוח Cross-platform ו-Firebase ל-Backend בזמן אמת.</span>
             </p>
 
             <div class="detail-grid">
                 <div class="detail-block">
-                    <h4>Dual-role Architecture</h4>
-                    <p>Separate screen flows for clients and coaches, unified under a single codebase. Role-based access controlled via Firebase Auth and Firestore security rules.</p>
+                    <h4><span class="en">Dual-role Architecture</span><span class="he">ארכיטקטורת שני תפקידים</span></h4>
+                    <p>
+                        <span class="en">Separate screen flows for clients and coaches, unified under a single codebase. Role-based access controlled via Firebase Auth and Firestore security rules.</span>
+                        <span class="he">זרימות מסך נפרדות ללקוחות ולמאמנים, תחת Codebase אחד. בקרת גישה מבוססת תפקיד דרך Firebase Auth וחוקי אבטחת Firestore.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Client Features</h4>
-                    <p>Weekly plan cards, session tracking, in-app payment (Bit Pay integration), quick-action grid, and bottom tab navigation with 5 tabs.</p>
+                    <h4><span class="en">Client Features</span><span class="he">פיצ'רים ללקוח</span></h4>
+                    <p>
+                        <span class="en">Weekly plan cards, session tracking, in-app payment (Bit Pay integration), quick-action grid, and bottom tab navigation with 5 tabs.</span>
+                        <span class="he">כרטיסיות תוכנית שבועית, מעקב אימונים, תשלום In-app (Bit Pay), רשת פעולות מהירות וניווט Tab תחתון עם 5 טאבים.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Tech Stack</h4>
-                    <p>React Navigation v6, Firebase Firestore + Auth + Storage, Expo managed workflow, custom theme system with design tokens (colors, typography, spacing).</p>
+                    <h4><span class="en">Tech Stack</span><span class="he">Stack טכנולוגי</span></h4>
+                    <p>
+                        <span class="en">React Navigation v6, Firebase Firestore + Auth + Storage, Expo managed workflow, custom theme system with design tokens (colors, typography, spacing).</span>
+                        <span class="he">React Navigation v6, Firebase Firestore + Auth + Storage, Expo managed workflow, מערכת Theme מותאמת עם Design Tokens (צבעים, טיפוגרפיה, ריווח).</span>
+                    </p>
                 </div>
                 <div class="detail-block">
                     <h4>Backend</h4>
-                    <p>Firestore with complex security rules ensuring clients only access their own data. Custom indexes for efficient coach-client queries. Firebase Storage for profile media.</p>
+                    <p>
+                        <span class="en">Firestore with complex security rules ensuring clients only access their own data. Custom indexes for efficient coach-client queries. Firebase Storage for profile media.</span>
+                        <span class="he">Firestore עם חוקי אבטחה מורכבים שמבטיחים שלקוחות ניגשים רק לנתונים שלהם. Indexes מותאמים לשאילתות coach-client יעילות. Firebase Storage לתמונות פרופיל.</span>
+                    </p>
                 </div>
             </div>
 
             <div class="gallery">
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg"
-                    alt="KJ Fitness training"
-                >
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg"
-                    alt="KJ Fitness brand"
-                    class="logo-style"
-                >
+                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg" alt="KJ Fitness training">
+                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness brand" class="logo-style">
             </div>
 
             <div class="project-links">
                 <a href="https://github.com/pappostudios/KJ-Fitness-App" target="_blank" rel="noopener" class="btn-outline">
-                    GitHub Repository
+                    <span class="en">GitHub Repository</span>
+                    <span class="he">מאגר GitHub</span>
                 </a>
             </div>
         </div>
 
 
-        <!-- ══════════════════════════════════
-             PROJECT 3 — KJ FITNESS WEBSITE
-        ══════════════════════════════════ -->
+        <!-- ══ PROJECT 3 — KJ FITNESS WEBSITE ══ -->
         <h2 class="section-title" id="kj-website">KJ Fitness Website</h2>
 
         <div class="project-card">
             <div class="project-header">
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg"
-                    alt="KJ Fitness logo"
-                    class="project-icon"
-                >
+                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness logo" class="project-icon">
                 <div class="project-meta">
-                    <h2>KJ Fitness &mdash; Coaching Website</h2>
+                    <h2>
+                        <span class="en">KJ Fitness &mdash; Coaching Website</span>
+                        <span class="he">KJ Fitness &mdash; אתר האימון</span>
+                    </h2>
                     <div class="tag-row">
                         <span class="tag tag-accent">HTML / CSS / JS</span>
                         <span class="tag">Firebase Auth</span>
@@ -478,45 +521,53 @@
             </div>
 
             <p class="project-desc">
-                The web companion to the KJ Fitness mobile app. A full multi-page coaching website that includes a marketing landing page, a Firebase-authenticated login system, and separate dashboards for clients and coaches. Clients view their plans and progress; coaches manage clients and edit weekly content &mdash; all without a traditional backend server.
+                <span class="en">The web companion to the KJ Fitness mobile app. A full multi-page coaching website that includes a marketing landing page, a Firebase-authenticated login system, and separate dashboards for clients and coaches. Clients view their plans and progress; coaches manage clients and edit weekly content &mdash; all without a traditional backend server.</span>
+                <span class="he">האתר הנלווה לאפליקציית KJ Fitness למובייל. אתר אימון רב-עמודי מלא הכולל דף נחיתה שיווקי, מערכת התחברות עם Firebase ודשבורדים נפרדים ללקוחות ולמאמנים. לקוחות צופים בתוכניות ובהתקדמות; מאמנים מנהלים לקוחות ועורכים תוכן שבועי — הכל ללא שרת Backend מסורתי.</span>
             </p>
 
             <div class="detail-grid">
                 <div class="detail-block">
-                    <h4>Pages Built</h4>
-                    <p>Landing page (<code>index.html</code>), login page, client dashboard, and coach dashboard &mdash; each a fully functional HTML/CSS/JS page.</p>
+                    <h4><span class="en">Pages Built</span><span class="he">עמודים שנבנו</span></h4>
+                    <p>
+                        <span class="en">Landing page (<code>index.html</code>), login page, client dashboard, and coach dashboard &mdash; each a fully functional HTML/CSS/JS page.</span>
+                        <span class="he">דף נחיתה (<code>index.html</code>), דף התחברות, דשבורד לקוח ודשבורד מאמן — כל אחד עמוד HTML/CSS/JS פונקציונלי לחלוטין.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Auth &amp; Data</h4>
-                    <p>Firebase Auth for secure login. Firestore for reading and writing client/coach data live in the browser &mdash; no backend server required.</p>
+                    <h4><span class="en">Auth &amp; Data</span><span class="he">אימות ונתונים</span></h4>
+                    <p>
+                        <span class="en">Firebase Auth for secure login. Firestore for reading and writing client/coach data live in the browser &mdash; no backend server required.</span>
+                        <span class="he">Firebase Auth להתחברות מאובטחת. Firestore לקריאה וכתיבה של נתוני לקוח/מאמן חיים בדפדפן — ללא שרת Backend נדרש.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Design</h4>
-                    <p>Fully responsive layout. Dark theme with teal accents matching the mobile app's brand. Optimised for both desktop and mobile browsers.</p>
+                    <h4><span class="en">Design</span><span class="he">עיצוב</span></h4>
+                    <p>
+                        <span class="en">Fully responsive layout. Dark theme with teal accents matching the mobile app's brand. Optimised for both desktop and mobile browsers.</span>
+                        <span class="he">פריסה Responsive מלאה. ערכת צבעים כהה עם הדגשות טורקיז התואמת לעיצוב האפליקציה. מותאמת גם לדסקטופ וגם לנייד.</span>
+                    </p>
                 </div>
                 <div class="detail-block">
-                    <h4>Real Client Delivery</h4>
-                    <p>Designed and delivered for KJ Fitness &mdash; an actual coaching business. Handled client requirements, branding integration, and production deployment.</p>
+                    <h4><span class="en">Real Client Delivery</span><span class="he">מסירה ללקוח אמיתי</span></h4>
+                    <p>
+                        <span class="en">Designed and delivered for KJ Fitness &mdash; an actual coaching business. Handled client requirements, branding integration, and production deployment.</span>
+                        <span class="he">עוצב ונמסר ל-KJ Fitness — עסק אימון פעיל. טיפלתי בדרישות הלקוח, שילוב המיתוג ופריסה לפרודקשן.</span>
+                    </p>
                 </div>
             </div>
 
             <div class="gallery">
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg"
-                    alt="KJ Fitness brand logo"
-                >
-                <img
-                    src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg"
-                    alt="Kirsten training"
-                >
+                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness brand logo">
+                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg" alt="Kirsten training">
             </div>
 
             <div class="project-links">
                 <a href="https://pappostudios.github.io/KJ-Fitness-Website/" target="_blank" rel="noopener" class="btn-primary">
-                    &#127760; Live Site
+                    &#127760; <span class="en">Live Site</span><span class="he">אתר חי</span>
                 </a>
                 <a href="https://github.com/pappostudios/KJ-Fitness-Website" target="_blank" rel="noopener" class="btn-outline">
-                    GitHub Repository
+                    <span class="en">GitHub Repository</span>
+                    <span class="he">מאגר GitHub</span>
                 </a>
             </div>
         </div>
@@ -524,8 +575,31 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</p>
+        <p>
+            <span class="en">&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</span>
+            <span class="he">&copy; 2026 ארז פפו &middot; Pappo Studios. כל הזכויות שמורות.</span>
+        </p>
     </footer>
+
+    <script>
+        function setLang(lang) {
+            var isHe = lang === 'he';
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', isHe ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('data-lang', lang);
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = isHe ? 'EN' : 'עב';
+            localStorage.setItem('lang', lang);
+        }
+        function toggleLang() {
+            setLang((localStorage.getItem('lang') || 'en') === 'en' ? 'he' : 'en');
+        }
+        (function () {
+            var saved = localStorage.getItem('lang') || 'en';
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
+        })();
+    </script>
 
 </body>
 </html>

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pappo Studios — Erez Pappo</title>
-    <meta name="description" content="Erez Pappo — mobile app developer specializing in Flutter and React Native. Shipped Milometri on Google Play and built the KJ Fitness platform.">
+    <meta name="description" content="Erez Pappo — mobile app developer specializing in Flutter and React Native.">
     <meta name="google-site-verification" content="IaIan8TqYWaDXuc7kkfUvZFAm7i82vRH1DQ_aaLUsQQ" />
+    <script>
+        /* Runs before CSS paint — prevents Hebrew flash */
+        (function () {
+            var s = localStorage.getItem('lang');
+            if (s === 'he') {
+                document.documentElement.setAttribute('lang', 'he');
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('data-lang', 'he');
+            }
+        })();
+    </script>
     <style>
         :root {
             --primary: #00bcd4;
@@ -24,6 +35,24 @@
             color: var(--text);
             line-height: 1.7;
         }
+
+        /* ── Language visibility ── */
+        html[data-lang="he"] .en { display: none !important; }
+        html:not([data-lang="he"]) .he { display: none !important; }
+
+        /* ── Language button ── */
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-family: inherit;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
 
         /* ── Header ── */
         header {
@@ -53,7 +82,7 @@
             text-decoration: none;
         }
 
-        nav { display: flex; gap: 28px; }
+        nav { display: flex; gap: 20px; align-items: center; }
         nav a {
             color: var(--muted);
             text-decoration: none;
@@ -199,7 +228,7 @@
             border: 1px solid #383838;
         }
 
-        /* ── Section alt (projects preview) ── */
+        /* ── Section alt ── */
         .section-alt {
             background: #0e0e0e;
             border-top: 1px solid var(--border);
@@ -264,7 +293,7 @@
             font-size: 1.05rem;
         }
         .contact-list li { display: flex; align-items: center; gap: 10px; color: var(--muted); }
-        .contact-list .label { min-width: 60px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+        .contact-list .label { min-width: 80px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
         .contact-list a { color: var(--primary); text-decoration: none; }
         .contact-list a:hover { text-decoration: underline; }
 
@@ -280,7 +309,7 @@
         /* ── Responsive ── */
         @media (max-width: 720px) {
             .about-grid { grid-template-columns: 1fr; }
-            nav { gap: 18px; }
+            nav { gap: 12px; }
         }
     </style>
 </head>
@@ -290,39 +319,74 @@
         <div class="header-inner">
             <a href="index.html" class="logo">Pappo Studios</a>
             <nav>
-                <a href="index.html" class="active">About</a>
-                <a href="projects.html">Projects</a>
-                <a href="future.html">Future</a>
+                <a href="index.html" class="active">
+                    <span class="en">About</span><span class="he">אודות</span>
+                </a>
+                <a href="projects.html">
+                    <span class="en">Projects</span><span class="he">פרויקטים</span>
+                </a>
+                <a href="future.html">
+                    <span class="en">Future</span><span class="he">עתידי</span>
+                </a>
+                <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
             </nav>
         </div>
     </header>
 
     <!-- Hero -->
     <section class="hero">
-        <h1>Hi, I'm <span class="accent">Erez Pappo</span></h1>
-        <p class="tagline">Mobile Developer &nbsp;&middot;&nbsp; Flutter &nbsp;&middot;&nbsp; React Native &nbsp;&middot;&nbsp; Firebase</p>
+        <h1>
+            <span class="en">Hi, I'm <span class="accent">Erez Pappo</span></span>
+            <span class="he">היי, אני <span class="accent">ארז פפו</span></span>
+        </h1>
+        <p class="tagline">
+            <span class="en">Mobile Developer &nbsp;&middot;&nbsp; Flutter &nbsp;&middot;&nbsp; React Native &nbsp;&middot;&nbsp; Firebase</span>
+            <span class="he">מפתח מובייל &nbsp;&middot;&nbsp; Flutter &nbsp;&middot;&nbsp; React Native &nbsp;&middot;&nbsp; Firebase</span>
+        </p>
         <div class="hero-links">
-            <a href="projects.html" class="btn-primary">View My Projects</a>
-            <a href="mailto:pappostudios@gmail.com" class="btn-outline">Get In Touch</a>
+            <a href="projects.html" class="btn-primary">
+                <span class="en">View My Projects</span>
+                <span class="he">הפרויקטים שלי</span>
+            </a>
+            <a href="mailto:pappostudios@gmail.com" class="btn-outline">
+                <span class="en">Get In Touch</span>
+                <span class="he">צור קשר</span>
+            </a>
         </div>
     </section>
 
     <!-- About -->
     <div class="container">
-        <h2 class="section-title">About Me</h2>
+        <h2 class="section-title">
+            <span class="en">About Me</span>
+            <span class="he">אודות</span>
+        </h2>
         <div class="about-grid">
             <div class="about-text">
-                <p>I'm a self-driven developer who builds mobile apps and web products that real people use. I shipped <strong>Milometri</strong> to the Google Play Store &mdash; a vocabulary learning app for Israel's psychometric (college admissions) exam, built solo from architecture to UI to the data pipeline.</p>
-                <p>I also built the complete <strong>KJ Fitness</strong> platform for a real client: a coaching app in React Native with a Firebase backend, paired with a full marketing and dashboard website. I take ownership from idea to production.</p>
-                <p>I work comfortably across the stack &mdash; mobile, web, and backend &mdash; and I care about clean architecture, smooth user experience, and code that holds up over time.</p>
-                <p>Currently looking for opportunities in high-tech where I can contribute and keep growing.</p>
+                <p class="en">I'm a self-driven developer who builds mobile apps and web products that real people use. I shipped <strong>Milometri</strong> to the Google Play Store and App Store &mdash; a vocabulary learning app for Israel's psychometric (college admissions) exam, built solo from architecture to UI to the data pipeline.</p>
+                <p class="he">אני מפתח עצמאי שבונה אפליקציות מובייל ומוצרי ווב שאנשים אמיתיים משתמשים בהם. פיתחתי ופרסמתי את <strong>מילומטרי</strong> ב-Google Play ובאפ סטור — אפליקציה ללימוד אוצר מילים לפסיכומטרי, שנבנתה לבד מהארכיטקטורה ועד ה-UI ו-Pipeline הנתונים.</p>
+
+                <p class="en">I also built the complete <strong>KJ Fitness</strong> platform for a real client: a coaching app in React Native with a Firebase backend, paired with a full marketing and dashboard website. I take ownership from idea to production.</p>
+                <p class="he">פיתחתי גם את פלטפורמת <strong>KJ Fitness</strong> עבור לקוח אמיתי: אפליקציית אימון ב-React Native עם Backend ב-Firebase, לצד אתר שיווקי ודשבורדים מלאים. אני לוקח אחריות מלאה מהרעיון ועד הפרודקשן.</p>
+
+                <p class="en">I work comfortably across the stack &mdash; mobile, web, and backend &mdash; and I care about clean architecture, smooth user experience, and code that holds up over time.</p>
+                <p class="he">אני עובד בנוחות לאורך כל ה-Stack — מובייל, ווב ו-Backend — ואכפת לי מארכיטקטורה נקייה, חוויית משתמש חלקה וקוד שמחזיק לאורך זמן.</p>
+
+                <p class="en">Currently looking for opportunities in high-tech where I can contribute and keep growing.</p>
+                <p class="he">מחפש כעת הזדמנויות בהייטק שבהן אוכל לתרום ולהמשיך לצמוח.</p>
             </div>
 
             <div class="skills-box">
-                <h3>Technical Skills</h3>
+                <h3>
+                    <span class="en">Technical Skills</span>
+                    <span class="he">כישורים טכניים</span>
+                </h3>
 
                 <div class="skill-group">
-                    <span class="skill-label">Mobile</span>
+                    <span class="skill-label">
+                        <span class="en">Mobile</span>
+                        <span class="he">מובייל</span>
+                    </span>
                     <div class="skill-tags">
                         <span class="tag">Flutter</span>
                         <span class="tag">React Native</span>
@@ -332,7 +396,10 @@
                 </div>
 
                 <div class="skill-group">
-                    <span class="skill-label">Backend &amp; Data</span>
+                    <span class="skill-label">
+                        <span class="en">Backend &amp; Data</span>
+                        <span class="he">Backend ונתונים</span>
+                    </span>
                     <div class="skill-tags">
                         <span class="tag">Firebase</span>
                         <span class="tag">Firestore</span>
@@ -342,7 +409,10 @@
                 </div>
 
                 <div class="skill-group">
-                    <span class="skill-label">Web</span>
+                    <span class="skill-label">
+                        <span class="en">Web</span>
+                        <span class="he">ווב</span>
+                    </span>
                     <div class="skill-tags">
                         <span class="tag">HTML</span>
                         <span class="tag">CSS</span>
@@ -351,7 +421,10 @@
                 </div>
 
                 <div class="skill-group">
-                    <span class="skill-label">Game Dev &amp; Tools</span>
+                    <span class="skill-label">
+                        <span class="en">Game Dev &amp; Tools</span>
+                        <span class="he">פיתוח משחקים וכלים</span>
+                    </span>
                     <div class="skill-tags">
                         <span class="tag">Unity</span>
                         <span class="tag">C#</span>
@@ -365,13 +438,19 @@
     <!-- Projects Preview -->
     <section class="section-alt">
         <div class="container">
-            <h2 class="section-title">My Work</h2>
+            <h2 class="section-title">
+                <span class="en">My Work</span>
+                <span class="he">העבודות שלי</span>
+            </h2>
 
             <div class="preview-grid">
                 <a href="projects.html#milometri" class="preview-card">
                     <img src="images/icon.png" alt="Milometri icon" class="preview-logo">
                     <h3>Milometri</h3>
-                    <p>Flutter vocabulary app &mdash; live on Google Play &amp; App Store</p>
+                    <p>
+                        <span class="en">Flutter vocabulary app &mdash; live on Google Play &amp; App Store</span>
+                        <span class="he">אפליקציית אוצר מילים ב-Flutter — זמינה ב-Google Play ובאפ סטור</span>
+                    </p>
                     <div class="tag-row">
                         <span class="tag">Flutter</span>
                         <span class="tag">Dart</span>
@@ -382,7 +461,10 @@
                 <a href="projects.html#kj-app" class="preview-card">
                     <div class="preview-logo-text">KJ</div>
                     <h3>KJ Fitness App</h3>
-                    <p>Coaching platform with React Native + Firebase backend</p>
+                    <p>
+                        <span class="en">Coaching platform with React Native + Firebase backend</span>
+                        <span class="he">פלטפורמת אימון עם React Native ו-Firebase</span>
+                    </p>
                     <div class="tag-row">
                         <span class="tag">React Native</span>
                         <span class="tag">Firebase</span>
@@ -392,7 +474,10 @@
                 <a href="projects.html#kj-website" class="preview-card">
                     <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness logo" class="preview-logo">
                     <h3>KJ Fitness Website</h3>
-                    <p>Full coaching site with client &amp; coach dashboards</p>
+                    <p>
+                        <span class="en">Full coaching site with client &amp; coach dashboards</span>
+                        <span class="he">אתר אימון מלא עם דשבורדים ללקוח ולמאמן</span>
+                    </p>
                     <div class="tag-row">
                         <span class="tag">HTML/CSS/JS</span>
                         <span class="tag">Firebase</span>
@@ -401,18 +486,27 @@
             </div>
 
             <div style="text-align: center;">
-                <a href="projects.html" class="btn-primary">Full Case Studies &rarr;</a>
+                <a href="projects.html" class="btn-primary">
+                    <span class="en">Full Case Studies &rarr;</span>
+                    <span class="he">&larr; לכל הפרויקטים</span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
     <div class="container">
-        <h2 class="section-title">Contact</h2>
-        <p style="color: var(--muted);">Open to full-time roles, freelance projects, and collaborations.</p>
+        <h2 class="section-title">
+            <span class="en">Contact</span>
+            <span class="he">יצירת קשר</span>
+        </h2>
+        <p style="color: var(--muted);">
+            <span class="en">Open to full-time roles, freelance projects, and collaborations.</span>
+            <span class="he">פתוח לפוזיציות Full-time, פרויקטים פרילנס ושיתופי פעולה.</span>
+        </p>
         <ul class="contact-list">
             <li>
-                <span class="label">Email</span>
+                <span class="label"><span class="en">Email</span><span class="he">מייל</span></span>
                 <a href="mailto:pappostudios@gmail.com">pappostudios@gmail.com</a>
             </li>
             <li>
@@ -427,8 +521,31 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</p>
+        <p>
+            <span class="en">&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</span>
+            <span class="he">&copy; 2026 ארז פפו &middot; Pappo Studios. כל הזכויות שמורות.</span>
+        </p>
     </footer>
+
+    <script>
+        function setLang(lang) {
+            var isHe = lang === 'he';
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', isHe ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('data-lang', lang);
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = isHe ? 'EN' : 'עב';
+            localStorage.setItem('lang', lang);
+        }
+        function toggleLang() {
+            setLang((localStorage.getItem('lang') || 'en') === 'en' ? 'he' : 'en');
+        }
+        (function () {
+            var saved = localStorage.getItem('lang') || 'en';
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
+        })();
+    </script>
 
 </body>
 </html>

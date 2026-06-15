@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Future Projects — Pappo Studios</title>
-    <meta name="description" content="Upcoming projects from Pappo Studios: 3D PVP multiplayer game in Unity, and more.">
+    <meta name="description" content="Upcoming projects from Pappo Studios.">
+    <script>
+        (function () {
+            var s = localStorage.getItem('lang');
+            if (s === 'he') {
+                document.documentElement.setAttribute('lang', 'he');
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('data-lang', 'he');
+            }
+        })();
+    </script>
     <style>
         :root {
             --primary: #00bcd4;
@@ -23,6 +33,24 @@
             color: var(--text);
             line-height: 1.7;
         }
+
+        /* ── Language visibility ── */
+        html[data-lang="he"] .en { display: none !important; }
+        html:not([data-lang="he"]) .he { display: none !important; }
+
+        /* ── Language button ── */
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-family: inherit;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
 
         /* ── Header ── */
         header {
@@ -52,7 +80,7 @@
             text-decoration: none;
         }
 
-        nav { display: flex; gap: 28px; }
+        nav { display: flex; gap: 20px; align-items: center; }
         nav a {
             color: var(--muted);
             text-decoration: none;
@@ -79,10 +107,7 @@
             margin-bottom: 0.6rem;
         }
 
-        .page-hero p {
-            color: var(--muted);
-            font-size: 1.05rem;
-        }
+        .page-hero p { color: var(--muted); font-size: 1.05rem; }
 
         /* ── Container ── */
         .container {
@@ -108,7 +133,7 @@
             background: var(--border);
         }
 
-        /* ── Future card (main, highlighted) ── */
+        /* ── Featured upcoming card ── */
         .future-card-main {
             background: var(--card);
             border: 1px dashed #3a3a3a;
@@ -174,7 +199,7 @@
         .status-planning { background: rgba(180, 180, 0, 0.1); color: #d4c400; border: 1px solid rgba(180, 180, 0, 0.3); }
         .status-concept { background: rgba(160, 100, 255, 0.1); color: #b07aff; border: 1px solid rgba(160, 100, 255, 0.3); }
 
-        /* ── Feature list ── */
+        /* Feature list */
         .feature-list {
             list-style: none;
             display: grid;
@@ -198,7 +223,7 @@
             margin-top: 1px;
         }
 
-        /* ── Smaller future cards grid ── */
+        /* ── Small cards grid ── */
         .future-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -255,7 +280,7 @@
         /* ── Responsive ── */
         @media (max-width: 600px) {
             .feature-list { grid-template-columns: 1fr; }
-            nav { gap: 18px; }
+            nav { gap: 12px; }
         }
     </style>
 </head>
@@ -265,26 +290,48 @@
         <div class="header-inner">
             <a href="index.html" class="logo">Pappo Studios</a>
             <nav>
-                <a href="index.html">About</a>
-                <a href="projects.html">Projects</a>
-                <a href="future.html" class="active">Future</a>
+                <a href="index.html">
+                    <span class="en">About</span><span class="he">אודות</span>
+                </a>
+                <a href="projects.html">
+                    <span class="en">Projects</span><span class="he">פרויקטים</span>
+                </a>
+                <a href="future.html" class="active">
+                    <span class="en">Future</span><span class="he">עתידי</span>
+                </a>
+                <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
             </nav>
         </div>
     </header>
 
     <section class="page-hero">
-        <h1>Future Projects</h1>
-        <p>What's in the pipeline at Pappo Studios.</p>
+        <h1>
+            <span class="en">Future Projects</span>
+            <span class="he">פרויקטים עתידיים</span>
+        </h1>
+        <p>
+            <span class="en">What's in the pipeline at Pappo Studios.</span>
+            <span class="he">מה יש בצנרת של Pappo Studios.</span>
+        </p>
     </section>
 
     <div class="container">
 
-        <!-- Featured upcoming: 3D PVP Game -->
-        <h2 class="section-title">In Development</h2>
+        <!-- Featured: 3D PVP Game -->
+        <h2 class="section-title">
+            <span class="en">In Development</span>
+            <span class="he">בפיתוח</span>
+        </h2>
 
         <div class="future-card-main">
-            <span class="status-badge status-dev">&#9679; In Development</span>
-            <h2>Untitled 3D PVP Multiplayer Game</h2>
+            <span class="status-badge status-dev">
+                <span class="en">&#9679; In Development</span>
+                <span class="he">&#9679; בפיתוח</span>
+            </span>
+            <h2>
+                <span class="en">Untitled 3D PVP Multiplayer Game</span>
+                <span class="he">משחק 3D PVP מרובה שחקנים (ללא שם)</span>
+            </h2>
             <div class="tag-row">
                 <span class="tag tag-accent">Unity</span>
                 <span class="tag">C#</span>
@@ -293,31 +340,41 @@
                 <span class="tag">3D</span>
             </div>
             <p>
-                A competitive 3D PVP game built in Unity. The core loop is fast-paced player-versus-player combat in a 3D environment, focused on skill expression and replayability. Multiplayer networking is a central challenge &mdash; designing for low-latency feel, fair matchmaking, and a responsive combat system that works well across network conditions.
+                <span class="en">A competitive 3D PVP game built in Unity. The core loop is fast-paced player-versus-player combat in a 3D environment, focused on skill expression and replayability. Multiplayer networking is a central challenge &mdash; designing for low-latency feel, fair matchmaking, and a responsive combat system that works well across network conditions.</span>
+                <span class="he">משחק 3D תחרותי PVP הנבנה ב-Unity. הלולאה המרכזית היא קרב שחקן-מול-שחקן מהיר בסביבה תלת-ממדית, ממוקד בביטוי מיומנות וכיף חזרתי. רשת מרובי שחקנים היא אתגר מרכזי — עיצוב לתחושת השהייה נמוכה, Matchmaking הוגן ומערכת קרב רספונסיבית שעובדת טוב בכל תנאי רשת.</span>
             </p>
             <p>
-                This project is an opportunity to go deeper into Unity's architecture, multiplayer frameworks, and 3D game feel design &mdash; areas I'm actively building expertise in.
+                <span class="en">This project is an opportunity to go deeper into Unity's architecture, multiplayer frameworks, and 3D game feel design &mdash; areas I'm actively building expertise in.</span>
+                <span class="he">הפרויקט הזה הוא הזדמנות להעמיק בארכיטקטורת Unity, Frameworks מרובי שחקנים ועיצוב Game Feel תלת-ממדי — תחומים שאני בונה בהם מומחיות באופן אקטיבי.</span>
             </p>
             <ul class="feature-list">
-                <li>Real-time 3D PVP combat</li>
-                <li>Networked multiplayer</li>
-                <li>Custom character controller</li>
-                <li>Matchmaking system</li>
-                <li>Leaderboards &amp; progression</li>
-                <li>Cross-platform (PC &amp; mobile)</li>
+                <li><span class="en">Real-time 3D PVP combat</span><span class="he">קרב PVP תלת-ממדי בזמן אמת</span></li>
+                <li><span class="en">Networked multiplayer</span><span class="he">מרובה שחקנים ברשת</span></li>
+                <li><span class="en">Custom character controller</span><span class="he">בקר דמות מותאם</span></li>
+                <li><span class="en">Matchmaking system</span><span class="he">מערכת Matchmaking</span></li>
+                <li><span class="en">Leaderboards &amp; progression</span><span class="he">לידרבורד והתקדמות</span></li>
+                <li><span class="en">Cross-platform (PC &amp; mobile)</span><span class="he">Cross-platform (PC ומובייל)</span></li>
             </ul>
         </div>
 
-        <!-- Smaller cards: other planned projects -->
-        <h2 class="section-title">On the Radar</h2>
+        <!-- On the Radar -->
+        <h2 class="section-title">
+            <span class="en">On the Radar</span>
+            <span class="he">על המכ"ם</span>
+        </h2>
 
         <div class="future-grid">
 
             <div class="future-card-sm">
                 <span class="card-icon">&#128241;</span>
-                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">Planning</span>
+                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">
+                    <span class="en">Planning</span><span class="he">תכנון</span>
+                </span>
                 <h3>Milometri v2</h3>
-                <p>Major update to Milometri: spaced-repetition scheduling, progress analytics dashboard, iCloud/Drive sync, and an expanded word bank with audio pronunciation.</p>
+                <p>
+                    <span class="en">Major update to Milometri: spaced-repetition scheduling, progress analytics dashboard, iCloud/Drive sync, and an expanded word bank with audio pronunciation.</span>
+                    <span class="he">עדכון גדול למילומטרי: תזמון חזרה מרווחת (Spaced Repetition), דשבורד ניתוח התקדמות, סנכרון iCloud/Drive ובנק מילים מורחב עם הגיית שמע.</span>
+                </p>
                 <div class="tag-row">
                     <span class="tag">Flutter</span>
                     <span class="tag">Education</span>
@@ -326,9 +383,17 @@
 
             <div class="future-card-sm">
                 <span class="card-icon">&#9760;</span>
-                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">Concept</span>
-                <h3>Mobile Dungeon Game</h3>
-                <p>A mobile dungeon crawler with procedurally generated levels, loot systems, and roguelike progression. Dark atmosphere, fast combat, and endless replayability.</p>
+                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">
+                    <span class="en">Concept</span><span class="he">קונספט</span>
+                </span>
+                <h3>
+                    <span class="en">Mobile Dungeon Game</span>
+                    <span class="he">משחק מבוך מובייל</span>
+                </h3>
+                <p>
+                    <span class="en">A mobile dungeon crawler with procedurally generated levels, loot systems, and roguelike progression. Dark atmosphere, fast combat, and endless replayability.</span>
+                    <span class="he">משחק מבוך לנייד עם רמות שנוצרות פרוצדורלית, מערכות שלל ופרוגרסיה Roguelike. אווירה כהה, קרב מהיר וכיף חזרתי אינסופי.</span>
+                </p>
                 <div class="tag-row">
                     <span class="tag">Unity</span>
                     <span class="tag">C#</span>
@@ -339,13 +404,39 @@
 
         </div>
 
-        <a href="projects.html" class="back-link">&larr; See current projects</a>
+        <a href="projects.html" class="back-link">
+            <span class="en">&larr; See current projects</span>
+            <span class="he">לפרויקטים הנוכחיים &rarr;</span>
+        </a>
 
     </div>
 
     <footer>
-        <p>&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</p>
+        <p>
+            <span class="en">&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</span>
+            <span class="he">&copy; 2026 ארז פפו &middot; Pappo Studios. כל הזכויות שמורות.</span>
+        </p>
     </footer>
+
+    <script>
+        function setLang(lang) {
+            var isHe = lang === 'he';
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', isHe ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('data-lang', lang);
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = isHe ? 'EN' : 'עב';
+            localStorage.setItem('lang', lang);
+        }
+        function toggleLang() {
+            setLang((localStorage.getItem('lang') || 'en') === 'en' ? 'he' : 'en');
+        }
+        (function () {
+            var saved = localStorage.getItem('lang') || 'en';
+            var btn = document.getElementById('langBtn');
+            if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
+        })();
+    </script>
 
 </body>
 </html>

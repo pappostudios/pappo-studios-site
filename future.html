@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Future Projects — Pappo Studios</title>
     <meta name="description" content="Upcoming projects from Pappo Studios.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (function () {
             var s = localStorage.getItem('lang');
@@ -17,129 +20,240 @@
     </script>
     <style>
         :root {
-            --primary: #00bcd4;
-            --bg: #121212;
-            --card: #1e1e1e;
-            --border: #2a2a2a;
-            --text: #e0e0e0;
-            --muted: #b0b0b0;
+            --paper:   #F4EEE1;
+            --paper-2: #EAE0CB;
+            --logo-bg: #EEEBE2;
+            --ink:     #3E2C1E;
+            --ink-soft:#6B5544;
+            --muted:   #8A765F;
+            --caramel: #B5824E;
+            --fox:     #A65E2E;
+            --line:    #D8C9AE;
+            --card:    #EDE5D4;
+            --serif:   'Frank Ruhl Libre', Georgia, serif;
+            --sans:    'Assistant', system-ui, sans-serif;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: var(--sans);
+            background: var(--paper);
+            color: var(--ink);
             line-height: 1.7;
         }
 
-        /* ── Language visibility ── */
+        /* ── Language ── */
         html[data-lang="he"] .en { display: none !important; }
         html:not([data-lang="he"]) .he { display: none !important; }
 
-        /* ── Language button ── */
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 5px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.88rem;
-            font-family: inherit;
-            transition: border-color 0.2s, color 0.2s;
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
-        .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
 
-        /* ── Header ── */
+        /* ── Header / Nav ── */
         header {
-            background: #000;
-            border-bottom: 2px solid var(--primary);
-            padding: 0 2rem;
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            padding: 0 3.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .header-inner {
-            max-width: 1100px;
+        .nav-inner {
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            height: 68px;
         }
 
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #fff;
-            text-transform: uppercase;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
         }
 
-        nav { display: flex; gap: 20px; align-items: center; }
-        nav a {
-            color: var(--muted);
-            text-decoration: none;
+        .nav-brand img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-brand .wordmark {
+            font-family: var(--serif);
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.3px;
+            color: var(--ink);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            font-family: var(--sans);
             font-size: 0.95rem;
-            letter-spacing: 0.5px;
+            color: var(--ink-soft);
+            text-decoration: none;
+            letter-spacing: 0.2px;
             transition: color 0.2s;
-            padding: 4px 0;
-            border-bottom: 2px solid transparent;
         }
-        nav a:hover { color: #fff; }
-        nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+        .nav-links a:hover { color: var(--fox); }
+        .nav-links a.active { color: var(--fox); font-weight: 600; }
+
+        .lang-btn {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid var(--line);
+            color: var(--ink-soft);
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-btn:hover { border-color: var(--fox); color: var(--fox); }
 
         /* ── Page hero ── */
         .page-hero {
-            padding: 4rem 2rem 3rem;
-            background: radial-gradient(ellipse at 50% 0%, #0d2b2e 0%, var(--bg) 65%);
+            background: var(--paper-2);
+            border-bottom: 1px solid var(--line);
+            padding: 4rem 3.5rem 3rem;
             text-align: center;
         }
 
-        .page-hero h1 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 0.6rem;
+        .page-hero .eyebrow {
+            font-family: var(--sans);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.74rem;
+            color: var(--caramel);
+            margin-bottom: 14px;
         }
 
-        .page-hero p { color: var(--muted); font-size: 1.05rem; }
+        .page-hero h1 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            color: var(--ink);
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .page-hero h1 em { font-style: italic; color: var(--fox); }
+
+        .page-hero p {
+            color: var(--ink-soft);
+            font-size: 1.05rem;
+        }
 
         /* ── Container ── */
         .container {
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 4rem 2rem 5rem;
         }
 
-        /* ── Section title ── */
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 2rem;
+        /* ── Section divider ── */
+        .section-divider {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 16px;
+            margin-bottom: 2rem;
+            color: var(--caramel);
         }
-        .section-title::after {
+        .section-divider::before, .section-divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: var(--border);
+            background: var(--line);
+        }
+        .section-divider span {
+            font-family: var(--sans);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-size: 0.72rem;
+            white-space: nowrap;
+        }
+
+        /* ── Tags ── */
+        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.2rem; }
+
+        .tag {
+            display: inline-block;
+            background: var(--paper);
+            color: var(--ink-soft);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            border: 1px solid var(--line);
+        }
+
+        .tag-accent {
+            background: rgba(166,94,46,0.1);
+            border-color: rgba(166,94,46,0.3);
+            color: var(--fox);
+            font-weight: 600;
+        }
+
+        /* ── Status badge ── */
+        .status-badge {
+            display: inline-block;
+            font-family: var(--sans);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 4px 13px;
+            border-radius: 999px;
+            margin-bottom: 1.2rem;
+        }
+
+        .status-dev {
+            background: rgba(166,94,46,0.1);
+            color: var(--fox);
+            border: 1px solid rgba(166,94,46,0.3);
+        }
+
+        .status-planning {
+            background: rgba(181,130,78,0.12);
+            color: var(--caramel);
+            border: 1px solid rgba(181,130,78,0.35);
+        }
+
+        .status-concept {
+            background: rgba(138,118,95,0.1);
+            color: var(--muted);
+            border: 1px solid rgba(138,118,95,0.3);
         }
 
         /* ── Featured upcoming card ── */
         .future-card-main {
             background: var(--card);
-            border: 1px dashed #3a3a3a;
-            border-radius: 14px;
+            border: 1.5px dashed var(--line);
+            border-radius: 18px;
             padding: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
         }
@@ -149,55 +263,24 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), transparent);
+            background: linear-gradient(90deg, var(--fox), transparent);
         }
 
         .future-card-main h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #fff;
+            font-family: var(--serif);
+            font-size: 1.7rem;
+            font-weight: 500;
+            color: var(--ink);
             margin-bottom: 10px;
+            letter-spacing: -0.3px;
         }
 
-        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.2rem; }
-
-        .tag {
-            display: inline-block;
-            background: #282828;
-            color: #ccc;
-            padding: 4px 11px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            border: 1px solid #383838;
-        }
-
-        .tag-accent {
-            background: rgba(0, 188, 212, 0.12);
-            border-color: rgba(0, 188, 212, 0.3);
-            color: var(--primary);
-        }
-
-        .future-card-main p {
-            color: var(--muted);
+        .future-card-main > p {
+            color: var(--ink-soft);
             font-size: 1rem;
             margin-bottom: 1.2rem;
+            line-height: 1.7;
         }
-
-        /* Status badge */
-        .status-badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-        }
-
-        .status-dev { background: rgba(0, 188, 212, 0.15); color: var(--primary); border: 1px solid rgba(0, 188, 212, 0.3); }
-        .status-planning { background: rgba(180, 180, 0, 0.1); color: #d4c400; border: 1px solid rgba(180, 180, 0, 0.3); }
-        .status-concept { background: rgba(160, 100, 255, 0.1); color: #b07aff; border: 1px solid rgba(160, 100, 255, 0.3); }
 
         /* Feature list */
         .feature-list {
@@ -205,12 +288,12 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .feature-list li {
             font-size: 0.92rem;
-            color: var(--muted);
+            color: var(--ink-soft);
             display: flex;
             align-items: flex-start;
             gap: 8px;
@@ -218,7 +301,7 @@
 
         .feature-list li::before {
             content: '–';
-            color: var(--primary);
+            color: var(--caramel);
             flex-shrink: 0;
             margin-top: 1px;
         }
@@ -233,9 +316,9 @@
 
         .future-card-sm {
             background: var(--card);
-            border: 1px dashed #383838;
-            border-radius: 10px;
-            padding: 1.6rem;
+            border: 1.5px dashed var(--line);
+            border-radius: 14px;
+            padding: 1.8rem;
         }
 
         .future-card-sm .card-icon {
@@ -245,15 +328,18 @@
         }
 
         .future-card-sm h3 {
-            font-size: 1.05rem;
-            color: #fff;
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--ink);
             margin-bottom: 8px;
         }
 
         .future-card-sm p {
-            font-size: 0.88rem;
-            color: var(--muted);
+            font-size: 0.9rem;
+            color: var(--ink-soft);
             margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
         /* ── Back link ── */
@@ -261,35 +347,44 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--primary);
+            color: var(--fox);
             text-decoration: none;
             font-size: 0.95rem;
+            font-weight: 600;
             margin-top: 1rem;
+            transition: color 0.2s;
         }
-        .back-link:hover { text-decoration: underline; }
+        .back-link:hover { color: var(--ink); }
 
         /* ── Footer ── */
         footer {
             text-align: center;
-            padding: 2rem;
-            color: #555;
-            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
             font-size: 0.88rem;
         }
 
         /* ── Responsive ── */
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
+            header { padding: 0 1.2rem; }
+            .page-hero { padding: 3rem 1.2rem 2rem; }
+            .container { padding: 3rem 1.2rem 4rem; }
             .feature-list { grid-template-columns: 1fr; }
-            nav { gap: 12px; }
+            .future-card-main { padding: 1.6rem; }
+            .nav-links { gap: 14px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-inner">
-            <a href="index.html" class="logo">Pappo Studios</a>
-            <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="images/pappo-logo.png" alt="Pappo Studios">
+                <span class="wordmark">Pappo Studios</span>
+            </a>
+            <div class="nav-links">
                 <a href="index.html">
                     <span class="en">About</span><span class="he">אודות</span>
                 </a>
@@ -300,14 +395,18 @@
                     <span class="en">Future</span><span class="he">עתידי</span>
                 </a>
                 <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
-            </nav>
+            </div>
         </div>
     </header>
 
     <section class="page-hero">
+        <p class="eyebrow">
+            <span class="en">What's Next</span>
+            <span class="he">מה הלאה</span>
+        </p>
         <h1>
-            <span class="en">Future Projects</span>
-            <span class="he">פרויקטים עתידיים</span>
+            <span class="en"><em>Future</em> Projects</span>
+            <span class="he">פרויקטים <em>עתידיים</em></span>
         </h1>
         <p>
             <span class="en">What's in the pipeline at Pappo Studios.</span>
@@ -318,12 +417,14 @@
     <div class="container">
 
         <!-- Featured: 3D PVP Game -->
-        <h2 class="section-title">
-            <span class="en">In Development</span>
-            <span class="he">בפיתוח</span>
-        </h2>
+        <div class="section-divider reveal">
+            <span>
+                <span class="en">In Development</span>
+                <span class="he">בפיתוח</span>
+            </span>
+        </div>
 
-        <div class="future-card-main">
+        <div class="future-card-main reveal reveal-d1">
             <span class="status-badge status-dev">
                 <span class="en">&#9679; In Development</span>
                 <span class="he">&#9679; בפיתוח</span>
@@ -358,16 +459,18 @@
         </div>
 
         <!-- On the Radar -->
-        <h2 class="section-title">
-            <span class="en">On the Radar</span>
-            <span class="he">על המכ"ם</span>
-        </h2>
+        <div class="section-divider reveal">
+            <span>
+                <span class="en">On the Radar</span>
+                <span class="he">על המכ"ם</span>
+            </span>
+        </div>
 
         <div class="future-grid">
 
-            <div class="future-card-sm">
+            <div class="future-card-sm reveal">
                 <span class="card-icon">&#128241;</span>
-                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">
+                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 10px; margin-bottom: 10px;">
                     <span class="en">Planning</span><span class="he">תכנון</span>
                 </span>
                 <h3>Milometri v2</h3>
@@ -381,9 +484,9 @@
                 </div>
             </div>
 
-            <div class="future-card-sm">
+            <div class="future-card-sm reveal reveal-d1">
                 <span class="card-icon">&#9760;</span>
-                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 9px; margin-bottom: 10px;">
+                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 10px; margin-bottom: 10px;">
                     <span class="en">Concept</span><span class="he">קונספט</span>
                 </span>
                 <h3>
@@ -404,7 +507,7 @@
 
         </div>
 
-        <a href="projects.html" class="back-link">
+        <a href="projects.html" class="back-link reveal">
             <span class="en">&larr; See current projects</span>
             <span class="he">לפרויקטים הנוכחיים &rarr;</span>
         </a>
@@ -436,6 +539,13 @@
             var btn = document.getElementById('langBtn');
             if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
         })();
+
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
     </script>
 
 </body>

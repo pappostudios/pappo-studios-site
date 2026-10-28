@@ -183,12 +183,33 @@ section { position: relative; }
 @keyframes marquee-rtl { to { transform: translateX(50%); } }
 
 /* ── Device frames ── */
+/* A phone scales as one piece (container units): bezel, a status bar in the
+   app's own top colour (--sb, text --sbt), and the island inside that bar, so
+   nothing sits on top of the screenshot. Screens stay upright: rotating a
+   screenshot resamples it and softens the text. */
 .phone {
-    position: relative; width: 100%; max-width: 280px; aspect-ratio: 720 / 1560;
-    border-radius: 38px; padding: 10px; background: #111; box-shadow: 0 0 0 2px #2a2a2a inset, 0 40px 70px -30px rgba(0,0,0,.55);
+    --sb: #fff; --sbt: #111;
+    container-type: inline-size; position: relative; width: 100%; max-width: 280px;
+    border-radius: 17%/8%; filter: drop-shadow(0 30px 34px rgba(0,0,0,.28));
 }
-.phone::before { content: ''; position: absolute; top: 18px; left: 50%; width: 22%; height: 18px; transform: translateX(-50%); background: #111; border-radius: 12px; z-index: 2; }
-.phone > img, .phone > .screen { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 29px; overflow: hidden; }
+/* The screenshot carries the frame: its border is the bezel, its top padding
+   the status bar (painted in --sb), so everything scales with the phone. */
+.phone > img, .phone > .screen {
+    display: block; box-sizing: border-box; width: 100%;
+    border: 3cqw solid #0E0E10; border-radius: 15cqw; background: var(--sb);
+}
+.phone > img { height: auto; padding-top: 12cqw; }
+.phone::before { content: ''; position: absolute; top: 6.2cqw; left: 50%; width: 28cqw; height: 8cqw; transform: translateX(-50%); background: #0E0E10; border-radius: 99px; z-index: 2; }
+.phone::after {
+    content: '9:41'; position: absolute; top: 3cqw; left: 3cqw; right: 3cqw; height: 13.2cqw; z-index: 2; direction: ltr;
+    display: flex; align-items: center; padding-inline: 8.5cqw; box-sizing: border-box;
+    font: 600 4.4cqw/1 -apple-system, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; letter-spacing: -.01em; color: var(--sbt);
+    background: no-repeat right 7.5cqw center / 16cqw auto url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 13'%3E%3Cg fill='%23111'%3E%3Crect x='0' y='8' width='3' height='4' rx='1'/%3E%3Crect x='5' y='6' width='3' height='6' rx='1'/%3E%3Crect x='10' y='3.5' width='3' height='8.5' rx='1'/%3E%3Crect x='15' y='1' width='3' height='11' rx='1'/%3E%3Cpath d='M30 4.2a9 9 0 0 1 12 0l-1.6 1.7a6.6 6.6 0 0 0-8.8 0zM32.5 7a5.2 5.2 0 0 1 7 0l-1.7 1.7a2.8 2.8 0 0 0-3.6 0zM36 12l-1.8-1.8a2.5 2.5 0 0 1 3.6 0z'/%3E%3Crect x='47' y='1' width='18' height='10' rx='3' fill='none' stroke='%23111' stroke-opacity='.45'/%3E%3Crect x='48.6' y='2.6' width='13' height='6.8' rx='1.6'/%3E%3Crect x='66' y='4' width='1.6' height='4' rx='.8' fill-opacity='.45'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* HTML-built screens bring their own status row and fill a fixed-ratio phone. */
+.phone:has(> .screen) { aspect-ratio: 720 / 1560; }
+.phone:has(> .screen)::after { display: none; }
+.phone > .screen { height: 100%; overflow: hidden; }
 .browser { border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 40px 80px -36px rgba(0,0,0,.5); border: 1px solid rgba(0,0,0,.08); }
 .browser-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #f1f3f4; border-bottom: 1px solid rgba(0,0,0,.06); direction: ltr; }
 .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }

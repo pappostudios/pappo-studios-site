@@ -115,7 +115,7 @@
         /* ── App section ── */
         .app-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
         .phones { display: flex; gap: clamp(12px, 3vw, 28px); justify-content: center; align-items: flex-start; }
-        .phones .phone { max-width: 250px; background: #0D1517; }
+        .phones .phone { max-width: 250px; }
         .phones .phone:nth-child(2) { margin-top: 60px; }
         .phone .screen { background: #F7FCFC; color: #0A3B3E; font-family: 'Rubik', sans-serif; display: flex; flex-direction: column; font-size: 11px; line-height: 1.35; position: relative; }
         .scr-status { display: flex; justify-content: space-between; padding: 12px 18px 6px; font-weight: 700; font-size: 10px; direction: ltr; }
@@ -173,12 +173,12 @@
         .step p { font-size: .9rem; color: var(--t950); opacity: .85; }
 
         /* ── Website section ── */
-        .web-stage { position: relative; padding-bottom: 40px; }
-        .web-stage .browser { border-radius: 0; border: 2px solid var(--t950); box-shadow: 14px 14px 0 var(--t500); width: 86%; }
+        .web-stage { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: clamp(18px, 2.6vw, 32px); align-items: end; }
+        .web-stage .browser { border-radius: 0; border: 2px solid var(--t950); box-shadow: 14px 14px 0 var(--t500); }
         [dir="rtl"] .web-stage .browser { box-shadow: -14px 14px 0 var(--t500); }
-        .web-stage .phone { position: absolute; max-width: 190px; bottom: 0; inset-inline-end: 0; }
-        .web-stage .phone.p-he { inset-inline-end: 160px; bottom: -30px; transform: rotate(-4deg); }
-        [dir="rtl"] .web-stage .phone.p-he { transform: rotate(4deg); }
+        .web-stage .phone { width: clamp(150px, 15vw, 200px); }
+        .web-stage figure { text-align: center; }
+        .web-stage figcaption { margin-top: 10px; font-weight: 700; font-size: .9rem; }
         .swatches { display: flex; margin: 1.6rem 0; border: 2px solid var(--t950); }
         .sw { flex: 1; padding: 14px 12px; min-height: 120px; display: flex; flex-direction: column; justify-content: flex-end; font-size: .8rem; font-weight: 700; transition: flex .4s var(--ease); }
         .sw:hover { flex: 1.8; }
@@ -213,9 +213,9 @@
             .feat-tiles, .web-grid { grid-template-columns: 1fr; }
             .feat-tiles .ft, .web-grid .ft { border-inline-start: 0 !important; border-top: 2px solid var(--t950) !important; }
             .feat-tiles .ft:first-child, .web-grid .ft:first-child { border-top: 0 !important; }
-            .web-stage .browser { width: 100%; }
-            .web-stage .phone { position: relative; display: inline-block; max-width: 44%; margin-top: 24px; inset: auto; }
-            .web-stage .phone.p-he { inset: auto; bottom: auto; margin-inline-end: 4%; }
+            .web-stage { grid-template-columns: 1fr 1fr; }
+            .web-stage .browser { grid-column: 1 / -1; margin-bottom: 8px; }
+            .web-stage .phone { width: 100%; margin: 0 auto; }
             .phones .phone:nth-child(2) { margin-top: 40px; }
             .swatches { flex-wrap: wrap; } .sw { flex-basis: 50%; }
         }
@@ -419,8 +419,8 @@
                 </div>
                 <div class="web-stage reveal zoom">
                     <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>https://kirstenjemma.fitness</span></div><img src="images/kj/kj-web-desktop.jpg" alt="KJ Fitness website, desktop: 'Empowered Through Movement' hero in teal blocks" loading="lazy"></div>
-                    <div class="phone p-he"><img src="images/kj/kj-web-mobile-he.jpg" alt="KJ Fitness website on mobile, in Hebrew" loading="lazy"></div>
-                    <div class="phone"><img src="images/kj/kj-web-mobile.jpg" alt="KJ Fitness website on mobile, in English" loading="lazy"></div>
+                    <figure><div class="phone"><img src="images/kj/kj-web-mobile-he.jpg" alt="KJ Fitness website on mobile, in Hebrew" loading="lazy"></div><figcaption>עברית · RTL</figcaption></figure>
+                    <figure><div class="phone"><img src="images/kj/kj-web-mobile.jpg" alt="KJ Fitness website on mobile, in English" loading="lazy"></div><figcaption>English · LTR</figcaption></figure>
                 </div>
                 <div class="web-grid" data-stagger>
                     <div class="ft"><h3>🔁 <span class="en">Live language switch</span><span class="he">החלפת שפה חיה</span></h3><p><span class="en">English ↔ Hebrew without reload: text, direction, dates and even aria-labels.</span><span class="he">אנגלית ↔ עברית בלי טעינה: טקסט, כיוון, תאריכים ואפילו aria-labels.</span></p></div>

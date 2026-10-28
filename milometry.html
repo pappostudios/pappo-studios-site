@@ -52,8 +52,8 @@
         .m-bubble.a::after { content: ''; position: absolute; inset: -22px; border-radius: 50%; border: 22px solid rgba(169,182,245,.35); }
         .m-bubble.b { width: 120px; height: 120px; bottom: 40px; inset-inline-start: 0; opacity: .6; animation: bob 9s ease-in-out infinite alternate-reverse; }
         @keyframes bob { to { transform: translate(-18px, 22px); } }
-        .m-stage .phone { max-width: 270px; transform: rotate(-4deg); z-index: 1; justify-self: end; margin-inline-end: 8%; animation: phone-float 7s ease-in-out infinite; }
-        @keyframes phone-float { 50% { transform: rotate(-4deg) translateY(-14px); } }
+        .m-stage .phone { max-width: 270px; z-index: 1; justify-self: end; margin-inline-end: 8%; animation: phone-float 7s ease-in-out infinite; }
+        @keyframes phone-float { 50% { transform: translateY(-14px); } }
 
         /* Mili — the app's mascot, rebuilt in CSS */
         .mili-wrap { position: absolute; bottom: 40px; inset-inline-start: 0; z-index: 2; display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 14px; }
@@ -148,7 +148,7 @@
         .screens figure { text-align: center; }
         .screens figure:nth-child(even) { margin-top: 48px; }
         .screens .phone { margin: 0 auto 14px; max-width: 250px; transition: transform .5s var(--ease-out); }
-        .screens figure:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
+        .screens figure:hover .phone { transform: translateY(-10px); }
         .screens figcaption { font-weight: 800; }
         .screens figcaption span { display: block; font-weight: 500; color: var(--muted); font-size: .9rem; }
 
@@ -267,7 +267,7 @@
                 <div class="m-stage reveal zoom" style="--i:1">
                     <div class="m-bubble a" aria-hidden="true"></div>
                     <div class="m-bubble b" aria-hidden="true"></div>
-                    <div class="phone"><img src="images/milometry/home.jpg" alt="Milometry home screen: Hebrew, English and quick-math decks, a streak counter, XP level and the Mili mascot"></div>
+                    <div class="phone" style="--sb:#FAF3E9"><img src="images/milometry/home.jpg" alt="Milometry home screen: Hebrew, English and quick-math decks, a streak counter, XP level and the Mili mascot"></div>
                     <div class="mili-wrap" aria-hidden="true">
                         <div class="mili"><div class="body"></div><div class="ear"></div><div class="eye l"></div><div class="eye r"></div><div class="blush l"></div><div class="blush r"></div><div class="mouth"></div><div class="shadow"></div></div>
                         <div class="speech"><span class="en">Every new word — one more point on the psychometric 🎯</span><span class="he">כל מילה חדשה — עוד נקודה בפסיכומטרי 🎯</span></div>
@@ -370,7 +370,7 @@
                     <p class="lede reveal" style="--i:2"><span class="en">Captured from the current 1.5 build: vocabulary, quick math, streaks and stats.</span><span class="he">צילומים מהגרסה הנוכחית, 1.5: אוצר מילים, חשבון מהיר, רצפים וסטטיסטיקות.</span></p>
                 </div>
                 <div class="screens" data-stagger>
-                    <figure><div class="phone"><img src="images/milometry/home.jpg" alt="Home screen" loading="lazy"></div><figcaption><span class="en">Home</span><span class="he">בית</span><span><span class="en">Three decks, streak and XP</span><span class="he">שלוש חפיסות, רצף ו-XP</span></span></figcaption></figure>
+                    <figure><div class="phone" style="--sb:#FAF3E9"><img src="images/milometry/home.jpg" alt="Home screen" loading="lazy"></div><figcaption><span class="en">Home</span><span class="he">בית</span><span><span class="en">Three decks, streak and XP</span><span class="he">שלוש חפיסות, רצף ו-XP</span></span></figcaption></figure>
                     <figure><div class="phone"><img src="images/milometry/practice-front.jpg" alt="Flashcard, front" loading="lazy"></div><figcaption><span class="en">Practice</span><span class="he">תרגול</span><span><span class="en">The word, with pronunciation</span><span class="he">המילה, עם הגייה</span></span></figcaption></figure>
                     <figure><div class="phone"><img src="images/milometry/practice.jpg" alt="Flashcard, back, with three self-grading buttons" loading="lazy"></div><figcaption><span class="en">Flip</span><span class="he">היפוך</span><span><span class="en">Meaning, example, three honest buttons</span><span class="he">פירוש, דוגמה ושלושה כפתורים כנים</span></span></figcaption></figure>
                     <figure><div class="phone"><img src="images/milometry/levels.jpg" alt="Five difficulty levels with progress" loading="lazy"></div><figcaption><span class="en">Levels</span><span class="he">רמות</span><span><span class="en">Five tiers, basic → extreme</span><span class="he">חמש רמות, מבסיסי לקיצוני</span></span></figcaption></figure>

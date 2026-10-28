@@ -82,10 +82,12 @@
         .wc-milo h3 { font-weight: 900; background: linear-gradient(90deg, #3D8BFD, #7A3DFD); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em; }
         .wc-milo .tag { background: #fff; border-color: #E7DCCD; color: #1A1A2E; }
         .wc-milo .bubble { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #B7C3F7, #9FB2F5 60%, #C9D6F7); top: -60px; inset-inline-end: -60px; opacity: .8; animation: drift 14s ease-in-out infinite alternate; }
-        .wc-milo .phone { max-width: 210px; transform: rotate(-6deg) translateY(30px); transition: transform .6s var(--ease-out); }
-        .wc-milo .phone.p2 { position: absolute; max-width: 180px; transform: rotate(8deg) translate(70%, 60px); opacity: .95; }
-        [dir="rtl"] .wc-milo .phone.p2 { transform: rotate(-8deg) translate(-70%, 60px); }
-        .wc-milo:hover .phone.p1 { transform: rotate(-2deg) translateY(10px); }
+        .wc-milo .work-visual { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 2vw, 22px); padding: 2rem 1.4rem; }
+        .wc-milo .phone { flex: 0 1 180px; max-width: 180px; transition: transform .6s var(--ease-out); }
+        .wc-milo .phone.p1 { transform: translateY(-18px); }
+        .wc-milo .phone.p2 { transform: translateY(18px); }
+        .wc-milo:hover .phone.p1 { transform: translateY(-28px); }
+        .wc-milo:hover .phone.p2 { transform: translateY(8px); }
 
         /* KJ card — cyan blocks */
         .wc-kj { background: #26B4C0; color: #0A3236; font-family: 'Rubik', var(--body); border-radius: 0; }
@@ -276,7 +278,7 @@
                         </div>
                         <div class="work-visual" aria-hidden="true">
                             <div class="bubble"></div>
-                            <div class="phone p1"><img src="images/milometry/home.jpg" alt="" loading="lazy"></div>
+                            <div class="phone p1" style="--sb:#FAF3E9"><img src="images/milometry/home.jpg" alt="" loading="lazy"></div>
                             <div class="phone p2"><img src="images/milometry/math-topics.jpg" alt="" loading="lazy"></div>
                         </div>
                     </a>

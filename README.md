@@ -24,4 +24,7 @@ Shared code lives in `assets/site.css` (tokens, header, reveals) and `assets/sit
 
 ## Images
 
-The Milometry screenshots and KJ assets are copies stored in `images/`. The `milometry` repo is private, so hotlinking its files would show broken images to visitors. The KJ website shots were captured from the live site.
+All images are stored in `images/`. Nothing is hotlinked: the `milometry` repo is private, so its files would show as broken images to visitors.
+
+- **Milometry screenshots:** captured from the app's web build at 3× density (iPhone-sized viewport, 393×852 CSS px), with demo progress seeded. They're saved as 900px-wide JPEGs at quality 90 with full chroma (`subsampling=0`), which keeps the Hebrew text crisp.
+- **KJ website shots:** captured from the site at 3× (phone) and 2× (desktop).

@@ -144,10 +144,10 @@
         @keyframes burst { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
 
         /* ── Screens ── */
-        .screens { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(12px, 2vw, 24px); align-items: start; }
+        .screens { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: clamp(2rem, 4vw, 3rem); gap: clamp(12px, 2vw, 24px); align-items: start; }
         .screens figure { text-align: center; }
         .screens figure:nth-child(even) { margin-top: 48px; }
-        .screens .phone { margin: 0 auto 14px; max-width: 230px; transition: transform .5s var(--ease-out); }
+        .screens .phone { margin: 0 auto 14px; max-width: 250px; transition: transform .5s var(--ease-out); }
         .screens figure:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
         .screens figcaption { font-weight: 800; }
         .screens figcaption span { display: block; font-weight: 500; color: var(--muted); font-size: .9rem; }
@@ -195,7 +195,7 @@
         @media (max-width: 1000px) {
             .m-stats { grid-template-columns: repeat(3, 1fr); }
             .hood { grid-template-columns: repeat(2, 1fr); }
-            .screens { grid-template-columns: repeat(5, minmax(200px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); }
+            .screens { grid-template-columns: repeat(8, minmax(200px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); }
             .screens figure { scroll-snap-align: center; }
         }
         @media (max-width: 860px) {
@@ -267,7 +267,7 @@
                 <div class="m-stage reveal zoom" style="--i:1">
                     <div class="m-bubble a" aria-hidden="true"></div>
                     <div class="m-bubble b" aria-hidden="true"></div>
-                    <div class="phone"><img src="images/milometry/1_home.jpeg" alt="Milometry home screen: Hebrew and English decks, a streak counter and the Mili mascot"></div>
+                    <div class="phone"><img src="images/milometry/home.jpg" alt="Milometry home screen: Hebrew, English and quick-math decks, a streak counter, XP level and the Mili mascot"></div>
                     <div class="mili-wrap" aria-hidden="true">
                         <div class="mili"><div class="body"></div><div class="ear"></div><div class="eye l"></div><div class="eye r"></div><div class="blush l"></div><div class="blush r"></div><div class="mouth"></div><div class="shadow"></div></div>
                         <div class="speech"><span class="en">Every new word — one more point on the psychometric 🎯</span><span class="he">כל מילה חדשה — עוד נקודה בפסיכומטרי 🎯</span></div>
@@ -367,13 +367,17 @@
                 <div class="section-head">
                     <p class="eyebrow reveal"><span class="en">Inside the app</span><span class="he">בתוך האפליקציה</span></p>
                     <h2 class="h-section reveal" style="--i:1"><span class="en">Warm, playful, <em>right-to-left.</em></span><span class="he">חמה, שובבה, <em>מימין לשמאל.</em></span></h2>
+                    <p class="lede reveal" style="--i:2"><span class="en">Captured from the current 1.5 build: vocabulary, quick math, streaks and stats.</span><span class="he">צילומים מהגרסה הנוכחית, 1.5: אוצר מילים, חשבון מהיר, רצפים וסטטיסטיקות.</span></p>
                 </div>
                 <div class="screens" data-stagger>
-                    <figure><div class="phone"><img src="images/milometry/1_home.jpeg" alt="Home screen" loading="lazy"></div><figcaption><span class="en">Home</span><span class="he">בית</span><span><span class="en">Pick a language, keep the streak</span><span class="he">בוחרים שפה, שומרים על הרצף</span></span></figcaption></figure>
-                    <figure><div class="phone"><img src="images/milometry/2_practice.jpeg" alt="Practice card with three self-grading buttons" loading="lazy"></div><figcaption><span class="en">Practice</span><span class="he">תרגול</span><span><span class="en">Three honest buttons</span><span class="he">שלושה כפתורים כנים</span></span></figcaption></figure>
-                    <figure><div class="phone"><img src="images/milometry/3_levels.jpeg" alt="Five difficulty levels" loading="lazy"></div><figcaption><span class="en">Levels</span><span class="he">רמות</span><span><span class="en">Five tiers, basic → extreme</span><span class="he">חמש רמות, מבסיסי לקיצוני</span></span></figcaption></figure>
-                    <figure><div class="phone"><img src="images/milometry/4_streak.jpeg" alt="Streak screen" loading="lazy"></div><figcaption><span class="en">Streak</span><span class="he">רצף</span><span><span class="en">Daily goal and a 7-day view</span><span class="he">יעד יומי ותצוגת שבוע</span></span></figcaption></figure>
-                    <figure><div class="phone"><img src="images/milometry/5_stats.jpeg" alt="Statistics screen" loading="lazy"></div><figcaption><span class="en">Stats</span><span class="he">סטטיסטיקות</span><span><span class="en">Progress per language</span><span class="he">התקדמות לפי שפה</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/home.jpg" alt="Home screen" loading="lazy"></div><figcaption><span class="en">Home</span><span class="he">בית</span><span><span class="en">Three decks, streak and XP</span><span class="he">שלוש חפיסות, רצף ו-XP</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/practice-front.jpg" alt="Flashcard, front" loading="lazy"></div><figcaption><span class="en">Practice</span><span class="he">תרגול</span><span><span class="en">The word, with pronunciation</span><span class="he">המילה, עם הגייה</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/practice.jpg" alt="Flashcard, back, with three self-grading buttons" loading="lazy"></div><figcaption><span class="en">Flip</span><span class="he">היפוך</span><span><span class="en">Meaning, example, three honest buttons</span><span class="he">פירוש, דוגמה ושלושה כפתורים כנים</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/levels.jpg" alt="Five difficulty levels with progress" loading="lazy"></div><figcaption><span class="en">Levels</span><span class="he">רמות</span><span><span class="en">Five tiers, basic → extreme</span><span class="he">חמש רמות, מבסיסי לקיצוני</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/math-topics.jpg" alt="Quick math topics with three difficulty levels each" loading="lazy"></div><figcaption><span class="en">Quick math</span><span class="he">חשבון מהיר</span><span><span class="en">Seven topics, three levels each</span><span class="he">שבעה נושאים, שלוש רמות לכל אחד</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/math-question.jpg" alt="Quick math question with answer feedback and a solving tip" loading="lazy"></div><figcaption><span class="en">Math round</span><span class="he">סבב חשבון</span><span><span class="en">Instant feedback and the fast way</span><span class="he">משוב מיידי והדרך המהירה</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/streak.jpg" alt="Streak screen" loading="lazy"></div><figcaption><span class="en">Streak</span><span class="he">רצף</span><span><span class="en">Daily goals and a 7-day view</span><span class="he">יעדים יומיים ותצוגת שבוע</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/stats.jpg" alt="Statistics screen" loading="lazy"></div><figcaption><span class="en">Stats</span><span class="he">סטטיסטיקות</span><span><span class="en">Progress per language</span><span class="he">התקדמות לפי שפה</span></span></figcaption></figure>
                 </div>
             </div>
         </section>

@@ -3,550 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Future Projects — Pappo Studios</title>
-    <meta name="description" content="Upcoming projects from Pappo Studios.">
+    <title>The Lab — Pappo Studios</title>
+    <meta name="description" content="What's in development at Pappo Studios: a 3D PVP multiplayer game in Unity, a mobile roguelike and the next Milometry.">
+    <meta name="theme-color" content="#07070D">
+    <link rel="icon" href="images/pappo-mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        (function () {
-            var s = localStorage.getItem('lang');
-            if (s === 'he') {
-                document.documentElement.setAttribute('lang', 'he');
-                document.documentElement.setAttribute('dir', 'rtl');
-                document.documentElement.setAttribute('data-lang', 'he');
-            }
-        })();
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Heebo:wght@400;500;700;900&family=JetBrains+Mono:wght@500&family=Frank+Ruhl+Libre:wght@700&display=swap" rel="stylesheet">
+    <script>(function(){try{if(localStorage.getItem('lang')==='he'){var d=document.documentElement;d.lang='he';d.dir='rtl';d.setAttribute('data-lang','he');}}catch(e){}})();</script>
+    <link rel="stylesheet" href="assets/site.css">
     <style>
-        :root {
-            --paper:   #F4EEE1;
-            --paper-2: #EAE0CB;
-            --logo-bg: #EEEBE2;
-            --ink:     #3E2C1E;
-            --ink-soft:#6B5544;
-            --muted:   #8A765F;
-            --caramel: #B5824E;
-            --fox:     #A65E2E;
-            --line:    #D8C9AE;
-            --card:    #EDE5D4;
-            --serif:   'Frank Ruhl Libre', Georgia, serif;
-            --sans:    'Assistant', system-ui, sans-serif;
+        /* ═══ Lab theme — synthwave arena ═══ */
+        body.theme-lab {
+            --bg: #07070D; --bg-2: #0E0E1A; --surface: #11111F;
+            --ink: #E8E6FF; --ink-soft: #B3B0D6; --muted: #7F7CA8;
+            --accent: #FF3DF0; --accent-2: #7CF7D4; --cyan: #5CE1FF; --on-accent: #07070D;
+            --line: rgba(232,230,255,.14);
+            --display: 'Space Grotesk', 'Heebo', sans-serif; --body: 'Space Grotesk', 'Heebo', sans-serif;
         }
+        [lang="he"] body.theme-lab { --display: 'Heebo', sans-serif; --body: 'Heebo', sans-serif; }
+        .theme-lab .site-header { background: rgba(7,7,13,.72); }
+        .theme-lab .brand img { border-color: rgba(255,255,255,.2); }
+        .theme-lab .burger i, .theme-lab .burger i::before, .theme-lab .burger i::after { background: var(--ink); }
+        .theme-lab .menu-open .burger i { background: transparent; }
+        .theme-lab .progress { background: linear-gradient(90deg, var(--accent), var(--cyan)); box-shadow: 0 0 12px var(--accent); }
+        .theme-lab .eyebrow { color: var(--accent-2); font-family: 'JetBrains Mono', monospace; letter-spacing: 1.5px; }
+        .theme-lab .h-section { font-weight: 700; letter-spacing: -.03em; }
+        .theme-lab .h-section em { font-style: normal; color: var(--accent); text-shadow: 0 0 30px rgba(255,61,240,.5); }
+        body.theme-lab::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 150; background: repeating-linear-gradient(to bottom, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); mix-blend-mode: overlay; }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* ── Hero arena ── */
+        .l-hero { position: relative; min-height: calc(100svh - var(--nav-h)); display: grid; place-items: center; text-align: center; overflow: hidden; padding: 4rem 0 10rem; }
+        .sky { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, #2A0E4A 0%, #11061F 45%, var(--bg) 75%); }
+        .stars { position: absolute; inset: 0; background-image: radial-gradient(1px 1px at 20% 30%, #fff, transparent), radial-gradient(1px 1px at 70% 20%, #fff, transparent), radial-gradient(1.5px 1.5px at 40% 12%, #cfc8ff, transparent), radial-gradient(1px 1px at 85% 45%, #fff, transparent), radial-gradient(1px 1px at 10% 55%, #fff, transparent), radial-gradient(1.5px 1.5px at 60% 40%, #9ff, transparent), radial-gradient(1px 1px at 30% 70%, #fff, transparent); animation: twinkle 5s ease-in-out infinite alternate; }
+        @keyframes twinkle { to { opacity: .4; } }
+        .sun { position: absolute; left: 50%; bottom: 30%; width: min(380px, 70vw); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%;
+               background: linear-gradient(#FFD36B 0%, #FF6BB5 45%, #FF3DF0 60%, #7C5CFF 100%);
+               -webkit-mask-image: linear-gradient(to bottom, #000 0 55%, transparent 55% 59%, #000 59% 66%, transparent 66% 72%, #000 72% 77%, transparent 77% 84%, #000 84% 88%, transparent 88%);
+               mask-image: linear-gradient(to bottom, #000 0 55%, transparent 55% 59%, #000 59% 66%, transparent 66% 72%, #000 72% 77%, transparent 77% 84%, #000 84% 88%, transparent 88%);
+               box-shadow: 0 0 120px rgba(255,61,240,.5); filter: drop-shadow(0 0 40px rgba(255,61,240,.55)); animation: sun-rise 2.4s var(--ease-out) both; }
+        @keyframes sun-rise { from { transform: translate(-50%, 40%); opacity: 0; } }
+        .floor { position: absolute; left: -30%; right: -30%; bottom: 0; height: 32%; overflow: hidden; }
+        .floor::before { content: ''; position: absolute; inset: -200% 0 0; background-image: linear-gradient(rgba(255,61,240,.85) 2px, transparent 2px), linear-gradient(90deg, rgba(92,225,255,.65) 2px, transparent 2px); background-size: 60px 60px; transform: perspective(700px) rotateX(50deg); transform-origin: bottom; animation: grid 1.2s linear infinite; -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 70%); mask-image: linear-gradient(to bottom, transparent 30%, #000 70%); }
+        @keyframes grid { to { background-position: 0 60px; } }
+        .horizon { position: absolute; left: 0; right: 0; bottom: 32%; height: 2px; background: var(--accent); box-shadow: 0 0 20px 4px var(--accent); }
 
-        html { scroll-behavior: smooth; }
+        .l-hero .content { position: relative; z-index: 2; padding-inline: var(--gut); }
+        .l-hero .eyebrow { justify-content: center; }
+        .glitch { position: relative; display: inline-block; font-size: clamp(4rem, 15vw, 11rem); font-weight: 700; line-height: .9; letter-spacing: -.05em; color: #fff; text-shadow: 0 0 40px rgba(255,61,240,.6); }
+        [lang="he"] .glitch { letter-spacing: 0; font-weight: 900; }
+        .glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; text-shadow: none; }
+        .glitch::before { color: var(--cyan); clip-path: inset(0 0 100% 0); animation: glitch-a 3.2s infinite steps(1); }
+        .glitch::after { color: var(--accent); clip-path: inset(100% 0 0 0); animation: glitch-b 2.7s infinite steps(1); }
+        @keyframes glitch-a { 0%, 86%, 100% { transform: none; clip-path: inset(0 0 100% 0); } 88% { transform: translate(-6px, -2px); clip-path: inset(10% 0 60% 0); } 92% { transform: translate(5px, 1px); clip-path: inset(40% 0 30% 0); } 96% { transform: translate(-3px, 0); clip-path: inset(70% 0 5% 0); } }
+        @keyframes glitch-b { 0%, 80%, 100% { transform: none; clip-path: inset(100% 0 0 0); } 83% { transform: translate(6px, 2px); clip-path: inset(60% 0 10% 0); } 89% { transform: translate(-5px, -1px); clip-path: inset(20% 0 55% 0); } }
+        .l-hero p.lede { margin: 1.4rem auto 0; color: var(--ink); background: rgba(7,7,13,.62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--line); }
+        .l-hero .eyebrow { background: rgba(7,7,13,.62); padding: 4px 12px; border-radius: 999px; }
+        .scroll-cue { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 2; font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: 3px; color: var(--accent-2); animation: cue 1.8s ease-in-out infinite; }
+        @keyframes cue { 50% { transform: translate(-50%, 6px); opacity: .5; } }
 
-        body {
-            font-family: var(--sans);
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.7;
+        /* ── HUD card ── */
+        .hud { position: relative; background: linear-gradient(180deg, rgba(17,17,31,.9), rgba(10,10,20,.9)); border: 1px solid rgba(124,247,212,.25); padding: clamp(1.6rem, 4vw, 3rem); clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px)); }
+        .hud::before { content: ''; position: absolute; inset: 0; background: radial-gradient(600px circle at var(--mx, 80%) var(--my, 0%), rgba(255,61,240,.16), transparent 40%); pointer-events: none; }
+        .corner { position: absolute; width: 18px; height: 18px; border-color: var(--accent-2); border-style: solid; }
+        .corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; } .corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+        .hud-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 1.4rem; font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--muted); }
+        .live { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-2); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
+        .live i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); animation: blinker 1.2s steps(2) infinite; }
+        @keyframes blinker { 50% { opacity: .2; } }
+        .ping { direction: ltr; }
+        .hud h2 { font-size: clamp(1.9rem, 4.4vw, 3.2rem); font-weight: 700; line-height: 1.05; letter-spacing: -.03em; margin-bottom: 1rem; }
+        [lang="he"] .hud h2 { letter-spacing: 0; }
+        .hud p { color: var(--ink-soft); margin-bottom: 1rem; max-width: 68ch; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.4rem; }
+        .chip { font-family: 'JetBrains Mono', monospace; font-size: .78rem; padding: 4px 12px; border: 1px solid rgba(92,225,255,.4); color: var(--cyan); }
+        .chip.hot { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px rgba(255,61,240,.3) inset; }
+
+        .loadout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1.6rem; }
+        .slot { border: 1px solid var(--line); padding: 14px; background: rgba(255,255,255,.02); transition: border-color .25s, transform .25s, box-shadow .25s; }
+        .slot:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 24px -6px rgba(255,61,240,.6); }
+        .slot b { display: block; font-size: .95rem; margin-bottom: 8px; }
+        .meter { height: 6px; background: rgba(255,255,255,.08); overflow: hidden; }
+        .meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--cyan), var(--accent)); transition: width 1.6s var(--ease-out); transition-delay: calc(var(--i, 0) * 120ms + 200ms); }
+        .loadout.in .meter i { width: var(--v); }
+        .slot small { display: block; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); direction: ltr; text-align: start; }
+
+        .radar { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .radar .hud { padding: clamp(1.4rem, 3vw, 2.2rem); }
+        .radar .hud h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: .6rem; }
+        .radar .ico { font-size: 2.2rem; display: block; margin-bottom: .8rem; filter: drop-shadow(0 0 12px rgba(124,247,212,.5)); }
+        .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 10px; margin-bottom: .8rem; border: 1px solid; }
+        .badge.plan { color: var(--cyan); } .badge.concept { color: var(--muted); }
+
+        .theme-lab .btn-ghost { border-color: var(--accent-2); color: var(--accent-2); }
+        .theme-lab .btn-ghost:hover { background: var(--accent-2); color: var(--bg); box-shadow: 0 0 30px rgba(124,247,212,.4); }
+        .theme-lab .btn-solid { box-shadow: 0 0 30px rgba(255,61,240,.4); }
+        .theme-lab .site-footer a:hover { color: var(--accent-2); }
+
+        @media (max-width: 760px) {
+            .loadout { grid-template-columns: 1fr 1fr; }
+            .radar { grid-template-columns: 1fr; }
         }
-
-        /* ── Language ── */
-        html[data-lang="he"] .en { display: none !important; }
-        html:not([data-lang="he"]) .he { display: none !important; }
-
-        /* ── Scroll reveal ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .reveal.visible { opacity: 1; transform: none; }
-        .reveal-d1 { transition-delay: 0.1s; }
-        .reveal-d2 { transition-delay: 0.2s; }
-
-        /* ── Header / Nav ── */
-        header {
-            background: var(--paper);
-            border-bottom: 1px solid var(--line);
-            padding: 0 3.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 68px;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .nav-brand img {
-            height: 44px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .nav-brand .wordmark {
-            font-family: var(--serif);
-            font-weight: 700;
-            font-size: 1.15rem;
-            letter-spacing: 0.3px;
-            color: var(--ink);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .nav-links a {
-            font-family: var(--sans);
-            font-size: 0.95rem;
-            color: var(--ink-soft);
-            text-decoration: none;
-            letter-spacing: 0.2px;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--fox); }
-        .nav-links a.active { color: var(--fox); font-weight: 600; }
-
-        .lang-btn {
-            font-family: var(--sans);
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            border: 1px solid var(--line);
-            color: var(--ink-soft);
-            background: transparent;
-            padding: 6px 14px;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .lang-btn:hover { border-color: var(--fox); color: var(--fox); }
-
-        /* ── Page hero ── */
-        .page-hero {
-            background: var(--paper-2);
-            border-bottom: 1px solid var(--line);
-            padding: 4rem 3.5rem 3rem;
-            text-align: center;
-        }
-
-        .page-hero .eyebrow {
-            font-family: var(--sans);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.74rem;
-            color: var(--caramel);
-            margin-bottom: 14px;
-        }
-
-        .page-hero h1 {
-            font-family: var(--serif);
-            font-weight: 500;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            color: var(--ink);
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-        }
-
-        .page-hero h1 em { font-style: italic; color: var(--fox); }
-
-        .page-hero p {
-            color: var(--ink-soft);
-            font-size: 1.05rem;
-        }
-
-        /* ── Container ── */
-        .container {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 4rem 2rem 5rem;
-        }
-
-        /* ── Section divider ── */
-        .section-divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 2rem;
-            color: var(--caramel);
-        }
-        .section-divider::before, .section-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--line);
-        }
-        .section-divider span {
-            font-family: var(--sans);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            font-size: 0.72rem;
-            white-space: nowrap;
-        }
-
-        /* ── Tags ── */
-        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.2rem; }
-
-        .tag {
-            display: inline-block;
-            background: var(--paper);
-            color: var(--ink-soft);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            border: 1px solid var(--line);
-        }
-
-        .tag-accent {
-            background: rgba(166,94,46,0.1);
-            border-color: rgba(166,94,46,0.3);
-            color: var(--fox);
-            font-weight: 600;
-        }
-
-        /* ── Status badge ── */
-        .status-badge {
-            display: inline-block;
-            font-family: var(--sans);
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 4px 13px;
-            border-radius: 999px;
-            margin-bottom: 1.2rem;
-        }
-
-        .status-dev {
-            background: rgba(166,94,46,0.1);
-            color: var(--fox);
-            border: 1px solid rgba(166,94,46,0.3);
-        }
-
-        .status-planning {
-            background: rgba(181,130,78,0.12);
-            color: var(--caramel);
-            border: 1px solid rgba(181,130,78,0.35);
-        }
-
-        .status-concept {
-            background: rgba(138,118,95,0.1);
-            color: var(--muted);
-            border: 1px solid rgba(138,118,95,0.3);
-        }
-
-        /* ── Featured upcoming card ── */
-        .future-card-main {
-            background: var(--card);
-            border: 1.5px dashed var(--line);
-            border-radius: 18px;
-            padding: 2.5rem;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .future-card-main::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--fox), transparent);
-        }
-
-        .future-card-main h2 {
-            font-family: var(--serif);
-            font-size: 1.7rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 10px;
-            letter-spacing: -0.3px;
-        }
-
-        .future-card-main > p {
-            color: var(--ink-soft);
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
-            line-height: 1.7;
-        }
-
-        /* Feature list */
-        .feature-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .feature-list li {
-            font-size: 0.92rem;
-            color: var(--ink-soft);
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .feature-list li::before {
-            content: '–';
-            color: var(--caramel);
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
-        /* ── Small cards grid ── */
-        .future-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
-            margin-bottom: 3rem;
-        }
-
-        .future-card-sm {
-            background: var(--card);
-            border: 1.5px dashed var(--line);
-            border-radius: 14px;
-            padding: 1.8rem;
-        }
-
-        .future-card-sm .card-icon {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            display: block;
-        }
-
-        .future-card-sm h3 {
-            font-family: var(--serif);
-            font-size: 1.15rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 8px;
-        }
-
-        .future-card-sm p {
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        /* ── Back link ── */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--fox);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            transition: color 0.2s;
-        }
-        .back-link:hover { color: var(--ink); }
-
-        /* ── Footer ── */
-        footer {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            color: var(--muted);
-            border-top: 1px solid var(--line);
-            font-size: 0.88rem;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 640px) {
-            header { padding: 0 1.2rem; }
-            .page-hero { padding: 3rem 1.2rem 2rem; }
-            .container { padding: 3rem 1.2rem 4rem; }
-            .feature-list { grid-template-columns: 1fr; }
-            .future-card-main { padding: 1.6rem; }
-            .nav-links { gap: 14px; }
-        }
+        @media (max-width: 460px) { .loadout { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body class="theme-lab">
+    <a class="skip" href="#main"><span class="en">Skip to content</span><span class="he">דילוג לתוכן</span></a>
+    <div class="progress" aria-hidden="true"></div>
 
-    <header>
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="images/pappo-logo.png" alt="Pappo Studios">
+    <header class="site-header">
+        <div class="wrap nav-inner">
+            <a href="index.html" class="brand" aria-label="Pappo Studios — home">
+                <img src="images/pappo-mark.png" alt="" width="42" height="42">
                 <span class="wordmark">Pappo Studios</span>
             </a>
-            <div class="nav-links">
-                <a href="index.html">
-                    <span class="en">About</span><span class="he">אודות</span>
-                </a>
-                <a href="projects.html">
-                    <span class="en">Projects</span><span class="he">פרויקטים</span>
-                </a>
-                <a href="future.html" class="active">
-                    <span class="en">Future</span><span class="he">עתידי</span>
-                </a>
-                <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
-            </div>
+            <button class="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
+            <nav class="nav-links" aria-label="Main">
+                <a href="projects.html"><span class="en">Work</span><span class="he">עבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="future.html" class="active"><span class="en">Lab</span><span class="he">מעבדה</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+                <button class="lang-btn" type="button">עב</button>
+            </nav>
         </div>
     </header>
 
-    <section class="page-hero">
-        <p class="eyebrow">
-            <span class="en">What's Next</span>
-            <span class="he">מה הלאה</span>
-        </p>
-        <h1>
-            <span class="en"><em>Future</em> Projects</span>
-            <span class="he">פרויקטים <em>עתידיים</em></span>
-        </h1>
-        <p>
-            <span class="en">What's in the pipeline at Pappo Studios.</span>
-            <span class="he">מה יש בצנרת של Pappo Studios.</span>
-        </p>
-    </section>
-
-    <div class="container">
-
-        <!-- Featured: 3D PVP Game -->
-        <div class="section-divider reveal">
-            <span>
-                <span class="en">In Development</span>
-                <span class="he">בפיתוח</span>
-            </span>
-        </div>
-
-        <div class="future-card-main reveal reveal-d1">
-            <span class="status-badge status-dev">
-                <span class="en">&#9679; In Development</span>
-                <span class="he">&#9679; בפיתוח</span>
-            </span>
-            <h2>
-                <span class="en">Untitled 3D PVP Multiplayer Game</span>
-                <span class="he">משחק 3D PVP מרובה שחקנים (ללא שם)</span>
-            </h2>
-            <div class="tag-row">
-                <span class="tag tag-accent">Unity</span>
-                <span class="tag">C#</span>
-                <span class="tag">Multiplayer</span>
-                <span class="tag">PVP</span>
-                <span class="tag">3D</span>
+    <main id="main">
+        <section class="l-hero">
+            <div class="sky"></div><div class="stars"></div>
+            <div class="sun" aria-hidden="true"></div>
+            <div class="horizon" aria-hidden="true"></div>
+            <div class="floor" aria-hidden="true"></div>
+            <div class="content">
+                <p class="eyebrow reveal">&gt; <span class="en">pappo_studios / lab</span><span class="he">pappo_studios / מעבדה</span></p>
+                <h1>
+                    <span class="glitch en" data-text="THE LAB">THE LAB</span>
+                    <span class="glitch he" data-text="המעבדה">המעבדה</span>
+                </h1>
+                <p class="lede reveal" style="--i:2"><span class="en">Where the next things get built. Games, experiments, and the future of the apps you've already seen.</span><span class="he">כאן נבנים הדברים הבאים. משחקים, ניסויים, והעתיד של האפליקציות שכבר ראיתם.</span></p>
             </div>
-            <p>
-                <span class="en">A competitive 3D PVP game built in Unity. The core loop is fast-paced player-versus-player combat in a 3D environment, focused on skill expression and replayability. Multiplayer networking is a central challenge &mdash; designing for low-latency feel, fair matchmaking, and a responsive combat system that works well across network conditions.</span>
-                <span class="he">משחק 3D תחרותי PVP הנבנה ב-Unity. הלולאה המרכזית היא קרב שחקן-מול-שחקן מהיר בסביבה תלת-ממדית, ממוקד בביטוי מיומנות וכיף חזרתי. רשת מרובי שחקנים היא אתגר מרכזי — עיצוב לתחושת השהייה נמוכה, Matchmaking הוגן ומערכת קרב רספונסיבית שעובדת טוב בכל תנאי רשת.</span>
-            </p>
-            <p>
-                <span class="en">This project is an opportunity to go deeper into Unity's architecture, multiplayer frameworks, and 3D game feel design &mdash; areas I'm actively building expertise in.</span>
-                <span class="he">הפרויקט הזה הוא הזדמנות להעמיק בארכיטקטורת Unity, Frameworks מרובי שחקנים ועיצוב Game Feel תלת-ממדי — תחומים שאני בונה בהם מומחיות באופן אקטיבי.</span>
-            </p>
-            <ul class="feature-list">
-                <li><span class="en">Real-time 3D PVP combat</span><span class="he">קרב PVP תלת-ממדי בזמן אמת</span></li>
-                <li><span class="en">Networked multiplayer</span><span class="he">מרובה שחקנים ברשת</span></li>
-                <li><span class="en">Custom character controller</span><span class="he">בקר דמות מותאם</span></li>
-                <li><span class="en">Matchmaking system</span><span class="he">מערכת Matchmaking</span></li>
-                <li><span class="en">Leaderboards &amp; progression</span><span class="he">לידרבורד והתקדמות</span></li>
-                <li><span class="en">Cross-platform (PC &amp; mobile)</span><span class="he">Cross-platform (PC ומובייל)</span></li>
-            </ul>
-        </div>
+            <span class="scroll-cue" aria-hidden="true">▼ PRESS START</span>
+        </section>
 
-        <!-- On the Radar -->
-        <div class="section-divider reveal">
-            <span>
-                <span class="en">On the Radar</span>
-                <span class="he">על המכ"ם</span>
-            </span>
-        </div>
+        <!-- ═════ FEATURED ═════ -->
+        <section class="section">
+            <div class="wrap">
+                <p class="eyebrow reveal"><span class="en">// in development</span><span class="he">// בפיתוח</span></p>
+                <article class="hud reveal" data-tilt="2">
+                    <span class="corner tl"></span><span class="corner br"></span>
+                    <div class="hud-top">
+                        <span class="live"><i></i><span class="en">In development</span><span class="he">בפיתוח</span></span>
+                        <span class="ping">PLAYER_1 vs PLAYER_2 · ping <span id="ping">24</span>ms</span>
+                    </div>
+                    <h2><span class="en">Untitled 3D PVP <em style="font-style:normal;color:var(--accent)">multiplayer</em> game</span><span class="he">משחק PVP תלת-ממדי <em style="font-style:normal;color:var(--accent)">מרובה משתתפים</em> (עוד בלי שם)</span></h2>
+                    <div class="chips"><span class="chip hot">Unity</span><span class="chip">C#</span><span class="chip">Multiplayer</span><span class="chip">PVP</span><span class="chip">3D</span></div>
+                    <p><span class="en">A competitive player-versus-player game where the core loop is fast, skill-based combat in a 3D arena, built for replayability. The hard part is the network: making a fight feel instant and fair for both players, whatever their connection.</span><span class="he">משחק תחרותי של שחקן מול שחקן, שהלולאה המרכזית שלו היא קרב מהיר ומבוסס מיומנות בזירה תלת-ממדית, שבנוי לחזרה עליו שוב ושוב. החלק הקשה הוא הרשת: לגרום לקרב להרגיש מיידי והוגן לשני השחקנים, בכל חיבור.</span></p>
+                    <p><span class="en">It's how I'm going deeper into Unity architecture, netcode and 3D game feel.</span><span class="he">זו הדרך שלי להעמיק בארכיטקטורת Unity, ב-Netcode ובתחושת משחק תלת-ממדית.</span></p>
+                    <!-- EDIT: the bars are rough progress estimates — adjust --v to match reality -->
+                    <div class="loadout" data-animate>
+                        <div class="slot" style="--i:0"><b><span class="en">Real-time 3D combat</span><span class="he">קרב תלת-ממדי בזמן אמת</span></b><div class="meter"><i style="--v:55%"></i></div><small>core_loop</small></div>
+                        <div class="slot" style="--i:1"><b><span class="en">Networked multiplayer</span><span class="he">רשת מרובת משתתפים</span></b><div class="meter"><i style="--v:35%"></i></div><small>netcode</small></div>
+                        <div class="slot" style="--i:2"><b><span class="en">Custom character controller</span><span class="he">בקר דמות מותאם</span></b><div class="meter"><i style="--v:60%"></i></div><small>controller</small></div>
+                        <div class="slot" style="--i:3"><b><span class="en">Matchmaking</span><span class="he">התאמת יריבים</span></b><div class="meter"><i style="--v:15%"></i></div><small>matchmaking</small></div>
+                        <div class="slot" style="--i:4"><b><span class="en">Leaderboards &amp; progression</span><span class="he">טבלאות דירוג והתקדמות</span></b><div class="meter"><i style="--v:10%"></i></div><small>meta</small></div>
+                        <div class="slot" style="--i:5"><b><span class="en">PC &amp; mobile</span><span class="he">מחשב ומובייל</span></b><div class="meter"><i style="--v:20%"></i></div><small>cross_platform</small></div>
+                    </div>
+                </article>
+            </div>
+        </section>
 
-        <div class="future-grid">
-
-            <div class="future-card-sm reveal">
-                <span class="card-icon">&#128241;</span>
-                <span class="status-badge status-planning" style="font-size: 0.65rem; padding: 3px 10px; margin-bottom: 10px;">
-                    <span class="en">Planning</span><span class="he">תכנון</span>
-                </span>
-                <h3>Milometri v2</h3>
-                <p>
-                    <span class="en">Major update to Milometri: spaced-repetition scheduling, progress analytics dashboard, iCloud/Drive sync, and an expanded word bank with audio pronunciation.</span>
-                    <span class="he">עדכון גדול למילומטרי: תזמון חזרה מרווחת (Spaced Repetition), דשבורד ניתוח התקדמות, סנכרון iCloud/Drive ובנק מילים מורחב עם הגיית שמע.</span>
-                </p>
-                <div class="tag-row">
-                    <span class="tag">Flutter</span>
-                    <span class="tag">Education</span>
+        <!-- ═════ ON THE RADAR ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <p class="eyebrow reveal"><span class="en">// on the radar</span><span class="he">// על הרדאר</span></p>
+                <h2 class="h-section reveal" style="--i:1"><span class="en">Next <em>in the queue.</em></span><span class="he">הבאים <em>בתור.</em></span></h2>
+                <div class="radar" data-stagger>
+                    <article class="hud" data-tilt="3">
+                        <span class="corner tl"></span><span class="corner br"></span>
+                        <span class="ico">📱</span>
+                        <span class="badge plan"><span class="en">Planning</span><span class="he">בתכנון</span></span>
+                        <h3><span class="en">Milometry, what's next</span><span class="he">מילומטרי, מה הלאה</span></h3>
+                        <p><span class="en">1.5 already shipped sync, subscriptions and a math mode. Next: more content and study modes, and moving the app onto clean feature modules, one slice at a time.</span><span class="he">גרסה 1.5 כבר הביאה סנכרון, מנויים ומצב חשבון. הלאה: עוד תוכן ומצבי לימוד, והעברת האפליקציה למודולים נקיים לפי פיצ'ר, פרוסה אחר פרוסה.</span></p>
+                        <div class="chips" style="margin:0"><span class="chip">Flutter</span><span class="chip">Education</span></div>
+                    </article>
+                    <article class="hud" data-tilt="3">
+                        <span class="corner tl"></span><span class="corner br"></span>
+                        <span class="ico">☠️</span>
+                        <span class="badge concept"><span class="en">Concept</span><span class="he">קונספט</span></span>
+                        <h3><span class="en">Mobile dungeon crawler</span><span class="he">משחק מבוכים למובייל</span></h3>
+                        <p><span class="en">A roguelike with procedurally generated levels, loot and run-based progression. Dark atmosphere, fast combat, endless replays.</span><span class="he">Roguelike עם שלבים שנוצרים פרוצדורלית, שלל והתקדמות לפי ריצות. אווירה אפלה, קרב מהיר, אינסוף משחקים חוזרים.</span></p>
+                        <div class="chips" style="margin:0"><span class="chip">Unity</span><span class="chip">C#</span><span class="chip">Mobile</span><span class="chip">Roguelike</span></div>
+                    </article>
+                </div>
+                <div class="btn-row reveal" style="margin-top: 2.6rem">
+                    <a href="projects.html" class="btn btn-ghost"><span class="arr">←</span> <span class="en">Shipped work</span><span class="he">עבודות שכבר שוחררו</span></a>
+                    <a href="index.html#contact" class="btn btn-solid" data-magnetic><span class="en">Want a sneak peek? Get in touch</span><span class="he">רוצים הצצה? דברו איתי</span></a>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <div class="future-card-sm reveal reveal-d1">
-                <span class="card-icon">&#9760;</span>
-                <span class="status-badge status-concept" style="font-size: 0.65rem; padding: 3px 10px; margin-bottom: 10px;">
-                    <span class="en">Concept</span><span class="he">קונספט</span>
-                </span>
-                <h3>
-                    <span class="en">Mobile Dungeon Game</span>
-                    <span class="he">משחק מבוך מובייל</span>
-                </h3>
-                <p>
-                    <span class="en">A mobile dungeon crawler with procedurally generated levels, loot systems, and roguelike progression. Dark atmosphere, fast combat, and endless replayability.</span>
-                    <span class="he">משחק מבוך לנייד עם רמות שנוצרות פרוצדורלית, מערכות שלל ופרוגרסיה Roguelike. אווירה כהה, קרב מהיר וכיף חזרתי אינסופי.</span>
-                </p>
-                <div class="tag-row">
-                    <span class="tag">Unity</span>
-                    <span class="tag">C#</span>
-                    <span class="tag">Mobile</span>
-                    <span class="tag">Roguelike</span>
-                </div>
-            </div>
-
+    <footer class="site-footer">
+        <div class="wrap">
+            <span><span class="en">© <span data-year>2026</span> Erez Pappo · Pappo Studios</span><span class="he">© <span data-year>2026</span> ארז פפו · Pappo Studios</span></span>
+            <nav aria-label="Footer">
+                <a href="index.html"><span class="en">Home</span><span class="he">בית</span></a>
+                <a href="projects.html"><span class="en">Work</span><span class="he">עבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+            </nav>
         </div>
-
-        <a href="projects.html" class="back-link reveal">
-            <span class="en">&larr; See current projects</span>
-            <span class="he">לפרויקטים הנוכחיים &rarr;</span>
-        </a>
-
-    </div>
-
-    <footer>
-        <p>
-            <span class="en">&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</span>
-            <span class="he">&copy; 2026 ארז פפו &middot; Pappo Studios. כל הזכויות שמורות.</span>
-        </p>
     </footer>
 
+    <script src="assets/site.js"></script>
     <script>
-        function setLang(lang) {
-            var isHe = lang === 'he';
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', isHe ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute('data-lang', lang);
-            var btn = document.getElementById('langBtn');
-            if (btn) btn.textContent = isHe ? 'EN' : 'עב';
-            localStorage.setItem('lang', lang);
-        }
-        function toggleLang() {
-            setLang((localStorage.getItem('lang') || 'en') === 'en' ? 'he' : 'en');
-        }
+        /* A ping counter that jitters like a real connection. */
         (function () {
-            var saved = localStorage.getItem('lang') || 'en';
-            var btn = document.getElementById('langBtn');
-            if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
+            var el = document.getElementById('ping');
+            if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            setInterval(function () { el.textContent = 18 + Math.round(Math.random() * 14); }, 1100);
         })();
-
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-            });
-        }, { threshold: 0.08 });
-        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
     </script>
-
 </body>
 </html>

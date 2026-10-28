@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KJ Fitness — case study · Erez Pappo</title>
+    <meta name="description" content="KJ Fitness: a coach/client React Native app and a bilingual website for a Tel Aviv coaching business, sharing one Firebase backend.">
+    <meta name="theme-color" content="#26B4C0">
+    <link rel="icon" href="images/kj/kj-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=Frank+Ruhl+Libre:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>(function(){try{if(localStorage.getItem('lang')==='he'){var d=document.documentElement;d.lang='he';d.dir='rtl';d.setAttribute('data-lang','he');}}catch(e){}})();</script>
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        /* ═══ KJ Fitness theme — built from the logo teal, like the client's own site ═══ */
+        body.theme-kj {
+            --t50: #F7FCFC; --t100: #D6F0F2; --t300: #7FE0E5; --t500: #26B4C0; --t400: #15C2CB; --t800: #135F66; --t950: #0A3236;
+            --bg: #FFFFFF; --bg-2: var(--t100); --surface: #fff;
+            --ink: var(--t950); --ink-soft: #2C5559; --muted: #5B7C7F;
+            --accent: var(--t800); --accent-2: var(--t800); --on-accent: #fff;
+            --line: var(--t950);
+            --display: 'Rubik', system-ui, sans-serif; --body: 'Rubik', system-ui, sans-serif;
+            --radius: 0px;
+        }
+        .theme-kj .site-header { background: color-mix(in srgb, #fff 88%, transparent); border-bottom: 2px solid var(--t950); }
+        .theme-kj .lang-btn { border-radius: 0; border: 2px solid var(--t950); color: var(--t950); }
+        .theme-kj .lang-btn:hover { background: var(--t950); color: #fff; }
+        .theme-kj .nav-links a { border-radius: 0; }
+        .theme-kj .nav-links a:hover { background: var(--t100); }
+        .theme-kj .progress { background: var(--t400); height: 4px; }
+        .theme-kj .eyebrow { color: var(--t800); letter-spacing: 1px; text-transform: none; font-size: 1rem; }
+        .theme-kj .eyebrow::before { width: 14px; height: 14px; border-radius: 0; }
+        .theme-kj .h-section { font-weight: 800; font-size: clamp(2.3rem, 5.4vw, 4.4rem); line-height: .98; letter-spacing: -.03em; }
+        [lang="he"] .theme-kj .h-section { letter-spacing: 0; line-height: 1.06; }
+        .theme-kj .h-section em { color: var(--t800); }
+        .on-ink .eyebrow { color: var(--t400); }
+        .on-ink .h-section em { color: var(--t400); }
+        .on-teal .eyebrow { color: var(--t950); }
+        .on-teal .h-section em { color: #fff; }
+        .theme-kj ::selection { background: var(--t950); color: #fff; }
+        .theme-kj :focus-visible { outline-color: var(--t950); border-radius: 0; }
+
+        /* Hard-shadow buttons (straight from the KJ site) */
+        .kbtn { display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 14px 24px; font-weight: 700; text-decoration: none; border: 2px solid var(--t950); transition: transform .15s, box-shadow .15s, background .15s, color .15s; }
+        .kbtn.ink { background: var(--t950); color: #fff; }
+        .kbtn.white { background: #fff; color: var(--t950); }
+        .kbtn:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--t950); }
+        .kbtn.ink:hover { box-shadow: 6px 6px 0 #fff; }
+        [dir="rtl"] .kbtn:hover { transform: translate(4px, -4px); box-shadow: -6px 6px 0 var(--t950); }
+        [dir="rtl"] .kbtn.ink:hover { box-shadow: -6px 6px 0 #fff; }
+        .kbtn svg { width: 20px; height: 20px; fill: currentColor; }
+        .kbtn .arr { display: inline-block; }
+        [dir="rtl"] .kbtn .arr { transform: scaleX(-1); }
+
+        .on-teal { background: var(--t500); color: var(--t950); }
+        .on-ink { background: var(--t950); color: #fff; }
+        .on-light { background: var(--t100); }
+
+        /* ── Hero ── */
+        .k-hero { padding-block: clamp(2.5rem, 6vw, 5rem); overflow: hidden; }
+        .k-hero .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+        .tag-sq { display: inline-flex; align-items: center; gap: 10px; background: #fff; padding: 10px 16px; font-weight: 700; margin-bottom: 26px; }
+        .k-hero h1 { font-size: clamp(3.6rem, 10vw, 8.4rem); font-weight: 900; line-height: .86; letter-spacing: -.045em; margin-bottom: 22px; }
+        .k-hero .tagline { font-size: clamp(1.3rem, 2.4vw, 1.9rem); font-weight: 800; line-height: 1.15; margin-bottom: 18px; max-width: 18ch; }
+        .k-hero p.lede { color: var(--t950); font-weight: 500; margin-bottom: 30px; }
+        .k-hero .btn-row { gap: 14px; }
+
+        .mosaic { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; box-shadow: 14px 14px 0 var(--t950); }
+        [dir="rtl"] .mosaic { box-shadow: -14px 14px 0 var(--t950); }
+        .tile { aspect-ratio: 1; padding: clamp(10px, 1.4vw, 18px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative;
+                opacity: 0; transform: scale(.6) rotate(-6deg); transition: opacity .5s, transform .6s cubic-bezier(.34, 1.56, .64, 1); transition-delay: calc(var(--i) * 90ms + 150ms); }
+        .mosaic.in .tile { opacity: 1; transform: none; }
+        .tile b { font-size: clamp(1.1rem, 2.2vw, 2rem); font-weight: 900; line-height: 1; letter-spacing: -.02em; }
+        .tile span { font-weight: 500; font-size: clamp(.72rem, 1vw, .9rem); line-height: 1.3; }
+        .tile.ink { background: var(--t950); color: #fff; } .tile.deep { background: var(--t800); color: #fff; } .tile.white { background: #fff; } .tile.light { background: var(--t100); } .tile.teal { background: var(--t400); }
+        .tile.img { padding: 0; } .tile.img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
+        .tile.img:hover img { transform: scale(1.08); }
+        .tile .big { font-size: clamp(2rem, 4.4vw, 3.6rem); }
+
+        /* ── Facts strip ── */
+        .facts { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 2px solid var(--t950); }
+        .fact { padding: clamp(1.4rem, 3vw, 2.2rem); border-inline-start: 2px solid var(--t950); }
+        .fact:first-child { border-inline-start: 0; }
+        .fact .num { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; line-height: 1; direction: ltr; unicode-bidi: isolate; display: block; }
+        .fact p { font-weight: 500; margin-top: 8px; color: var(--ink-soft); }
+
+        /* ── Architecture ── */
+        .arch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(1rem, 4vw, 3rem); }
+        .node { border: 2px solid #fff; padding: 1.4rem; position: relative; background: var(--t950); }
+        .node h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+        .node h3 i { font-style: normal; font-size: 1.4rem; }
+        .node p { color: rgba(255,255,255,.75); font-size: .95rem; }
+        .node ul { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .node li { font-size: .78rem; font-weight: 700; padding: 3px 9px; border: 1.5px solid rgba(255,255,255,.35); }
+        .node.fb { grid-column: 1 / -1; background: var(--t400); color: var(--t950); border-color: var(--t400); box-shadow: 10px 10px 0 #fff; }
+        [dir="rtl"] .node.fb { box-shadow: -10px 10px 0 #fff; }
+        .node.fb p { color: var(--t950); }
+        .node.fb li { border-color: var(--t950); }
+        .wires { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); height: 90px; }
+        .wire { position: relative; }
+        .wire::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; transform: translateX(-50%);
+                        background: repeating-linear-gradient(to bottom, var(--t400) 0 10px, transparent 10px 18px); background-size: 3px 18px; animation: flow 0.9s linear infinite; }
+        .wire::after { content: ''; position: absolute; left: 50%; bottom: -2px; transform: translateX(-50%); border: 9px solid transparent; border-top-color: var(--t400); border-bottom: 0; }
+        @keyframes flow { to { background-position: 0 18px; } }
+        .wire .pkt { position: absolute; left: 50%; width: 12px; height: 12px; background: #fff; transform: translateX(-50%); animation: packet 1.8s ease-in-out infinite; }
+        .wire:nth-child(2) .pkt { animation-delay: .9s; }
+        @keyframes packet { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: calc(100% - 12px); opacity: 0; } }
+        .rule-box { grid-column: 1 / -1; margin-top: 32px; border: 2px solid rgba(255,255,255,.35); }
+        .rule-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 2px solid rgba(255,255,255,.35); font-weight: 700; font-size: .9rem; gap: 12px; flex-wrap: wrap; }
+        .rule-head a { color: var(--t400); }
+        pre.code { margin: 0; padding: 18px 20px; overflow-x: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .84rem; line-height: 1.7; color: #CDEFF1; direction: ltr; text-align: left; }
+        pre.code .c { color: #6FA3A7; } pre.code .k { color: var(--t400); font-weight: 500; } pre.code .s { color: #FFD479; } pre.code .f { color: #fff; }
+
+        /* ── App section ── */
+        .app-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+        .phones { display: flex; gap: clamp(12px, 3vw, 28px); justify-content: center; align-items: flex-start; }
+        .phones .phone { max-width: 250px; background: #0D1517; }
+        .phones .phone:nth-child(2) { margin-top: 60px; }
+        .phone .screen { background: #F7FCFC; color: #0A3B3E; font-family: 'Rubik', sans-serif; display: flex; flex-direction: column; font-size: 11px; line-height: 1.35; position: relative; }
+        .scr-status { display: flex; justify-content: space-between; padding: 12px 18px 6px; font-weight: 700; font-size: 10px; direction: ltr; }
+        .scr-body { padding: 6px 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; overflow: hidden; background: linear-gradient(#DCF3F5, #F7FCFC 140px); }
+        .scr-eyebrow { font-size: 8.5px; font-weight: 800; letter-spacing: 1.4px; color: #0E9AA1; }
+        [lang="he"] .scr-eyebrow { letter-spacing: 0; }
+        .scr-h { font-size: 17px; font-weight: 800; line-height: 1.1; }
+        .scr-card { background: #fff; border: 1px solid #CFE2E4; border-radius: 14px; padding: 10px; box-shadow: 0 6px 16px rgba(10,59,62,.06); }
+        .scr-card.accent { background: linear-gradient(135deg, #1AC8D1, #0E9AA1); color: #04282B; border: 0; box-shadow: 0 8px 20px rgba(21,194,203,.32); }
+        [dir="rtl"] .scr-card.accent { background: linear-gradient(225deg, #1AC8D1, #0E9AA1); }
+        .scr-card.warn { background: #FFF7E0; border-color: #F3DB8E; display: flex; gap: 8px; align-items: center; }
+        .scr-card .t { font-weight: 800; font-size: 12.5px; }
+        .scr-card .s { color: #4A6A6D; font-size: 9.5px; }
+        .scr-card.accent .s { color: #04282B; opacity: .8; }
+        .scr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+        .scr-stat { background: #fff; border: 1px solid #CFE2E4; border-radius: 12px; padding: 8px; }
+        .scr-stat b { display: block; font-size: 18px; font-weight: 800; direction: ltr; text-align: start; }
+        .scr-stat span { color: #4A6A6D; font-size: 9px; }
+        .scr-btn { margin-top: 8px; background: #04282B; color: #fff; border-radius: 10px; padding: 7px; text-align: center; font-weight: 700; font-size: 10.5px; }
+        .scr-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 7px 0; border-top: 1px solid #E4F0F1; }
+        .scr-row:first-of-type { border-top: 0; }
+        .scr-row i { font-style: normal; width: 22px; height: 22px; border-radius: 7px; background: rgba(21,194,203,.14); display: grid; place-items: center; font-size: 11px; flex: none; }
+        .scr-row div { flex: 1; } .scr-row .s { display: block; }
+        .scr-week { display: flex; gap: 4px; margin-top: 6px; direction: ltr; }
+        [dir="rtl"] .scr-week { direction: rtl; }
+        .scr-week span { flex: 1; text-align: center; font-size: 8.5px; font-weight: 700; padding: 5px 0; border-radius: 7px; background: #EAF6F7; color: #4A6A6D; }
+        .scr-week span.on { background: #15C2CB; color: #04282B; }
+        .scr-week span.done { background: #0A3B3E; color: #fff; }
+        .scr-tabs { display: flex; justify-content: space-around; padding: 8px 6px 14px; background: #fff; border-top: 1px solid #CFE2E4; font-size: 14px; }
+        .scr-tabs span { opacity: .45; } .scr-tabs span.on { opacity: 1; filter: drop-shadow(0 0 6px rgba(21,194,203,.7)); }
+        .bar-mini { height: 5px; border-radius: 9px; background: rgba(4,40,43,.18); margin-top: 7px; overflow: hidden; }
+        .bar-mini i { display: block; height: 100%; width: 0; background: #04282B; border-radius: 9px; transition: width 1.4s var(--ease-out) .6s; }
+        .phones.in .bar-mini i { width: 62%; }
+        .mock-note { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 16px; }
+
+        .feat-tiles { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--t950); }
+        .ft { padding: 1.2rem 1.3rem; border-inline-start: 2px solid var(--t950); border-top: 2px solid var(--t950); transition: background .2s, color .2s; }
+        .ft:nth-child(odd) { border-inline-start: 0; }
+        .ft:nth-child(-n+2) { border-top: 0; }
+        .ft:hover { background: var(--t950); color: #fff; }
+        .ft:hover p { color: rgba(255,255,255,.8); }
+        .ft h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
+        .ft p { font-size: .9rem; color: var(--ink-soft); line-height: 1.5; }
+
+        /* ── Approval flow ── */
+        .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; margin-top: 2rem; }
+        .flow::before { content: ''; position: absolute; top: 34px; inset-inline: 12%; height: 4px; background: rgba(10,50,54,.2); }
+        .flow::after { content: ''; position: absolute; top: 34px; inset-inline-start: 12%; height: 4px; width: 0; background: var(--t950); transition: width 2.2s var(--ease-out) .3s; }
+        .flow.in::after { width: 76%; }
+        .step { text-align: center; padding: 0 10px; position: relative; z-index: 1; }
+        .step .dot { width: 72px; height: 72px; margin: 0 auto 14px; display: grid; place-items: center; font-size: 1.8rem; background: #fff; border: 3px solid var(--t950); transform: scale(.4); opacity: 0; transition: transform .5s cubic-bezier(.34,1.56,.64,1), opacity .4s; transition-delay: calc(var(--i) * 450ms + 300ms); }
+        .flow.in .step .dot { transform: none; opacity: 1; }
+        .step:last-child .dot { background: var(--t950); color: #fff; }
+        .step h3 { font-weight: 800; font-size: 1.1rem; margin-bottom: 4px; }
+        .step p { font-size: .9rem; color: var(--t950); opacity: .85; }
+
+        /* ── Website section ── */
+        .web-stage { position: relative; padding-bottom: 40px; }
+        .web-stage .browser { border-radius: 0; border: 2px solid var(--t950); box-shadow: 14px 14px 0 var(--t500); width: 86%; }
+        [dir="rtl"] .web-stage .browser { box-shadow: -14px 14px 0 var(--t500); }
+        .web-stage .phone { position: absolute; max-width: 190px; bottom: 0; inset-inline-end: 0; }
+        .web-stage .phone.p-he { inset-inline-end: 160px; bottom: -30px; transform: rotate(-4deg); }
+        [dir="rtl"] .web-stage .phone.p-he { transform: rotate(4deg); }
+        .swatches { display: flex; margin: 1.6rem 0; border: 2px solid var(--t950); }
+        .sw { flex: 1; padding: 14px 12px; min-height: 120px; display: flex; flex-direction: column; justify-content: flex-end; font-size: .8rem; font-weight: 700; transition: flex .4s var(--ease); }
+        .sw:hover { flex: 1.8; }
+        .sw code { font-size: .78rem; display: block; direction: ltr; text-align: start; }
+        .web-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 2px solid var(--t950); margin-top: clamp(3rem, 6vw, 5rem); }
+        .web-grid .ft:nth-child(odd) { border-inline-start: 2px solid var(--t950); }
+        .web-grid .ft:nth-child(3n+1) { border-inline-start: 0; }
+        .web-grid .ft:nth-child(-n+3) { border-top: 0; }
+        .web-grid .ft:nth-child(4), .web-grid .ft:nth-child(5), .web-grid .ft:nth-child(6) { border-top: 2px solid var(--t950); }
+
+        .theme-kj .next-project { border-top: 2px solid var(--t950); }
+        .theme-kj .next-project:hover strong { color: #7C5CFF; }
+        .theme-kj .site-footer { border-top: 2px solid var(--t950); }
+
+        @media (max-width: 960px) {
+            .k-hero .wrap, .app-grid { grid-template-columns: 1fr; }
+            .facts { grid-template-columns: 1fr 1fr; }
+            .fact:nth-child(3) { border-inline-start: 0; }
+            .fact:nth-child(n+3) { border-top: 2px solid var(--t950); }
+            .web-grid { grid-template-columns: 1fr 1fr; }
+            .web-grid .ft { border-inline-start: 2px solid var(--t950) !important; border-top: 2px solid var(--t950) !important; }
+            .web-grid .ft:nth-child(odd) { border-inline-start: 0 !important; }
+            .web-grid .ft:nth-child(-n+2) { border-top: 0 !important; }
+        }
+        @media (max-width: 680px) {
+            .arch { grid-template-columns: minmax(0, 1fr); }
+            .arch .node.web { margin-top: 16px; }
+            .wires { grid-template-columns: 1fr; }
+            .wires .wire:nth-child(2) { display: none; }
+            .flow { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+            .flow::before, .flow::after { display: none; }
+            .feat-tiles, .web-grid { grid-template-columns: 1fr; }
+            .feat-tiles .ft, .web-grid .ft { border-inline-start: 0 !important; border-top: 2px solid var(--t950) !important; }
+            .feat-tiles .ft:first-child, .web-grid .ft:first-child { border-top: 0 !important; }
+            .web-stage .browser { width: 100%; }
+            .web-stage .phone { position: relative; display: inline-block; max-width: 44%; margin-top: 24px; inset: auto; }
+            .web-stage .phone.p-he { inset: auto; bottom: auto; margin-inline-end: 4%; }
+            .phones .phone:nth-child(2) { margin-top: 40px; }
+            .swatches { flex-wrap: wrap; } .sw { flex-basis: 50%; }
+        }
+    </style>
+</head>
+<body class="theme-kj">
+    <a class="skip" href="#main"><span class="en">Skip to content</span><span class="he">דילוג לתוכן</span></a>
+    <div class="progress" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <div class="wrap nav-inner">
+            <a href="index.html" class="brand" aria-label="Pappo Studios — home">
+                <img src="images/pappo-mark.png" alt="" width="42" height="42">
+                <span class="wordmark">Pappo Studios</span>
+            </a>
+            <button class="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
+            <nav class="nav-links" aria-label="Main">
+                <a href="projects.html" class="active"><span class="en">Work</span><span class="he">עבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="future.html"><span class="en">Lab</span><span class="he">מעבדה</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+                <button class="lang-btn" type="button">עב</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- ═════ HERO ═════ -->
+        <section class="k-hero on-teal">
+            <div class="wrap">
+                <div>
+                    <span class="tag-sq reveal">📍 <span class="en">Case study · Real client · Tel Aviv</span><span class="he">ניתוח פרויקט · לקוחה אמיתית · תל אביב</span></span>
+                    <h1 data-split>KJ Fitness</h1>
+                    <p class="tagline reveal" style="--i:2"><span class="en">One coaching business. Two products. One backend.</span><span class="he">עסק אימון אחד. שני מוצרים. Backend אחד.</span></p>
+                    <p class="lede reveal" style="--i:3"><span class="en">Coach Kirsten Jemma needed to run her clients, plans and sessions from her phone — and to win new ones online. I built both: a React Native app for coach and clients, and a bilingual marketing site with login and dashboards, on one shared Firebase project.</span><span class="he">המאמנת קירסטן ג'מה הייתה צריכה לנהל לקוחות, תוכניות ואימונים מהטלפון — ולהביא לקוחות חדשים מהרשת. בניתי את שניהם: אפליקציית React Native למאמנת וללקוחות, ואתר שיווקי דו-לשוני עם התחברות ודשבורדים, על פרויקט Firebase משותף אחד.</span></p>
+                    <div class="btn-row reveal" style="--i:4">
+                        <a class="kbtn ink" href="https://kirstenjemma.fitness/" target="_blank" rel="noopener"><span class="en">Visit the live site</span><span class="he">לאתר החי</span> <span class="arr">→</span></a>
+                        <a class="kbtn white" href="#app"><span class="en">See the app</span><span class="he">לאפליקציה</span></a>
+                    </div>
+                </div>
+                <div class="mosaic" data-animate aria-hidden="true">
+                    <div class="tile img" style="--i:0"><img src="images/kj/kj-logo.jpg" alt=""></div>
+                    <div class="tile ink" style="--i:1"><b>React Native</b><span>Expo · Reanimated</span></div>
+                    <div class="tile white" style="--i:2"><b class="big">2</b><span><span class="en">roles: coach &amp; client</span><span class="he">תפקידים: מאמנת ולקוח</span></span></div>
+                    <div class="tile deep" style="--i:3"><b>Firebase</b><span>Auth · Firestore · Storage</span></div>
+                    <div class="tile img" style="--i:4"><img src="images/kj/training.jpg" alt=""></div>
+                    <div class="tile light" style="--i:5"><b>EN / עב</b><span><span class="en">full RTL in app &amp; site</span><span class="he">RTL מלא באפליקציה ובאתר</span></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ FACTS ═════ -->
+        <section class="wrap" style="padding-block: clamp(2.5rem, 5vw, 4rem)">
+            <div class="facts" data-stagger>
+                <div class="fact"><span class="num" data-count="27">0</span><p><span class="en">app screens across both roles</span><span class="he">מסכים באפליקציה, בשני התפקידים</span></p></div>
+                <div class="fact"><span class="num" data-count="18000" data-suffix="+">0</span><p><span class="en">lines of app source</span><span class="he">שורות קוד באפליקציה</span></p></div>
+                <div class="fact"><span class="num" data-count="4">0</span><p><span class="en">web pages: landing, login, two dashboards</span><span class="he">עמודי אתר: נחיתה, התחברות ושני דשבורדים</span></p></div>
+                <div class="fact"><span class="num" data-count="1">0</span><p><span class="en">Firebase project shared by both</span><span class="he">פרויקט Firebase אחד משותף לשניהם</span></p></div>
+            </div>
+        </section>
+
+        <!-- ═════ ARCHITECTURE ═════ -->
+        <section class="section on-ink">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal"><span class="en">Architecture</span><span class="he">ארכיטקטורה</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">Two front doors, <em>one source of truth.</em></span><span class="he">שתי דלתות כניסה, <em>מקור אמת אחד.</em></span></h2>
+                </div>
+                <div class="arch reveal">
+                    <div class="node app">
+                        <h3><i>📱</i><span class="en">Mobile app</span><span class="he">אפליקציה</span></h3>
+                        <p><span class="en">Clients train, log and chat; the coach runs the business.</span><span class="he">לקוחות מתאמנים, מתעדים ומתכתבים; המאמנת מנהלת את העסק.</span></p>
+                        <ul><li>React Native 0.81</li><li>Expo SDK 54</li><li>React Navigation</li><li>Reanimated</li><li>Push</li></ul>
+                    </div>
+                    <div class="node web">
+                        <h3><i>🌐</i><span class="en">Website</span><span class="he">אתר</span></h3>
+                        <p><span class="en">Wins new clients; lets existing ones log in from any browser.</span><span class="he">מביא לקוחות חדשים; מאפשר לקיימים להתחבר מכל דפדפן.</span></p>
+                        <ul><li>HTML · CSS · JS</li><li>i18n EN/HE</li><li>schema.org</li><li>Firebase JS SDK</li></ul>
+                    </div>
+                    <div class="wires" aria-hidden="true"><div class="wire"><span class="pkt"></span></div><div class="wire"><span class="pkt"></span></div></div>
+                    <div class="node fb">
+                        <h3><i>🔥</i>Firebase · <span class="ltr">kj-fitness</span></h3>
+                        <p><span class="en">Auth (email + Google) · Firestore for users, plans, sessions, messages · Storage for media · security rules as the real access gate.</span><span class="he">Auth (אימייל + Google) · Firestore למשתמשים, תוכניות, אימונים והודעות · Storage למדיה · חוקי אבטחה כשער הגישה האמיתי.</span></p>
+                        <ul><li>Auth</li><li>Firestore</li><li>Storage</li><li>Security rules</li><li>Indexes</li></ul>
+                    </div>
+                    <div class="rule-box">
+                        <div class="rule-head"><span><span class="en">Excerpt from</span><span class="he">קטע מתוך</span> <code>firestore.rules</code></span><a href="https://github.com/pappostudios/KJ-Fitness-App/blob/main/firestore.rules" target="_blank" rel="noopener"><span class="en">Full file on GitHub ↗</span><span class="he">הקובץ המלא ב-GitHub ↗</span></a></div>
+<pre class="code"><span class="c">// Caller is the coach, OR a client whose own profile has been APPROVED</span>
+<span class="c">// by the coach. A pending account can authenticate, but it can't read</span>
+<span class="c">// shared content or write app data until Kirsten approves it.</span>
+<span class="k">function</span> <span class="f">isApproved</span>() {
+  <span class="k">return</span> <span class="f">isCoach</span>() || (
+    <span class="f">isAuth</span>() &amp;&amp;
+    <span class="f">get</span>(/databases/$(database)/documents/users/$(request.auth.uid))
+      .data.status == <span class="s">'approved'</span>
+  );
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ THE APP ═════ -->
+        <section class="section" id="app">
+            <div class="wrap app-grid">
+                <div>
+                    <div class="phones" data-animate>
+                        <div class="phone reveal" style="--i:0">
+                            <div class="screen">
+                                <div class="scr-status"><span>9:41</span><span>●●● ▮</span></div>
+                                <div class="scr-body">
+                                    <span class="scr-eyebrow"><span class="en">COACH</span><span class="he">מאמנת</span></span>
+                                    <div class="scr-h"><span class="en">Good morning,<br>Kirsten</span><span class="he">בוקר טוב,<br>קירסטן</span></div>
+                                    <div class="scr-card warn"><span>⚠️</span><div><div class="t" style="font-size:11px"><span class="en">3 clients need attention</span><span class="he">3 לקוחות צריכים תשומת לב</span></div><div class="s"><span class="en">Haven't trained in a few days</span><span class="he">לא התאמנו כבר כמה ימים</span></div></div></div>
+                                    <span class="scr-eyebrow"><span class="en">OVERVIEW</span><span class="he">סקירה</span></span>
+                                    <div class="scr-grid">
+                                        <div class="scr-stat"><b>24</b><span><span class="en">Active clients</span><span class="he">לקוחות פעילים</span></span></div>
+                                        <div class="scr-stat"><b>31</b><span><span class="en">Sessions this week</span><span class="he">אימונים השבוע</span></span></div>
+                                        <div class="scr-stat"><b>5</b><span><span class="en">New messages</span><span class="he">הודעות חדשות</span></span></div>
+                                        <div class="scr-stat"><b>12</b><span><span class="en">Join requests</span><span class="he">בקשות הצטרפות</span></span></div>
+                                    </div>
+                                    <span class="scr-eyebrow"><span class="en">QUICK ACTIONS</span><span class="he">פעולות מהירות</span></span>
+                                    <div class="scr-card" style="padding:4px 10px">
+                                        <div class="scr-row"><i>📚</i><div><b><span class="en">Content Library</span><span class="he">ספריית תוכן</span></b><span class="s"><span class="en">Videos, articles and images</span><span class="he">סרטונים, מאמרים ותמונות</span></span></div></div>
+                                        <div class="scr-row"><i>🗓</i><div><b><span class="en">Weekly Plan</span><span class="he">תוכנית שבועית</span></b><span class="s"><span class="en">Publish this week's plan</span><span class="he">פרסום התוכנית של השבוע</span></span></div></div>
+                                    </div>
+                                </div>
+                                <div class="scr-tabs"><span class="on">🏠</span><span>👥</span><span>📅</span><span>💬</span><span>👤</span></div>
+                            </div>
+                        </div>
+                        <div class="phone reveal" style="--i:1">
+                            <div class="screen">
+                                <div class="scr-status"><span>18:02</span><span>●●● ▮</span></div>
+                                <div class="scr-body">
+                                    <span class="scr-eyebrow"><span class="en">TODAY</span><span class="he">היום</span></span>
+                                    <div class="scr-h"><span class="en">Good evening,<br>Dana</span><span class="he">ערב טוב,<br>דנה</span></div>
+                                    <div class="scr-card accent">
+                                        <div class="s"><span class="en">Next session · Session with Kirsten</span><span class="he">האימון הבא · אימון עם קירסטן</span></div>
+                                        <div class="t" style="font-size:15px"><span class="en">Today's Workout</span><span class="he">האימון של היום</span></div>
+                                        <div class="s"><span class="en">8 exercises · ~45 min · Week 5/8</span><span class="he">8 תרגילים · ~45 דקות · שבוע 5/8</span></div>
+                                        <div class="bar-mini"><i></i></div>
+                                        <div class="scr-btn"><span class="en">Start session</span><span class="he">התחלת אימון</span></div>
+                                    </div>
+                                    <span class="scr-eyebrow"><span class="en">THIS WEEK</span><span class="he">השבוע</span></span>
+                                    <div class="scr-week"><span class="done">M</span><span class="done">T</span><span class="on">W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+                                    <span class="scr-eyebrow"><span class="en">COACH NOTES</span><span class="he">הערות מאמנת</span></span>
+                                    <div class="scr-card"><div class="s" style="font-size:10.5px;color:#0A3B3E"><span class="en">"Great depth on the squats — add 2.5 kg next week 💪"</span><span class="he">"עומק מעולה בסקוואט — מוסיפים 2.5 ק"ג בשבוע הבא 💪"</span></div></div>
+                                    <span class="scr-eyebrow"><span class="en">PERSONAL RECORDS</span><span class="he">שיאים אישיים</span></span>
+                                    <div class="scr-grid"><div class="scr-stat"><b>80 kg</b><span>Deadlift</span></div><div class="scr-stat"><b>12</b><span>Pull-ups</span></div></div>
+                                </div>
+                                <div class="scr-tabs"><span class="on">🏠</span><span>📅</span><span>📈</span><span>💬</span><span>👤</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mock-note"><span class="en">Screens rebuilt in HTML from the app's own design tokens and copy · demo data</span><span class="he">המסכים שוחזרו ב-HTML מה-Design tokens והטקסטים של האפליקציה · נתוני דמו</span></p>
+                </div>
+                <div>
+                    <p class="eyebrow reveal"><span class="en">The app</span><span class="he">האפליקציה</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">"Coached. <em>Not programmed.</em>"</span><span class="he">"מאומנים. <em>לא מתוכנתים.</em>"</span></h2>
+                    <p class="lede reveal" style="--i:2"><span class="en">That's the app's own tagline. Two experiences in one codebase: clients get a personal plan from a real coach; the coach gets a pocket back-office.</span><span class="he">זו הסיסמה של האפליקציה עצמה. שתי חוויות בקוד אחד: הלקוחות מקבלים תוכנית אישית ממאמנת אמיתית; המאמנת מקבלת משרד אחורי בכיס.</span></p>
+                    <div class="feat-tiles reveal" style="--i:3; margin-top:1.6rem">
+                        <div class="ft"><h3>🔐 <span class="en">Approval-gated sign-up</span><span class="he">הרשמה באישור</span></h3><p><span class="en">Email or Google; new clients wait for the coach, enforced by Firestore rules — not just the UI.</span><span class="he">אימייל או Google; לקוחות חדשים ממתינים למאמנת, ונאכף בחוקי Firestore — לא רק בממשק.</span></p></div>
+                        <div class="ft"><h3>📅 <span class="en">Scheduling</span><span class="he">תזמון</span></h3><p><span class="en">Calendar, time slots, session reminders and push notifications.</span><span class="he">יומן, משבצות זמן, תזכורות לאימונים והתראות Push.</span></p></div>
+                        <div class="ft"><h3>📈 <span class="en">Progress</span><span class="he">התקדמות</span></h3><p><span class="en">Workout logging, history, personal records and charts.</span><span class="he">תיעוד אימונים, היסטוריה, שיאים אישיים וגרפים.</span></p></div>
+                        <div class="ft"><h3>💬 <span class="en">Coach tools</span><span class="he">כלים למאמנת</span></h3><p><span class="en">Chat, assessments, training programs, weekly plans, a content library.</span><span class="he">צ'אט, הערכות, תוכניות אימון, תוכנית שבועית וספריית תוכן.</span></p></div>
+                        <div class="ft"><h3>🌍 <span class="en">English &amp; Hebrew</span><span class="he">אנגלית ועברית</span></h3><p><span class="en">640 strings per language; every screen mirrors itself — no app reload on switch.</span><span class="he">640 מחרוזות לכל שפה; כל מסך משקף את עצמו — בלי טעינה מחדש במעבר.</span></p></div>
+                        <div class="ft"><h3>✨ <span class="en">Motion &amp; feel</span><span class="he">תנועה ותחושה</span></h3><p><span class="en">Motion tokens, staggered entrances, press-scale feedback, haptics and a teal confetti finish.</span><span class="he">טוקנים לתנועה, כניסות מדורגות, משוב לחיצה, רטט וקונפטי טורקיז בסיום.</span></p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ APPROVAL FLOW ═════ -->
+        <section class="section on-teal">
+            <div class="wrap">
+                <p class="eyebrow reveal"><span class="en">Onboarding, secured</span><span class="he">קליטה מאובטחת</span></p>
+                <h2 class="h-section reveal" style="--i:1"><span class="en">Nobody gets in <em>without Kirsten.</em></span><span class="he">אף אחד לא נכנס <em>בלי קירסטן.</em></span></h2>
+                <div class="flow" data-animate>
+                    <div class="step" style="--i:0"><div class="dot">✍️</div><h3><span class="en">Sign up</span><span class="he">הרשמה</span></h3><p><span class="en">Email or Google, waiver &amp; terms gate</span><span class="he">אימייל או Google, ויתור ותנאי שימוש</span></p></div>
+                    <div class="step" style="--i:1"><div class="dot">⏳</div><h3><span class="en">Pending</span><span class="he">בהמתנה</span></h3><p><span class="en">Profile exists, data stays locked</span><span class="he">הפרופיל קיים, הנתונים נעולים</span></p></div>
+                    <div class="step" style="--i:2"><div class="dot">✅</div><h3><span class="en">Coach approves</span><span class="he">המאמנת מאשרת</span></h3><p><span class="en">One tap in Client Requests</span><span class="he">הקשה אחת בבקשות הצטרפות</span></p></div>
+                    <div class="step" style="--i:3"><div class="dot">🏋️</div><h3><span class="en">Full access</span><span class="he">גישה מלאה</span></h3><p><span class="en">Plans, sessions, chat — on app and web</span><span class="he">תוכניות, אימונים, צ'אט — באפליקציה ובאתר</span></p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ THE WEBSITE ═════ -->
+        <section class="section" id="web">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal"><span class="en">The website</span><span class="he">האתר</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">Every colour <em>from one teal.</em></span><span class="he">כל צבע <em>מטורקיז אחד.</em></span></h2>
+                    <p class="lede reveal" style="--i:2"><span class="en">The "Logo Blocks" design: a palette derived entirely from the logo, with each pairing checked for contrast — white on the logo teal is only 2.5:1, so text on teal is always ink. Live at <a href="https://kirstenjemma.fitness/" target="_blank" rel="noopener" class="ltr">kirstenjemma.fitness</a>.</span><span class="he">עיצוב "Logo Blocks": פלטה שנגזרה כולה מהלוגו, וכל צירוף נבדק לניגודיות — לבן על הטורקיז של הלוגו הוא רק 2.5:1, אז טקסט על טורקיז תמיד כהה. באוויר ב-<a href="https://kirstenjemma.fitness/" target="_blank" rel="noopener" class="ltr">kirstenjemma.fitness</a>.</span></p>
+                    <div class="swatches reveal" style="--i:3">
+                        <div class="sw" style="background:#D6F0F2;color:#0A3236"><code>#D6F0F2</code>tiles</div>
+                        <div class="sw" style="background:#26B4C0;color:#0A3236"><code>#26B4C0</code>ink 5.5:1</div>
+                        <div class="sw" style="background:#135F66;color:#fff"><code>#135F66</code>white 7.4:1</div>
+                        <div class="sw" style="background:#0A3236;color:#fff"><code>#0A3236</code>13.8:1</div>
+                    </div>
+                </div>
+                <div class="web-stage reveal zoom">
+                    <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>https://kirstenjemma.fitness</span></div><img src="images/kj/kj-web-desktop.jpg" alt="KJ Fitness website, desktop: 'Empowered Through Movement' hero in teal blocks" loading="lazy"></div>
+                    <div class="phone p-he"><img src="images/kj/kj-web-mobile-he.jpg" alt="KJ Fitness website on mobile, in Hebrew" loading="lazy"></div>
+                    <div class="phone"><img src="images/kj/kj-web-mobile.jpg" alt="KJ Fitness website on mobile, in English" loading="lazy"></div>
+                </div>
+                <div class="web-grid" data-stagger>
+                    <div class="ft"><h3>🔁 <span class="en">Live language switch</span><span class="he">החלפת שפה חיה</span></h3><p><span class="en">English ↔ Hebrew without reload: text, direction, dates and even aria-labels.</span><span class="he">אנגלית ↔ עברית בלי טעינה: טקסט, כיוון, תאריכים ואפילו aria-labels.</span></p></div>
+                    <div class="ft"><h3>🔎 <span class="en">Found on Google</span><span class="he">נמצא בגוגל</span></h3><p><span class="en">schema.org HealthClub data, Open Graph, canonical URL, custom domain.</span><span class="he">נתוני schema.org מסוג HealthClub, Open Graph, כתובת קנונית ודומיין משלו.</span></p></div>
+                    <div class="ft"><h3>💬 <span class="en">WhatsApp funnel</span><span class="he">משפך וואטסאפ</span></h3><p><span class="en">Every service has its own button that opens WhatsApp with a pre-filled message, in the visitor's language.</span><span class="he">לכל שירות כפתור משלו שפותח וואטסאפ עם הודעה מוכנה, בשפה של הגולש.</span></p></div>
+                    <div class="ft"><h3>🔑 <span class="en">Login &amp; dashboards</span><span class="he">התחברות ודשבורדים</span></h3><p><span class="en">Client and coach dashboards on the same Firebase as the app.</span><span class="he">דשבורד ללקוח ולמאמנת על אותו Firebase של האפליקציה.</span></p></div>
+                    <div class="ft"><h3>♿ <span class="en">Accessible</span><span class="he">נגיש</span></h3><p><span class="en">Skip link, visible focus, reduced-motion support, real buttons for real actions.</span><span class="he">קישור דילוג, פוקוס נראה, תמיכה בהפחתת תנועה, כפתורים אמיתיים לפעולות.</span></p></div>
+                    <div class="ft"><h3>📆 <span class="en">Self-expiring events</span><span class="he">אירועים שפגים לבד</span></h3><p><span class="en">The coach adds an event to one list; it appears, then removes itself the day after. No events? A designed empty state, never a broken one.</span><span class="he">המאמנת מוסיפה אירוע לרשימה אחת; הוא מופיע, ונעלם לבד יום אחרי. אין אירועים? מצב ריק מעוצב, אף פעם לא שבור.</span></p></div>
+                </div>
+                <div class="btn-row reveal" style="margin-top: 2.4rem">
+                    <a class="kbtn ink" href="https://kirstenjemma.fitness/" target="_blank" rel="noopener"><span class="en">Visit kirstenjemma.fitness</span><span class="he">לאתר kirstenjemma.fitness</span> <span class="arr">→</span></a>
+                    <a class="kbtn white" href="https://github.com/pappostudios/KJ-Fitness-App" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg><span class="en">App source</span><span class="he">קוד האפליקציה</span></a>
+                    <a class="kbtn white" href="https://github.com/pappostudios/KJ-Fitness-Website" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg><span class="en">Website source</span><span class="he">קוד האתר</span></a>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap">
+            <a class="next-project" href="future.html">
+                <small><span class="en">Next</span><span class="he">הבא</span></small>
+                <strong><span class="en">The Lab</span><span class="he">המעבדה</span> <span class="arr">→</span></strong>
+            </a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <span><span class="en">© <span data-year>2026</span> Erez Pappo · Pappo Studios</span><span class="he">© <span data-year>2026</span> ארז פפו · Pappo Studios</span></span>
+            <nav aria-label="Footer">
+                <a href="projects.html"><span class="en">All work</span><span class="he">כל העבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="assets/site.js"></script>
+</body>
+</html>

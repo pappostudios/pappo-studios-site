@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milometry — case study · Erez Pappo</title>
+    <meta name="description" content="Milometry: a Hebrew-first Flutter vocabulary app for Israel's psychometric exam, designed, built and shipped solo to Google Play and the App Store.">
+    <meta name="theme-color" content="#FAF3EA">
+    <link rel="icon" href="images/milometry/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Frank+Ruhl+Libre:wght@700&display=swap" rel="stylesheet">
+    <script>(function(){try{if(localStorage.getItem('lang')==='he'){var d=document.documentElement;d.lang='he';d.dir='rtl';d.setAttribute('data-lang','he');}}catch(e){}})();</script>
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        /* ═══ Milometry theme — tokens taken from the app's design_tokens.dart ═══ */
+        body.theme-milo {
+            --bg: #FAF3EA; --bg-2: #F3E8D8; --surface: #FFFFFF;
+            --ink: #1A1A2E; --ink-soft: #4B4B66; --muted: #8C8CA3;
+            --accent: #3D8BFD; --accent-2: #7A3DFD; --on-accent: #fff;
+            --line: #EADFCF;
+            --red: #E14F4F; --amber: #FBBC05; --orange: #FF8C3D; --green: #1AA84A; --navy: #1A1A2E;
+            --display: 'Heebo', system-ui, sans-serif; --body: 'Heebo', system-ui, sans-serif;
+            --radius: 24px;
+        }
+        .theme-milo .eyebrow { color: var(--accent-2); }
+        .theme-milo .h-section em, .theme-milo .h-display em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .theme-milo .h-section { font-weight: 800; letter-spacing: -.03em; }
+        .grad { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+        /* Chunky 3D buttons — the app's signature */
+        .chunky { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; font-size: 1.05rem; text-decoration: none; color: #fff; padding: 16px 28px; border-radius: 999px; background: var(--c); box-shadow: 0 6px 0 var(--s); transform: translateY(0); transition: transform .12s, box-shadow .12s, filter .2s; min-width: 190px; }
+        .chunky:hover { filter: brightness(1.06); }
+        .chunky:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--s); }
+        .chunky.navy { --c: #1A1A2E; --s: #0A0A14; }
+        .chunky.green { --c: #1AA84A; --s: #0C6B29; }
+        .chunky svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* ── Hero ── */
+        .m-hero { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 7vw, 6rem); overflow: hidden; }
+        .m-hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: clamp(2rem, 5vw, 4rem); }
+        .live-pill { display: inline-flex; align-items: center; gap: 10px; background: #fff; border-radius: 999px; padding: 8px 16px; font-weight: 700; font-size: .9rem; box-shadow: 0 6px 18px -10px rgba(26,26,46,.25); margin-bottom: 22px; }
+        .live-pill .flame { font-size: 1rem; }
+        .m-hero h1 { font-size: clamp(3.4rem, 9vw, 7.4rem); font-weight: 900; line-height: .95; letter-spacing: -.045em; padding-bottom: .1em; }
+        [lang="he"] .m-hero h1 { letter-spacing: -.01em; line-height: 1.05; }
+        .m-hero .sub { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 500; color: var(--ink-soft); margin: 14px 0 32px; max-width: 34ch; }
+        .m-hero .btn-row { gap: 18px; }
+
+        .m-stage { position: relative; display: grid; place-items: center; min-height: 560px; }
+        .m-bubble { position: absolute; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #C3CCF8, #A9B6F5 55%, #BFCBF6); }
+        .m-bubble.a { width: 420px; height: 420px; top: -40px; inset-inline-end: -90px; animation: bob 12s ease-in-out infinite alternate; }
+        .m-bubble.a::after { content: ''; position: absolute; inset: -22px; border-radius: 50%; border: 22px solid rgba(169,182,245,.35); }
+        .m-bubble.b { width: 120px; height: 120px; bottom: 40px; inset-inline-start: 0; opacity: .6; animation: bob 9s ease-in-out infinite alternate-reverse; }
+        @keyframes bob { to { transform: translate(-18px, 22px); } }
+        .m-stage .phone { max-width: 270px; transform: rotate(-4deg); z-index: 1; justify-self: end; margin-inline-end: 8%; animation: phone-float 7s ease-in-out infinite; }
+        @keyframes phone-float { 50% { transform: rotate(-4deg) translateY(-14px); } }
+
+        /* Mili — the app's mascot, rebuilt in CSS */
+        .mili-wrap { position: absolute; bottom: 40px; inset-inline-start: 0; z-index: 2; display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 14px; }
+        .mili { position: relative; width: 104px; height: 96px; animation: mili-bob 2.8s ease-in-out infinite; flex: none; }
+        .mili .body { position: absolute; inset: 0; border-radius: 50% 50% 47% 47%; background: radial-gradient(circle at 34% 28%, #7FB3FF, #4489F7 55%, #2F6BE3); box-shadow: inset -6px -8px 0 rgba(0,0,0,.08); }
+        .mili .body::before { content: ''; position: absolute; width: 30px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.35); top: 14px; left: 22px; transform: rotate(-12deg); }
+        .mili .ear { position: absolute; width: 16px; height: 20px; border-radius: 50%; background: #3F82F2; top: 44px; right: -6px; }
+        .mili .eye { position: absolute; top: 34px; width: 13px; height: 16px; border-radius: 50%; background: #111; animation: blink 4.5s infinite; transform-origin: center 60%; }
+        .mili .eye::after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #fff; top: 3px; left: 3px; }
+        .mili .eye.l { left: 34px; } .mili .eye.r { left: 58px; }
+        .mili .blush { position: absolute; top: 54px; width: 15px; height: 8px; border-radius: 50%; background: #E68BC9; opacity: .85; }
+        .mili .blush.l { left: 20px; } .mili .blush.r { left: 72px; }
+        .mili .mouth { position: absolute; top: 56px; left: 42px; width: 20px; height: 10px; border: 3px solid #1d2a55; border-top: 0; border-radius: 0 0 14px 14px; }
+        .mili .shadow { position: absolute; bottom: -14px; left: 14px; width: 76px; height: 10px; border-radius: 50%; background: rgba(26,26,46,.14); animation: shadow 2.8s ease-in-out infinite; }
+        @keyframes mili-bob { 50% { transform: translateY(-10px); } }
+        @keyframes shadow { 50% { transform: scaleX(.8); opacity: .7; } }
+        @keyframes blink { 0%, 46%, 50%, 100% { transform: scaleY(1); } 48% { transform: scaleY(.1); } }
+        .speech { background: #fff; border-radius: 20px; padding: 12px 16px; font-weight: 600; font-size: .92rem; line-height: 1.4; box-shadow: 0 12px 26px -16px rgba(26,26,46,.35); max-width: 190px; border: 1px solid var(--line); position: relative; }
+        .speech::after { content: ''; position: absolute; bottom: -8px; inset-inline-start: 40px; width: 14px; height: 14px; background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transform: rotate(45deg); }
+
+        /* ── Stat cards (like the app's stats screen) ── */
+        .m-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+        .m-stat { background: #fff; border-radius: 26px; padding: 1.6rem 1rem; text-align: center; box-shadow: 0 14px 30px -24px rgba(26,26,46,.35); transition: transform .3s var(--ease); }
+        .m-stat:hover { transform: translateY(-6px) rotate(-1deg); }
+        .m-stat .ico { font-size: 1.9rem; display: block; margin-bottom: 6px; }
+        .m-stat .num { font-size: clamp(1.8rem, 3.4vw, 2.5rem); font-weight: 900; line-height: 1.1; color: var(--c); direction: ltr; unicode-bidi: isolate; display: block; }
+        .m-stat p { color: var(--muted); font-weight: 600; font-size: .92rem; margin-top: 4px; line-height: 1.35; }
+
+        /* ── Brief ── */
+        .brief { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+        .brief p { color: var(--ink-soft); font-size: 1.08rem; margin-bottom: 1rem; }
+        .brief strong { color: var(--ink); }
+        .role-card { background: #fff; border-radius: 26px; padding: 1.8rem; box-shadow: 0 18px 40px -28px rgba(26,26,46,.4); }
+        .role-card dl { display: grid; grid-template-columns: auto 1fr; gap: 12px 20px; }
+        .role-card dt { font-weight: 800; font-size: .82rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); padding-top: 2px; }
+        [lang="he"] .role-card dt { letter-spacing: 0; font-size: .92rem; }
+        .role-card dd { font-weight: 600; }
+
+        /* ── Flashcard demo ── */
+        .demo { background: #EEF2FD; border-radius: 40px; padding: clamp(1.6rem, 4vw, 3.4rem); display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(1.6rem, 4vw, 3.4rem); align-items: center; }
+        .demo-copy .h-section { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+        .demo-copy p { color: var(--ink-soft); margin-bottom: 1rem; }
+        .sm2 { width: 100%; border-collapse: separate; border-spacing: 0 6px; margin-top: 8px; font-size: .92rem; }
+        .sm2 td { background: #fff; padding: 9px 12px; font-weight: 600; }
+        .sm2 td:first-child { border-start-start-radius: 12px; border-end-start-radius: 12px; }
+        .sm2 td:last-child { border-start-end-radius: 12px; border-end-end-radius: 12px; color: var(--muted); direction: ltr; text-align: end; }
+        .sm2 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-inline-end: 8px; vertical-align: 0; }
+
+        .player { max-width: 420px; width: 100%; justify-self: center; }
+        .player-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--muted); font-size: .9rem; margin-bottom: 10px; direction: ltr; }
+        .xp-chip { display: inline-flex; align-items: center; gap: 6px; background: #fff; border-radius: 999px; padding: 4px 12px; color: var(--accent-2); font-weight: 800; position: relative; }
+        .xp-pop { position: absolute; top: -6px; right: 4px; color: var(--green); font-weight: 900; pointer-events: none; animation: xp 1s var(--ease-out) forwards; }
+        @keyframes xp { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-28px); opacity: 0; } }
+        .bar { height: 8px; background: #fff; border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+        .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 99px; transition: width .5s var(--ease); }
+        .card-scene { perspective: 1200px; height: 330px; }
+        .flash { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s var(--ease-out); cursor: pointer; }
+        .flash.flipped { transform: rotateY(180deg); }
+        .flash.out-l { animation: out-l .38s ease-in forwards; } .flash.out-r { animation: out-r .38s ease-in forwards; } .flash.out-u { animation: out-u .38s ease-in forwards; }
+        .flash.in { animation: card-in .45s var(--ease-out); }
+        @keyframes out-l { to { transform: rotateY(180deg) translateX(120%) rotate(8deg); opacity: 0; } }
+        @keyframes out-r { to { transform: rotateY(180deg) translateX(-120%) rotate(-8deg); opacity: 0; } }
+        @keyframes out-u { to { transform: rotateY(180deg) translateY(-40%) scale(.9); opacity: 0; } }
+        @keyframes card-in { from { transform: translateY(30px) scale(.96); opacity: 0; } }
+        .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #fff; border-radius: 30px; padding: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 24px 50px -30px rgba(26,26,46,.45); border: 1px solid #EEE7DC; }
+        .face.back { transform: rotateY(180deg); justify-content: flex-start; padding-top: 26px; }
+        .lvl { position: absolute; top: 18px; inset-inline-start: 18px; font-size: .78rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; color: #fff; background: var(--lc); }
+        .term { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 900; color: var(--accent); line-height: 1.15; }
+        .hint { margin-top: 14px; color: var(--muted); font-weight: 600; font-size: .9rem; }
+        .face .label { color: var(--muted); font-weight: 700; font-size: .85rem; margin: 18px 0 2px; }
+        .face .trans { font-size: clamp(1.4rem, 3.6vw, 1.8rem); font-weight: 900; color: var(--accent); line-height: 1.25; }
+        .example { margin-top: 18px; width: 100%; background: #FFF6E3; border: 1px solid #F6E2B5; border-radius: 16px; padding: 12px 14px; text-align: start; }
+        .example b { display: block; font-size: .75rem; color: #9A7414; margin-bottom: 4px; }
+        .example span { font-weight: 500; line-height: 1.5; }
+        .grades { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; direction: rtl; }
+        .grade { --c: #ccc; --s: #aaa; color: #fff; font-weight: 800; font-size: 1rem; padding: 14px 6px; border-radius: 18px; background: var(--c); box-shadow: 0 5px 0 var(--s); transition: transform .1s, box-shadow .1s, opacity .2s, filter .2s; }
+        .grade:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--s); }
+        .grade:disabled { opacity: .45; cursor: not-allowed; filter: saturate(.6); }
+        .grade.g1 { --c: #E14F4F; --s: #F29A9A; } .grade.g2 { --c: #FBBC05; --s: #F7DD8B; color: #fff; } .grade.g3 { --c: #1AA84A; --s: #8FD8A6; }
+        .grade small { display: block; font-size: .72rem; font-weight: 600; opacity: .92; }
+        .result { min-height: 3.2em; margin-top: 14px; text-align: center; font-weight: 700; color: var(--ink-soft); font-size: .95rem; }
+        .result b { color: var(--ink); }
+        .done { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: #fff; border-radius: 30px; text-align: center; padding: 24px; box-shadow: 0 24px 50px -30px rgba(26,26,46,.45); }
+        .done.show { display: flex; animation: card-in .5s var(--ease-out); }
+        .done .big { font-size: 3rem; }
+        .done h3 { font-size: 1.6rem; font-weight: 900; }
+        .confetti i { position: absolute; width: 8px; height: 14px; top: 40%; left: 50%; border-radius: 2px; animation: burst 1.2s var(--ease-out) forwards; }
+        @keyframes burst { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
+
+        /* ── Screens ── */
+        .screens { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(12px, 2vw, 24px); align-items: start; }
+        .screens figure { text-align: center; }
+        .screens figure:nth-child(even) { margin-top: 48px; }
+        .screens .phone { margin: 0 auto 14px; max-width: 230px; transition: transform .5s var(--ease-out); }
+        .screens figure:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
+        .screens figcaption { font-weight: 800; }
+        .screens figcaption span { display: block; font-weight: 500; color: var(--muted); font-size: .9rem; }
+
+        /* ── Levels chart ── */
+        .levels { display: grid; gap: 12px; }
+        .lv { display: grid; grid-template-columns: 150px 1fr 70px; align-items: center; gap: 16px; }
+        .lv .name { font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .lv .name i { font-style: normal; font-size: .72rem; color: #fff; background: var(--c); padding: 2px 9px; border-radius: 999px; direction: ltr; }
+        .lv .track { height: 26px; background: #fff; border-radius: 999px; overflow: hidden; }
+        .lv .fill { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--c); transition: width 1.4s var(--ease-out); transition-delay: calc(var(--i) * 120ms); box-shadow: inset 0 -4px 0 rgba(0,0,0,.12); }
+        .levels.in .fill { width: var(--w); }
+        .lv .count { font-weight: 800; color: var(--ink-soft); direction: ltr; text-align: end; }
+
+        /* ── Under the hood ── */
+        .hood { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .hood-card { background: #fff; border-radius: 26px; padding: 1.7rem; position: relative; overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s; }
+        .hood-card:hover { transform: translateY(-6px); box-shadow: 0 26px 44px -28px rgba(26,26,46,.45); }
+        .hood-card::before { content: ''; position: absolute; inset-inline-start: 0; top: 0; bottom: 0; width: 5px; background: var(--c, var(--accent)); }
+        .hood-card .ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 1.4rem; background: color-mix(in srgb, var(--c, var(--accent)) 14%, white); margin-bottom: 14px; }
+        .hood-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+        .hood-card p { color: var(--ink-soft); font-size: .95rem; line-height: 1.6; }
+        .hood-card code { display: inline-block; margin-top: 12px; padding: 6px 10px; background: #F4F1FF; color: #4B2BB8; border-radius: 10px; font-size: .78rem; direction: ltr; word-break: break-all; }
+
+        /* ── Release story ── */
+        .story { position: relative; display: grid; gap: 18px; padding-inline-start: 34px; }
+        .story::before { content: ''; position: absolute; inset-inline-start: 11px; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: linear-gradient(var(--accent), var(--accent-2)); }
+        .chapter { position: relative; background: #fff; border-radius: 22px; padding: 1.4rem 1.6rem; }
+        .chapter::before { content: ''; position: absolute; inset-inline-start: -31px; top: 22px; width: 17px; height: 17px; border-radius: 50%; background: #fff; border: 4px solid var(--accent-2); }
+        .chapter .ver { display: inline-block; font-weight: 900; font-size: .85rem; color: #fff; background: linear-gradient(90deg, var(--accent), var(--accent-2)); padding: 3px 12px; border-radius: 999px; direction: ltr; margin-bottom: 8px; }
+        .chapter h3 { font-weight: 800; font-size: 1.2rem; margin-bottom: 4px; }
+        .chapter p { color: var(--ink-soft); }
+
+        /* ── CTA ── */
+        .m-cta { background: var(--navy); color: #fff; border-radius: 40px; padding: clamp(2rem, 5vw, 4rem); text-align: center; position: relative; overflow: hidden; }
+        .m-cta h2 { font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; margin-bottom: 12px; }
+        .m-cta p { color: rgba(255,255,255,.75); max-width: 52ch; margin: 0 auto 28px; }
+        .m-cta .btn-row { justify-content: center; gap: 18px; }
+        .m-cta .chunky.navy { --c: #3D8BFD; --s: #2457B8; }
+        .m-cta .orb { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .5; }
+        .private-note { margin-top: 22px; font-size: .92rem; color: rgba(255,255,255,.6); }
+
+        .theme-milo .next-project:hover strong { color: #26B4C0; }
+
+        @media (max-width: 1000px) {
+            .m-stats { grid-template-columns: repeat(3, 1fr); }
+            .hood { grid-template-columns: repeat(2, 1fr); }
+            .screens { grid-template-columns: repeat(5, minmax(200px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); }
+            .screens figure { scroll-snap-align: center; }
+        }
+        @media (max-width: 860px) {
+            .m-hero .wrap, .brief, .demo { grid-template-columns: 1fr; }
+            .m-stage { min-height: 480px; }
+            .m-bubble.a { width: 300px; height: 300px; inset-inline-end: -40px; }
+        }
+        @media (max-width: 560px) {
+            .m-stats { grid-template-columns: repeat(2, 1fr); }
+            .hood { grid-template-columns: 1fr; }
+            .lv { grid-template-columns: 96px 1fr 52px; gap: 10px; }
+            .lv .name i { display: none; }
+            .chunky { min-width: 0; flex: 1; }
+            .speech { display: none; }
+            .mili-wrap { transform: scale(.72); transform-origin: bottom left; bottom: 0; }
+            [dir="rtl"] .mili-wrap { transform-origin: bottom right; }
+            .chunky { padding: 14px 18px; font-size: .98rem; }
+            .card-scene { height: 360px; }
+        }
+    </style>
+</head>
+<body class="theme-milo">
+    <a class="skip" href="#main"><span class="en">Skip to content</span><span class="he">דילוג לתוכן</span></a>
+    <div class="progress" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <div class="wrap nav-inner">
+            <a href="index.html" class="brand" aria-label="Pappo Studios — home">
+                <img src="images/pappo-mark.png" alt="" width="42" height="42">
+                <span class="wordmark">Pappo Studios</span>
+            </a>
+            <button class="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
+            <nav class="nav-links" aria-label="Main">
+                <a href="projects.html" class="active"><span class="en">Work</span><span class="he">עבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="future.html"><span class="en">Lab</span><span class="he">מעבדה</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+                <button class="lang-btn" type="button">עב</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- ═════ HERO ═════ -->
+        <section class="m-hero">
+            <div class="wrap">
+                <div>
+                    <span class="live-pill reveal"><span class="flame">🔥</span>
+                        <span class="en">Live on Google Play &amp; App Store · v1.5</span>
+                        <span class="he">זמינה ב-Google Play וב-App Store · גרסה 1.5</span>
+                    </span>
+                    <h1 class="grad" data-split><span class="en">Milometry</span><span class="he">מילומטרי</span></h1>
+                    <p class="sub reveal" style="--i:2">
+                        <span class="en">Words for the psychometric exam. A Hebrew-first vocabulary trainer — designed, engineered and shipped by one person: me.</span>
+                        <span class="he">מילים לפסיכומטרי. מאמן אוצר מילים שנבנה בעברית מהיסוד — עוצב, פותח ושוחרר על ידי אדם אחד: אני.</span>
+                    </p>
+                    <div class="btn-row reveal" style="--i:3">
+                        <a class="chunky navy" href="https://play.google.com/store/apps/details?id=com.pappostudios.milometry" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.7-.6-1.2V3c0-.5.2-1 .6-1.2Zm11.6 11.6 2.4 2.4-11 6.3 8.6-8.7Zm3.9-3.6 2.7 1.6c.8.5.8 1.7 0 2.2l-2.7 1.6-2.6-2.6 2.6-2.8ZM6.6 1.9l11 6.3-2.4 2.4-8.6-8.7Z"/></svg>
+                            Google Play
+                        </a>
+                        <a class="chunky green" href="https://apps.apple.com/il/app/%D7%9E%D7%99%D7%9C%D7%95%D7%9E%D7%98%D7%A8%D7%99/id6762563156" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.2.7-3 1.6-.6.7-1.2 1.9-1 3.1 1.1.1 2.3-.6 3-1.5Z"/></svg>
+                            App Store
+                        </a>
+                    </div>
+                </div>
+                <div class="m-stage reveal zoom" style="--i:1">
+                    <div class="m-bubble a" aria-hidden="true"></div>
+                    <div class="m-bubble b" aria-hidden="true"></div>
+                    <div class="phone"><img src="images/milometry/1_home.jpeg" alt="Milometry home screen: Hebrew and English decks, a streak counter and the Mili mascot"></div>
+                    <div class="mili-wrap" aria-hidden="true">
+                        <div class="mili"><div class="body"></div><div class="ear"></div><div class="eye l"></div><div class="eye r"></div><div class="blush l"></div><div class="blush r"></div><div class="mouth"></div><div class="shadow"></div></div>
+                        <div class="speech"><span class="en">Every new word — one more point on the psychometric 🎯</span><span class="he">כל מילה חדשה — עוד נקודה בפסיכומטרי 🎯</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ STATS ═════ -->
+        <section style="padding-bottom: clamp(3rem, 7vw, 5rem)">
+            <div class="wrap m-stats" data-stagger>
+                <div class="m-stat" style="--c:#3D8BFD"><span class="ico">📖</span><span class="num" data-count="5483">0</span><p><span class="en">words, Hebrew + English</span><span class="he">מילים, עברית + אנגלית</span></p></div>
+                <div class="m-stat" style="--c:#1AA84A"><span class="ico">⭐</span><span class="num" data-count="1200" data-suffix="+">0</span><p><span class="en">automated tests</span><span class="he">בדיקות אוטומטיות</span></p></div>
+                <div class="m-stat" style="--c:#FF8C3D"><span class="ico">🧭</span><span class="num" data-count="211">0</span><p><span class="en">logged decisions</span><span class="he">החלטות מתועדות</span></p></div>
+                <div class="m-stat" style="--c:#7A3DFD"><span class="ico">🔢</span><span class="num" data-count="59">0</span><p><span class="en">math question templates</span><span class="he">תבניות שאלות בחשבון</span></p></div>
+                <div class="m-stat" style="--c:#E14F4F"><span class="ico">📱</span><span class="num" data-count="2">0</span><p><span class="en">stores, one codebase</span><span class="he">חנויות, קוד אחד</span></p></div>
+            </div>
+        </section>
+
+        <!-- ═════ BRIEF ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap brief">
+                <div>
+                    <p class="eyebrow reveal"><span class="en">The brief</span><span class="he">הרקע</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">Thousands of words. <em>One exam.</em> Zero patience for bad apps.</span><span class="he">אלפי מילים. <em>מבחן אחד.</em> אפס סבלנות לאפליקציות גרועות.</span></h2>
+                    <p class="reveal" style="--i:2"><span class="en">Every year, tens of thousands of Israeli students cram vocabulary for the <strong>psychometric exam</strong> — the SAT-style test for university admission. The tools they had were PDFs, paper cards, and apps that felt translated from English.</span><span class="he">בכל שנה עשרות אלפי סטודנטים בישראל משננים אוצר מילים ל<strong>פסיכומטרי</strong>. הכלים שהיו להם: קובצי PDF, כרטיסיות נייר ואפליקציות שהרגישו כמו תרגום מאנגלית.</span></p>
+                    <p class="reveal" style="--i:3"><span class="en">Milometry is built the other way around: <strong>Hebrew-first and right-to-left from day one</strong>, offline by default, and honest about what you actually know — you grade yourself, and the app schedules what comes back.</span><span class="he">מילומטרי בנויה הפוך: <strong>עברית ומימין לשמאל מהיום הראשון</strong>, עובדת בלי אינטרנט, וכנה לגבי מה שבאמת יודעים — אתם מדרגים את עצמכם, והאפליקציה מתזמנת מה יחזור.</span></p>
+                </div>
+                <div class="role-card reveal zoom" style="--i:2">
+                    <dl>
+                        <dt><span class="en">Role</span><span class="he">תפקיד</span></dt><dd><span class="en">Everything — product, design, engineering, release</span><span class="he">הכול — מוצר, עיצוב, פיתוח, שחרור</span></dd>
+                        <dt><span class="en">Platform</span><span class="he">פלטפורמה</span></dt><dd>Flutter · iOS · Android</dd>
+                        <dt><span class="en">Backend</span><span class="he">Backend</span></dt><dd>Firebase Auth · Cloud Firestore</dd>
+                        <dt><span class="en">Native</span><span class="he">Native</span></dt><dd>Swift · Kotlin <span class="en">(method channels)</span><span class="he">(Method channels)</span></dd>
+                        <dt><span class="en">Money</span><span class="he">מונטיזציה</span></dt><dd><span class="en">Subscriptions + lifetime, in-app</span><span class="he">מנויים + רכישה לכל החיים, בתוך האפליקציה</span></dd>
+                        <dt><span class="en">CI / CD</span><span class="he">CI / CD</span></dt><dd><span class="en">Codemagic for iOS, Play Console for Android</span><span class="he">Codemagic ל-iOS, Play Console לאנדרואיד</span></dd>
+                        <dt><span class="en">Status</span><span class="he">סטטוס</span></dt><dd><span class="en">Live · version 1.5 "Pro &amp; Pace"</span><span class="he">באוויר · גרסה 1.5 <bdi>"Pro &amp; Pace"</bdi></span></dd>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ PLAYABLE DEMO ═════ -->
+        <section class="section" style="padding-top:0" id="demo">
+            <div class="wrap">
+                <div class="demo reveal">
+                    <div class="demo-copy">
+                        <p class="eyebrow"><span class="en">Try the core loop</span><span class="he">נסו את הלולאה המרכזית</span></p>
+                        <h2 class="h-section"><span class="en">Flip. Be honest. <em>Let it schedule.</em></span><span class="he">הופכים. עונים בכנות. <em>האפליקציה מתזמנת.</em></span></h2>
+                        <p><span class="en">These are real words from the app's bank. Tap the card, then grade yourself — each grade maps to a simplified SM-2 step that decides when the word comes back:</span><span class="he">אלה מילים אמיתיות מהמאגר של האפליקציה. הקישו על הכרטיס ודרגו את עצמכם — כל דירוג ממופה לצעד ב-SM-2 מפושט שקובע מתי המילה תחזור:</span></p>
+                        <table class="sm2">
+                            <tr><td><span class="dot" style="background:#E14F4F"></span><span class="en">Didn't get it</span><span class="he">לא הבנתי</span></td><td>reps 0 · 1 day · EF 1.3</td></tr>
+                            <tr><td><span class="dot" style="background:#FBBC05"></span><span class="en">So-so</span><span class="he">ככה ככה</span></td><td>reps 1 · 1 day · EF 2.5</td></tr>
+                            <tr><td><span class="dot" style="background:#1AA84A"></span><span class="en">Got it</span><span class="he">מובן</span></td><td>reps 3 · 3 days · EF 2.5</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="player" aria-live="polite">
+                        <div class="player-top"><span id="pCount">1 / 7</span><span class="xp-chip">⚡ <span id="pXp">0</span> XP</span></div>
+                        <div class="bar"><i id="pBar"></i></div>
+                        <div class="card-scene">
+                            <div class="flash" id="flash" role="button" tabindex="0" aria-label="Flip card">
+                                <div class="face front">
+                                    <span class="lvl" id="fLvl"></span>
+                                    <div class="term" id="fTerm"></div>
+                                    <div class="hint"><span class="en">Tap to reveal</span><span class="he">הקישו כדי לחשוף</span></div>
+                                </div>
+                                <div class="face back">
+                                    <span class="lvl" id="bLvl"></span>
+                                    <div class="label"><span class="en">Meaning</span><span class="he">פירוש</span></div>
+                                    <div class="trans" id="bTrans" dir="rtl"></div>
+                                    <div class="example"><b><span class="en">Example sentence</span><span class="he">דוגמה במשפט</span></b><span id="bEx"></span></div>
+                                </div>
+                            </div>
+                            <div class="done" id="done">
+                                <div class="confetti" id="confetti" aria-hidden="true"></div>
+                                <div class="big">🎉</div>
+                                <h3><span class="en">Session complete!</span><span class="he">סיימתם את הסשן!</span></h3>
+                                <p id="doneXp" style="color:var(--muted);font-weight:600"></p>
+                                <button class="chunky navy" id="again" type="button" style="min-width:0"><span class="en">Play again</span><span class="he">עוד סבב</span></button>
+                            </div>
+                        </div>
+                        <div class="grades">
+                            <button class="grade g1" data-g="1" disabled>לא הבנתי<small class="en">Didn't get it</small></button>
+                            <button class="grade g2" data-g="2" disabled>ככה ככה<small class="en">So-so</small></button>
+                            <button class="grade g3" data-g="3" disabled>מובן<small class="en">Got it</small></button>
+                        </div>
+                        <div class="result" id="result"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ SCREENS ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal"><span class="en">Inside the app</span><span class="he">בתוך האפליקציה</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">Warm, playful, <em>right-to-left.</em></span><span class="he">חמה, שובבה, <em>מימין לשמאל.</em></span></h2>
+                </div>
+                <div class="screens" data-stagger>
+                    <figure><div class="phone"><img src="images/milometry/1_home.jpeg" alt="Home screen" loading="lazy"></div><figcaption><span class="en">Home</span><span class="he">בית</span><span><span class="en">Pick a language, keep the streak</span><span class="he">בוחרים שפה, שומרים על הרצף</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/2_practice.jpeg" alt="Practice card with three self-grading buttons" loading="lazy"></div><figcaption><span class="en">Practice</span><span class="he">תרגול</span><span><span class="en">Three honest buttons</span><span class="he">שלושה כפתורים כנים</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/3_levels.jpeg" alt="Five difficulty levels" loading="lazy"></div><figcaption><span class="en">Levels</span><span class="he">רמות</span><span><span class="en">Five tiers, basic → extreme</span><span class="he">חמש רמות, מבסיסי לקיצוני</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/4_streak.jpeg" alt="Streak screen" loading="lazy"></div><figcaption><span class="en">Streak</span><span class="he">רצף</span><span><span class="en">Daily goal and a 7-day view</span><span class="he">יעד יומי ותצוגת שבוע</span></span></figcaption></figure>
+                    <figure><div class="phone"><img src="images/milometry/5_stats.jpeg" alt="Statistics screen" loading="lazy"></div><figcaption><span class="en">Stats</span><span class="he">סטטיסטיקות</span><span><span class="en">Progress per language</span><span class="he">התקדמות לפי שפה</span></span></figcaption></figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ LEVELS ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap brief">
+                <div>
+                    <p class="eyebrow reveal"><span class="en">Data pipeline</span><span class="he">צינור הנתונים</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">5,483 words, <em>sorted by a script.</em></span><span class="he">5,483 מילים, <em>ממוינות בסקריפט.</em></span></h2>
+                    <p class="reveal" style="--i:2"><span class="en">Two Python scripts score every word from 1 to 10 using signals I chose deliberately — a common-words frequency list, length, syllables and suffixes for English; consonant count, idioms and translation density for Hebrew (niqqud stripped). A second pass buckets them into five levels and writes each word's level back into the bank the app ships with.</span><span class="he">שני סקריפטים ב-Python נותנים לכל מילה ציון 1–10 לפי סימנים שבחרתי בכוונה — רשימת מילים נפוצות, אורך, הברות וסיומות באנגלית; מספר עיצורים, ביטויים וצפיפות התרגום בעברית (בלי ניקוד). מעבר נוסף מחלק אותן לחמש רמות וכותב את הרמה של כל מילה חזרה למאגר שנשלח עם האפליקציה.</span></p>
+                </div>
+                <div class="levels reveal" data-animate>
+                    <div class="lv" style="--c:#3D8BFD;--w:29%;--i:0"><span class="name"><span class="en">Basic</span><span class="he">בסיסי</span><i>L1</i></span><span class="track"><span class="fill"></span></span><span class="count">635</span></div>
+                    <div class="lv" style="--c:#1AA84A;--w:100%;--i:1"><span class="name"><span class="en">Intermediate</span><span class="he">בינוני</span><i>L2</i></span><span class="track"><span class="fill"></span></span><span class="count">2,170</span></div>
+                    <div class="lv" style="--c:#FF8C3D;--w:83%;--i:2"><span class="name"><span class="en">High</span><span class="he">גבוה</span><i>L3</i></span><span class="track"><span class="fill"></span></span><span class="count">1,810</span></div>
+                    <div class="lv" style="--c:#E14F4F;--w:21%;--i:3"><span class="name"><span class="en">Advanced</span><span class="he">מתקדם</span><i>L4</i></span><span class="track"><span class="fill"></span></span><span class="count">446</span></div>
+                    <div class="lv" style="--c:#7A3DFD;--w:19%;--i:4"><span class="name"><span class="en">Extreme</span><span class="he">קיצוני</span><i>L5</i></span><span class="track"><span class="fill"></span></span><span class="count">422</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ UNDER THE HOOD ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal"><span class="en">Under the hood</span><span class="he">מתחת למכסה המנוע</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">The parts recruiters <em>don't see in a demo.</em></span><span class="he">החלקים <em>שלא רואים בדמו.</em></span></h2>
+                </div>
+                <div class="hood" data-stagger>
+                    <article class="hood-card" style="--c:#3D8BFD">
+                        <div class="ico">💾</div>
+                        <h3><span class="en">Offline-first, never loses progress</span><span class="he">עובדת בלי רשת, לא מאבדת התקדמות</span></h3>
+                        <p><span class="en">Progress is a compact per-word record on the device. The parser reads four historical formats; any format change must ship with a guarded migration and a round-trip test.</span><span class="he">ההתקדמות נשמרת כרשומה קומפקטית לכל מילה במכשיר. הפרסר קורא ארבעה פורמטים היסטוריים; כל שינוי פורמט חייב לצאת עם מיגרציה מוגנת ובדיקת Round-trip.</span></p>
+                        <code>id:reps:interval:ef:nextReviewMs:status:repeatDone</code>
+                    </article>
+                    <article class="hood-card" style="--c:#7A3DFD">
+                        <div class="ico">☁️</div>
+                        <h3><span class="en">Sync with a pure merge</span><span class="he">סנכרון עם מיזוג טהור</span></h3>
+                        <p><span class="en">Google &amp; Apple sign-in, then pull → merge → apply → push over Firestore. The merge is a pure, unit-tested function; streaks merge as the union of study days, so two phones can't overwrite each other.</span><span class="he">התחברות עם Google ו-Apple, ואז משיכה → מיזוג → החלה → דחיפה מול Firestore. המיזוג הוא פונקציה טהורה עם בדיקות; רצפים מתמזגים כאיחוד של ימי הלימוד, כך ששני מכשירים לא דורסים זה את זה.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#1AA84A">
+                        <div class="ico">💳</div>
+                        <h3><span class="en">Monetisation, done carefully</span><span class="he">מונטיזציה, בזהירות</span></h3>
+                        <p><span class="en">Monthly, three-month and lifetime plans with prices from the store. Entitlements get a 7-day grace, a guard stops double purchases, and existing users got 30 cap-free days when the free tier changed.</span><span class="he">מנוי חודשי, תלת-חודשי ולכל החיים, עם מחירים מהחנות. להרשאות יש 7 ימי חסד, מנגנון מונע רכישה כפולה, ומשתמשים ותיקים קיבלו 30 יום בלי הגבלה כשהשכבה החינמית השתנתה.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#FF8C3D">
+                        <div class="ico">🔊</div>
+                        <h3><span class="en">Native bridges</span><span class="he">גשרים ל-Native</span></h3>
+                        <p><span class="en">Pronunciation goes through my own method channels — <code style="margin:0;padding:1px 6px">AVSpeechSynthesizer</code> in Swift and <code style="margin:0;padding:1px 6px">TextToSpeech</code> in Kotlin — plus an Android nav-bar inset fallback.</span><span class="he">ההגייה עוברת דרך Method channels שכתבתי — <code style="margin:0;padding:1px 6px">AVSpeechSynthesizer</code> ב-Swift ו-<code style="margin:0;padding:1px 6px">TextToSpeech</code> ב-Kotlin — ועוד פתרון גיבוי לשוליים של סרגל הניווט באנדרואיד.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#E14F4F">
+                        <div class="ico">🧮</div>
+                        <h3><span class="en">A generator, not a question bank</span><span class="he">מחולל, לא מאגר שאלות</span></h3>
+                        <p><span class="en">The quick-math mode is a pure, seeded generator: 59 templates, 7 topics, 3 levels. Wrong answers are drawn around a target rank, so the right one is equally likely in every position.</span><span class="he">מצב החשבון המהיר הוא מחולל טהור עם Seed: 59 תבניות, 7 נושאים, 3 רמות. התשובות השגויות נבחרות סביב דירוג יעד, כך שהתשובה הנכונה מופיעה בכל מיקום באותה הסתברות.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#00838F">
+                        <div class="ico">⚡</div>
+                        <h3><span class="en">First frame under 1.5 s</span><span class="he">פריים ראשון מתחת ל-1.5 שנ׳</span></h3>
+                        <p><span class="en">Nothing awaited before launch touches the network; the store, account and sync start after the first frame, with timeouts. A startup test fails the build if that order ever regresses.</span><span class="he">שום דבר שממתינים לו לפני העלייה לא נוגע ברשת; החנות, החשבון והסנכרון מתחילים אחרי הפריים הראשון, עם Timeouts. בדיקת עלייה מכשילה את הבנייה אם הסדר הזה נשבר.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#AD1457">
+                        <div class="ico">🔎</div>
+                        <h3><span class="en">Search that reads Hebrew</span><span class="he">חיפוש שמבין עברית</span></h3>
+                        <p><span class="en">Matching ignores niqqud and letter case; results rank exact → prefix → contains, shorter first. The bank is decoded once in a background isolate and cached for the session.</span><span class="he">ההתאמה מתעלמת מניקוד ומאותיות גדולות; הדירוג: התאמה מלאה ← תחילית ← הכלה, הקצרות קודם. המאגר מפוענח פעם אחת ב-Isolate ברקע ונשמר בזיכרון.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#F9A825">
+                        <div class="ico">🏆</div>
+                        <h3><span class="en">Motivation with rules</span><span class="he">מוטיבציה עם כללים</span></h3>
+                        <p><span class="en">XP that pays once per word step, levels on a curve, streaks computed by calendar day (not 24-hour blocks — daylight saving bit once), and share cards for milestones.</span><span class="he">XP שמשולם פעם אחת לכל צעד של מילה, רמות על עקומה, רצפים לפי יום קלנדרי (לא בלוקים של 24 שעות — שעון הקיץ כבר עקץ פעם), וכרטיסי שיתוף לאבני דרך.</span></p>
+                    </article>
+                    <article class="hood-card" style="--c:#303F9F">
+                        <div class="ico">🧪</div>
+                        <h3><span class="en">A gate, not a suggestion</span><span class="he">שער, לא המלצה</span></h3>
+                        <p><span class="en">1,200+ tests across 100+ files; injected clocks so no test depends on today's date; even the copy is tested — a test scans the code for Hebrew phrasing that breaks the app's voice.</span><span class="he">1,200+ בדיקות ביותר מ-100 קבצים; שעונים מוזרקים כך ששום בדיקה לא תלויה בתאריך של היום; אפילו הטקסטים נבדקים — בדיקה סורקת את הקוד בחיפוש אחר ניסוחים שלא מתאימים לקול של האפליקציה.</span></p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ RELEASE STORY ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap brief">
+                <div>
+                    <p class="eyebrow reveal"><span class="en">Release story</span><span class="he">סיפור השחרורים</span></p>
+                    <h2 class="h-section reveal" style="--i:1"><span class="en">From flashcards <em>to a product.</em></span><span class="he">מכרטיסיות <em>למוצר.</em></span></h2>
+                    <p class="reveal" style="--i:2"><span class="en">The 1.5 release was built in short, documented sessions on a release branch, each merged only behind a green analyze-and-test gate, with a changelog entry and numbered decisions for every judgment call.</span><span class="he">גרסה 1.5 נבנתה בסשנים קצרים ומתועדים על ענף שחרור, וכל אחד מוזג רק אחרי ש-analyze והבדיקות היו ירוקים, עם רשומה ב-Changelog והחלטות ממוספרות לכל שיקול דעת.</span></p>
+                </div>
+                <div class="story" data-stagger>
+                    <div class="chapter"><span class="ver">1.1</span><h3><span class="en">The core, in both stores</span><span class="he">הליבה, בשתי החנויות</span></h3><p><span class="en">Flashcards, units and levels, self-grading with spaced repetition, streaks, native pronunciation, reminders.</span><span class="he">כרטיסיות, מקבצים ורמות, דירוג עצמי עם חזרה מרווחת, רצפים, הגייה Native ותזכורות.</span></p></div>
+                    <div class="chapter"><span class="ver">1.5</span><h3><span class="en">"Pro &amp; Pace"</span><span class="he"><bdi>"Pro &amp; Pace"</bdi></span></h3><p><span class="en">Accounts and cloud sync, subscriptions and a fair free tier, a quick-math mode, XP and levels, search, share cards, "what's new" — and a full legal and release checklist.</span><span class="he">חשבונות וסנכרון לענן, מנויים ושכבה חינמית הוגנת, מצב חשבון מהיר, XP ורמות, חיפוש, כרטיסי שיתוף, "מה חדש" — ורשימת בדיקות משפטית ושחרור מלאה.</span></p></div>
+                    <div class="chapter"><span class="ver">next</span><h3><span class="en">More to come</span><span class="he">עוד בדרך</span></h3><p><span class="en">Breaking the original single-file app into feature modules, one behaviour-preserving slice at a time.</span><span class="he">פירוק הקובץ הראשי המקורי למודולים לפי פיצ'ר, פרוסה אחת בכל פעם, בלי לשנות התנהגות.</span></p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═════ CTA ═════ -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="m-cta reveal zoom">
+                    <div class="orb" style="width:300px;height:300px;background:#3D8BFD;top:-120px;left:-80px"></div>
+                    <div class="orb" style="width:280px;height:280px;background:#7A3DFD;bottom:-140px;right:-60px"></div>
+                    <div style="position:relative">
+                        <h2><span class="en">Download it. Learn a word.</span><span class="he">הורידו. למדו מילה.</span></h2>
+                        <p><span class="en">Free to start, with Hebrew and English decks, five levels and a daily streak.</span><span class="he">חינם להתחלה, עם חפיסות בעברית ובאנגלית, חמש רמות ורצף יומי.</span></p>
+                        <div class="btn-row">
+                            <a class="chunky navy" href="https://play.google.com/store/apps/details?id=com.pappostudios.milometry" target="_blank" rel="noopener">Google Play</a>
+                            <a class="chunky green" href="https://apps.apple.com/il/app/%D7%9E%D7%99%D7%9C%D7%95%D7%9E%D7%98%D7%A8%D7%99/id6762563156" target="_blank" rel="noopener">App Store</a>
+                        </div>
+                        <p class="private-note"><span class="en">🔒 The source is private (it's a paid product) — I'm happy to walk through the code live in an interview.</span><span class="he">🔒 הקוד פרטי (זה מוצר בתשלום) — אשמח לעבור עליו יחד בראיון.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap">
+            <a class="next-project" href="kj-fitness.html">
+                <small><span class="en">Next case study</span><span class="he">הפרויקט הבא</span></small>
+                <strong>KJ Fitness <span class="arr">→</span></strong>
+            </a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <span><span class="en">© <span data-year>2026</span> Erez Pappo · Pappo Studios</span><span class="he">© <span data-year>2026</span> ארז פפו · Pappo Studios</span></span>
+            <nav aria-label="Footer">
+                <a href="projects.html"><span class="en">All work</span><span class="he">כל העבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="assets/site.js"></script>
+    <script>
+    /* Flashcard demo — words, levels and SM-2 steps mirror the shipping app. */
+    (function () {
+        var WORDS = [
+            { t: 'fatigue', tr: 'לעייף / תשישות, עייפות', ex: 'Long hours of driving can fatigue even an experienced driver.', l: 3 },
+            { t: 'cultivate', tr: 'לטפח, לעבד', ex: 'Farmers in this valley cultivate wheat, olives and grapes.', l: 4 },
+            { t: 'גַּפַּיִם', tr: 'הידיים והרגליים של אדם או בעל חיים', ex: 'הקור העז גרם לתחושת נימול בגפיים.', l: 3, he: true },
+            { t: 'prestigious', tr: 'יוקרתי', ex: 'She was accepted to a prestigious university abroad.', l: 4 },
+            { t: 'hibernate', tr: 'לישון שנת חורף', ex: 'Bears hibernate in caves during the cold winter months.', l: 4 },
+            { t: 'לְלֹא כָּחָל וְסָרָק', tr: 'בלי ייפוי והסתרה, כפי שהדבר באמת', ex: 'הוא הציג את המציאות העגומה ללא כחל ושרק.', l: 3, he: true },
+            { t: 'indigenous', tr: 'מולד, ילידים', ex: 'The indigenous people of the island have lived there for centuries.', l: 5 }
+        ];
+        var LEVELS = { 1: ['Basic', 'בסיסי', '#3D8BFD'], 2: ['Intermediate', 'בינוני', '#1AA84A'], 3: ['High', 'גבוה', '#FF8C3D'], 4: ['Advanced', 'מתקדם', '#E14F4F'], 5: ['Extreme', 'קיצוני', '#7A3DFD'] };
+        var STEPS = {
+            1: { en: "Didn't get it", he: 'לא הבנתי', reps: 0, days: 1, ef: '1.3', xp: 1, out: 'out-l' },
+            2: { en: 'So-so', he: 'ככה ככה', reps: 1, days: 1, ef: '2.5', xp: 2, out: 'out-u' },
+            3: { en: 'Got it', he: 'מובן', reps: 3, days: 3, ef: '2.5', xp: 3, out: 'out-r' }
+        };
+        var i = 0, xp = 0, last = null, busy = false;
+        var $ = function (id) { return document.getElementById(id); };
+        var flash = $('flash'), grades = document.querySelectorAll('.grade');
+        function he() { return document.documentElement.getAttribute('data-lang') === 'he'; }
+
+        function render() {
+            var w = WORDS[i], L = LEVELS[w.l];
+            [$('fLvl'), $('bLvl')].forEach(function (el) {
+                el.textContent = (he() ? 'רמה ' + w.l + ' · ' + L[1] : 'L' + w.l + ' · ' + L[0]);
+                el.style.setProperty('--lc', L[2]);
+            });
+            $('fTerm').textContent = w.t; $('fTerm').dir = w.he ? 'rtl' : 'ltr';
+            $('bTrans').textContent = w.tr;
+            $('bEx').textContent = w.ex; $('bEx').dir = w.he ? 'rtl' : 'ltr';
+            $('pCount').textContent = (i + 1) + ' / ' + WORDS.length;
+            $('pBar').style.width = (i / WORDS.length * 100) + '%';
+            renderResult();
+        }
+        function renderResult() {
+            if (!last) { $('result').innerHTML = ''; return; }
+            var s = STEPS[last];
+            $('result').innerHTML = he()
+                ? '<b>' + s.he + '</b> → חוזרת בעוד ' + (s.days === 1 ? 'יום' : s.days + ' ימים') + ' · <bdi>reps ' + s.reps + ' · EF ' + s.ef + ' · +' + s.xp + ' XP</bdi>'
+                : '<b>' + s.en + '</b> → back in ' + s.days + (s.days === 1 ? ' day' : ' days') + ' · reps ' + s.reps + ' · EF ' + s.ef + ' · +' + s.xp + ' XP';
+        }
+        function setGrades(on) { grades.forEach(function (g) { g.disabled = !on; }); }
+        function flip() {
+            if (busy || flash.classList.contains('flipped')) return;
+            flash.classList.add('flipped'); setGrades(true);
+        }
+        function grade(g) {
+            if (busy) return; busy = true; setGrades(false);
+            var s = STEPS[g]; last = g; xp += s.xp; $('pXp').textContent = xp;
+            var pop = document.createElement('span'); pop.className = 'xp-pop'; pop.textContent = '+' + s.xp;
+            document.querySelector('.xp-chip').appendChild(pop); setTimeout(function () { pop.remove(); }, 1000);
+            renderResult();
+            flash.classList.add(s.out);
+            setTimeout(function () {
+                flash.className = 'flash';
+                i++;
+                if (i >= WORDS.length) { finish(); busy = false; return; }
+                render(); void flash.offsetWidth; flash.classList.add('in');
+                busy = false;
+            }, 380);
+        }
+        function finish() {
+            $('pBar').style.width = '100%';
+            flash.style.visibility = 'hidden';
+            $('doneXp').innerHTML = he() ? 'צברתם <bdi>' + xp + ' XP</bdi> ב-' + WORDS.length + ' מילים' : 'You earned ' + xp + ' XP across ' + WORDS.length + ' words';
+            $('done').classList.add('show');
+            var c = $('confetti'); c.innerHTML = '';
+            var colors = ['#3D8BFD', '#7A3DFD', '#1AA84A', '#FBBC05', '#E14F4F', '#FF8C3D'];
+            for (var k = 0; k < 36; k++) {
+                var p = document.createElement('i');
+                p.style.background = colors[k % colors.length];
+                p.style.setProperty('--x', (Math.random() * 360 - 180) + 'px');
+                p.style.setProperty('--y', (Math.random() * -220 + 40) + 'px');
+                p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+                c.appendChild(p);
+            }
+        }
+        $('again').addEventListener('click', function () {
+            i = 0; xp = 0; last = null; $('pXp').textContent = 0;
+            $('done').classList.remove('show'); flash.style.visibility = ''; flash.className = 'flash in'; render();
+        });
+        flash.addEventListener('click', flip);
+        flash.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+        grades.forEach(function (b) { b.addEventListener('click', function () { grade(+b.getAttribute('data-g')); }); });
+        document.addEventListener('langchange', function () { render(); if ($('done').classList.contains('show')) finish(); });
+        render();
+    })();
+    </script>
+</body>
+</html>

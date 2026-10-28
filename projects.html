@@ -3,697 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects — Pappo Studios</title>
-    <meta name="description" content="Projects by Erez Pappo: Milometri, KJ Fitness App, KJ Fitness Website.">
+    <title>Work — Erez Pappo · Pappo Studios</title>
+    <meta name="description" content="Projects by Erez Pappo: Milometry (Flutter), the KJ Fitness app (React Native) and website, and what's in the Lab.">
+    <meta name="theme-color" content="#F4EEE1">
+    <link rel="icon" href="images/pappo-mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        (function () {
-            var s = localStorage.getItem('lang');
-            if (s === 'he') {
-                document.documentElement.setAttribute('lang', 'he');
-                document.documentElement.setAttribute('dir', 'rtl');
-                document.documentElement.setAttribute('data-lang', 'he');
-            }
-        })();
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700;900&family=Assistant:wght@300;400;500;600;700;800&family=Heebo:wght@800;900&family=Rubik:wght@800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <script>(function(){try{if(localStorage.getItem('lang')==='he'){var d=document.documentElement;d.lang='he';d.dir='rtl';d.setAttribute('data-lang','he');}}catch(e){}})();</script>
+    <link rel="stylesheet" href="assets/site.css">
     <style>
-        :root {
-            --paper:   #F4EEE1;
-            --paper-2: #EAE0CB;
-            --logo-bg: #EEEBE2;
-            --ink:     #3E2C1E;
-            --ink-soft:#6B5544;
-            --muted:   #8A765F;
-            --caramel: #B5824E;
-            --fox:     #A65E2E;
-            --line:    #D8C9AE;
-            --card:    #EDE5D4;
-            --serif:   'Frank Ruhl Libre', Georgia, serif;
-            --sans:    'Assistant', system-ui, sans-serif;
-        }
+        .w-hero { padding-block: clamp(3rem, 8vw, 6rem) clamp(2rem, 5vw, 3.5rem); }
+        .w-hero h1 { font-size: clamp(3.4rem, 11vw, 9rem); line-height: .9; }
+        .w-hero .row { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+        .w-hero .lede { max-width: 40ch; }
+        .count-badge { font-family: var(--display); font-size: .5em; vertical-align: super; color: var(--accent); }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        .rows { border-top: 1px solid var(--ink); }
+        .prow { position: relative; display: grid; grid-template-columns: 70px 1.3fr 1fr 1fr 40px; gap: 20px; align-items: center; padding: clamp(1.4rem, 3vw, 2.2rem) clamp(.6rem, 1.6vw, 1.4rem); border-bottom: 1px solid var(--ink); text-decoration: none; color: var(--ink); overflow: hidden; isolation: isolate; transition: color .35s; }
+        .prow::before { content: ''; position: absolute; inset: 0; background: var(--c); transform: scaleY(0); transform-origin: bottom; transition: transform .5s var(--ease-out); z-index: -1; }
+        .prow:hover::before, .prow:focus-visible::before { transform: scaleY(1); }
+        .prow:hover, .prow:focus-visible { color: var(--fg); }
+        .prow .n { font-family: var(--display); font-weight: 700; font-size: 1rem; opacity: .6; direction: ltr; }
+        .prow h2 { font-family: var(--f); font-weight: 900; font-size: clamp(1.9rem, 4.4vw, 3.4rem); line-height: 1; letter-spacing: -.03em; transition: transform .45s var(--ease-out); }
+        [lang="he"] .prow h2 { letter-spacing: 0; }
+        .prow:hover h2 { transform: translateX(12px); }
+        [dir="rtl"] .prow:hover h2 { transform: translateX(-12px); }
+        .prow .kind { font-weight: 600; }
+        .prow .kind small { display: block; font-weight: 500; opacity: .7; }
+        .prow .stack { display: flex; flex-wrap: wrap; gap: 6px; }
+        .prow .stack span { font-size: .78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; opacity: .8; }
+        .prow .go { font-size: 1.6rem; transition: transform .4s var(--ease-out); }
+        .prow:hover .go { transform: rotate(-45deg); }
+        [dir="rtl"] .prow .go { transform: scaleX(-1); }
+        [dir="rtl"] .prow:hover .go { transform: scaleX(-1) rotate(-45deg); }
+        .prow .thumb { display: none; }
 
-        html { scroll-behavior: smooth; }
+        .r-milo { --c: #FAF3EA; --fg: #1A1A2E; --f: 'Heebo', sans-serif; }
+        .r-milo:hover h2 { background: linear-gradient(90deg, #3D8BFD, #7A3DFD); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .r-kjapp { --c: #26B4C0; --fg: #0A3236; --f: 'Rubik', sans-serif; }
+        .r-kjweb { --c: #0A3236; --fg: #FFFFFF; --f: 'Rubik', sans-serif; }
+        .r-lab { --c: #08080F; --fg: #E8E6FF; --f: 'Space Grotesk', 'Heebo', sans-serif; }
+        .r-lab:hover h2 { color: #FF3DF0; text-shadow: 0 0 24px rgba(255,61,240,.6); }
 
-        body {
-            font-family: var(--sans);
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.7;
-        }
+        /* Floating preview that follows the cursor (clipped layer, so it never adds scroll) */
+        .preview-layer { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 90; }
+        .preview { position: absolute; top: 0; left: 0; width: 300px; height: 380px; pointer-events: none; z-index: 90; border-radius: 22px; overflow: hidden; opacity: 0; transform: translate(-50%, -50%) scale(.6) rotate(-6deg); transition: opacity .3s, transform .45s var(--ease-out); box-shadow: 0 40px 80px -30px rgba(0,0,0,.55); }
+        .preview.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
+        .preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transition: opacity .3s; }
+        .preview img.on { opacity: 1; }
+        .preview .lab-art { position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, #FF3DF0 0 22%, transparent 23%), linear-gradient(#08080F 55%, #1a0b2e); opacity: 0; transition: opacity .3s; }
+        .preview .lab-art.on { opacity: 1; }
+        .preview .lab-art::after { content: ''; position: absolute; inset: 55% 0 0; background-image: linear-gradient(rgba(255,61,240,.7) 1px, transparent 1px), linear-gradient(90deg, rgba(124,247,212,.6) 1px, transparent 1px); background-size: 26px 26px; transform: perspective(200px) rotateX(55deg); transform-origin: top; }
 
-        /* ── Language ── */
-        html[data-lang="he"] .en { display: none !important; }
-        html:not([data-lang="he"]) .he { display: none !important; }
+        .note { margin-top: 2.4rem; color: var(--muted); font-size: .95rem; }
 
-        /* ── Scroll reveal ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .reveal.visible { opacity: 1; transform: none; }
-        .reveal-d1 { transition-delay: 0.1s; }
-        .reveal-d2 { transition-delay: 0.2s; }
-
-        /* ── Header / Nav ── */
-        header {
-            background: var(--paper);
-            border-bottom: 1px solid var(--line);
-            padding: 0 3.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 68px;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .nav-brand img {
-            height: 44px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .nav-brand .wordmark {
-            font-family: var(--serif);
-            font-weight: 700;
-            font-size: 1.15rem;
-            letter-spacing: 0.3px;
-            color: var(--ink);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .nav-links a {
-            font-family: var(--sans);
-            font-size: 0.95rem;
-            color: var(--ink-soft);
-            text-decoration: none;
-            letter-spacing: 0.2px;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--fox); }
-        .nav-links a.active { color: var(--fox); font-weight: 600; }
-
-        .lang-btn {
-            font-family: var(--sans);
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            border: 1px solid var(--line);
-            color: var(--ink-soft);
-            background: transparent;
-            padding: 6px 14px;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .lang-btn:hover { border-color: var(--fox); color: var(--fox); }
-
-        /* ── Page hero ── */
-        .page-hero {
-            background: var(--paper-2);
-            border-bottom: 1px solid var(--line);
-            padding: 4rem 3.5rem 3rem;
-            text-align: center;
-        }
-
-        .page-hero .eyebrow {
-            font-family: var(--sans);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.74rem;
-            color: var(--caramel);
-            margin-bottom: 14px;
-        }
-
-        .page-hero h1 {
-            font-family: var(--serif);
-            font-weight: 500;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            color: var(--ink);
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-        }
-
-        .page-hero h1 em { font-style: italic; color: var(--fox); }
-
-        .page-hero p {
-            color: var(--ink-soft);
-            font-size: 1.05rem;
-        }
-
-        /* ── Container ── */
-        .container {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 4rem 2rem 5rem;
-        }
-
-        /* ── Section divider ── */
-        .section-divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 2rem;
-            color: var(--caramel);
-        }
-        .section-divider::before, .section-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--line);
-        }
-        .section-divider span {
-            font-family: var(--sans);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            font-size: 0.72rem;
-            white-space: nowrap;
-        }
-
-        /* ── Project card ── */
-        .project-card {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 2.5rem;
-            margin-bottom: 4rem;
-        }
-
-        /* ── Project header row ── */
-        .project-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            margin-bottom: 1.4rem;
-            flex-wrap: wrap;
-        }
-
-        .project-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 16px;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 1px solid var(--line);
-            background: var(--logo-bg);
-        }
-
-        .project-icon-text {
-            width: 72px;
-            height: 72px;
-            border-radius: 16px;
-            flex-shrink: 0;
-            background: var(--ink);
-            border: 1px solid var(--line);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--serif);
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--caramel);
-            letter-spacing: -1px;
-        }
-
-        .project-meta { flex: 1; min-width: 200px; }
-
-        .project-meta h2 {
-            font-family: var(--serif);
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 10px;
-            letter-spacing: -0.3px;
-        }
-
-        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
-
-        .tag {
-            display: inline-block;
-            background: var(--paper);
-            color: var(--ink-soft);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            border: 1px solid var(--line);
-        }
-
-        .tag-accent {
-            background: rgba(166,94,46,0.1);
-            border-color: rgba(166,94,46,0.3);
-            color: var(--fox);
-            font-weight: 600;
-        }
-
-        /* ── Project body ── */
-        .project-desc {
-            color: var(--ink-soft);
-            font-size: 1rem;
-            margin-bottom: 1.6rem;
-            line-height: 1.7;
-        }
-
-        /* ── Detail blocks ── */
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .detail-block {
-            background: var(--paper);
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 1.2rem 1.4rem;
-        }
-
-        .detail-block h4 {
-            font-family: var(--sans);
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--caramel);
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .detail-block p {
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            line-height: 1.6;
-        }
-
-        /* ── Gallery ── */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 1.8rem;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid var(--line);
-            background: var(--logo-bg);
-        }
-
-        .gallery img.logo-style {
-            object-fit: contain;
-            padding: 16px;
-        }
-
-        /* ── Project links ── */
-        .project-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            padding-top: 1.4rem;
-            border-top: 1px solid var(--line);
-        }
-
-        .btn-solid {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 11px 24px;
-            background: var(--fox);
-            color: #FBF6EC;
-            font-family: var(--sans);
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 999px;
-            font-size: 0.92rem;
-            transition: background 0.2s;
-        }
-        .btn-solid:hover { background: var(--ink); }
-
-        .btn-ghost {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 11px 24px;
-            border: 1.5px solid var(--ink);
-            color: var(--ink);
-            font-family: var(--sans);
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 999px;
-            font-size: 0.92rem;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .btn-ghost:hover { border-color: var(--fox); color: var(--fox); }
-
-        /* ── Footer ── */
-        footer {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            color: var(--muted);
-            border-top: 1px solid var(--line);
-            font-size: 0.88rem;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 640px) {
-            header { padding: 0 1.2rem; }
-            .page-hero { padding: 3rem 1.2rem 2rem; }
-            .container { padding: 3rem 1.2rem 4rem; }
-            .detail-grid { grid-template-columns: 1fr; }
-            .project-card { padding: 1.6rem; }
-            .nav-links { gap: 14px; }
+        @media (max-width: 900px) {
+            .prow { grid-template-columns: 44px 1fr 40px; row-gap: 10px; }
+            .prow .kind { grid-column: 2; }
+            .prow .stack { grid-column: 2; }
+            .prow .go { grid-row: 1; grid-column: 3; }
+            .prow .thumb { display: block; grid-column: 1 / -1; height: 180px; border-radius: 16px; overflow: hidden; margin-top: 6px; }
+            .prow .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+            .preview-layer { display: none; }
         }
     </style>
 </head>
-<body>
+<body class="theme-pappo">
+    <a class="skip" href="#main"><span class="en">Skip to content</span><span class="he">דילוג לתוכן</span></a>
+    <div class="progress" aria-hidden="true"></div>
 
-    <header>
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="images/pappo-logo.png" alt="Pappo Studios">
+    <header class="site-header">
+        <div class="wrap nav-inner">
+            <a href="index.html" class="brand" aria-label="Pappo Studios — home">
+                <img src="images/pappo-mark.png" alt="" width="42" height="42">
                 <span class="wordmark">Pappo Studios</span>
             </a>
-            <div class="nav-links">
-                <a href="index.html">
-                    <span class="en">About</span><span class="he">אודות</span>
-                </a>
-                <a href="projects.html" class="active">
-                    <span class="en">Projects</span><span class="he">פרויקטים</span>
-                </a>
-                <a href="future.html">
-                    <span class="en">Future</span><span class="he">עתידי</span>
-                </a>
-                <button onclick="toggleLang()" id="langBtn" class="lang-btn">עב</button>
-            </div>
+            <button class="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
+            <nav class="nav-links" aria-label="Main">
+                <a href="projects.html" class="active"><span class="en">Work</span><span class="he">עבודות</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="future.html"><span class="en">Lab</span><span class="he">מעבדה</span></a>
+                <a href="index.html#contact"><span class="en">Contact</span><span class="he">צרו קשר</span></a>
+                <button class="lang-btn" type="button">עב</button>
+            </nav>
         </div>
     </header>
 
-    <section class="page-hero">
-        <p class="eyebrow">
-            <span class="en">Shipped &amp; Live</span>
-            <span class="he">פורסם ופעיל</span>
-        </p>
-        <h1>
-            <span class="en">My <em>Projects</em></span>
-            <span class="he">ה<em>פרויקטים</em> שלי</span>
-        </h1>
-        <p>
-            <span class="en">Real products, shipped to real users.</span>
-            <span class="he">מוצרים אמיתיים, שנשלחו למשתמשים אמיתיים.</span>
-        </p>
-    </section>
+    <main id="main">
+        <section class="w-hero">
+            <div class="wrap">
+                <p class="eyebrow reveal"><span class="en">Shipped &amp; live</span><span class="he">שוחרר ובאוויר</span></p>
+                <div class="row">
+                    <h1 class="h-display" data-split><span class="en">Work</span><span class="he">עבודות</span></h1>
+                    <p class="lede reveal" style="--i:2"><span class="en">Real products in the hands of real users. Hover a row for a peek; open one for the full case study — each in its product's own colours.</span><span class="he">מוצרים אמיתיים בידיים של משתמשים אמיתיים. עברו עם העכבר על שורה להצצה; פתחו אחת לניתוח המלא — כל אחד בצבעים של המוצר שלו.</span></p>
+                </div>
+            </div>
+        </section>
 
-    <div class="container">
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="rows" data-stagger>
+                    <a class="prow r-milo" href="milometry.html" data-preview="images/milometry/2_practice.jpeg">
+                        <span class="n">01</span>
+                        <h2><span class="en">Milometry</span><span class="he">מילומטרי</span></h2>
+                        <span class="kind"><span class="en">Mobile app · solo</span><span class="he">אפליקציה · עבודת יחיד</span><small><span class="en">Live on Google Play &amp; App Store</span><span class="he">באוויר ב-Google Play וב-App Store</span></small></span>
+                        <span class="stack"><span>Flutter</span><span>Firebase</span><span>IAP</span></span>
+                        <span class="go" aria-hidden="true">→</span>
+                        <span class="thumb"><img src="images/milometry/2_practice.jpeg" alt="" loading="lazy"></span>
+                    </a>
+                    <a class="prow r-kjapp" href="kj-fitness.html#app" data-preview="images/kj/training.jpg">
+                        <span class="n">02</span>
+                        <h2>KJ Fitness App</h2>
+                        <span class="kind"><span class="en">Mobile app · client work</span><span class="he">אפליקציה · עבודה ללקוחה</span><small><span class="en">Coach &amp; client, EN/HE</span><span class="he">מאמנת ולקוחות, אנגלית/עברית</span></small></span>
+                        <span class="stack"><span>React Native</span><span>Expo</span><span>Firestore</span></span>
+                        <span class="go" aria-hidden="true">→</span>
+                        <span class="thumb"><img src="images/kj/training.jpg" alt="" loading="lazy"></span>
+                    </a>
+                    <a class="prow r-kjweb" href="kj-fitness.html#web" data-preview="images/kj/kj-web-mobile.jpg">
+                        <span class="n">03</span>
+                        <h2>KJ Fitness Web</h2>
+                        <span class="kind"><span class="en">Website · client work</span><span class="he">אתר · עבודה ללקוחה</span><small class="ltr">kirstenjemma.fitness</small></span>
+                        <span class="stack"><span>HTML/CSS/JS</span><span>i18n</span><span>SEO</span></span>
+                        <span class="go" aria-hidden="true">→</span>
+                        <span class="thumb"><img src="images/kj/kj-web-desktop.jpg" alt="" loading="lazy"></span>
+                    </a>
+                    <a class="prow r-lab" href="future.html" data-preview="lab">
+                        <span class="n">04</span>
+                        <h2><span class="en">The Lab</span><span class="he">המעבדה</span></h2>
+                        <span class="kind"><span class="en">Games · in development</span><span class="he">משחקים · בפיתוח</span><small><span class="en">3D PVP multiplayer</span><span class="he">PVP תלת-ממדי מרובה משתתפים</span></small></span>
+                        <span class="stack"><span>Unity</span><span>C#</span></span>
+                        <span class="go" aria-hidden="true">→</span>
+                    </a>
+                </div>
+                <p class="note reveal"><span class="en">More on <a href="https://github.com/pappostudios" target="_blank" rel="noopener">GitHub</a>.</span><span class="he">עוד ב-<a href="https://github.com/pappostudios" target="_blank" rel="noopener">GitHub</a>.</span></p>
+            </div>
+        </section>
+    </main>
 
-        <!-- ══ PROJECT 1 — MILOMETRI ══ -->
-        <div class="section-divider reveal">
-            <span>Milometri</span>
+    <div class="preview-layer" aria-hidden="true"><div class="preview">
+        <img src="images/milometry/2_practice.jpeg" alt="">
+        <img src="images/kj/training.jpg" alt="">
+        <img src="images/kj/kj-web-mobile.jpg" alt="">
+        <div class="lab-art"></div>
+    </div></div>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <span><span class="en">© <span data-year>2026</span> Erez Pappo · Pappo Studios</span><span class="he">© <span data-year>2026</span> ארז פפו · Pappo Studios</span></span>
+            <nav aria-label="Footer">
+                <a href="index.html"><span class="en">Home</span><span class="he">בית</span></a>
+                <a href="about.html"><span class="en">About</span><span class="he">אודות</span></a>
+                <a href="future.html"><span class="en">Lab</span><span class="he">מעבדה</span></a>
+            </nav>
         </div>
-
-        <div class="project-card reveal reveal-d1">
-            <div class="project-header">
-                <img src="images/icon.png" alt="Milometri icon" class="project-icon">
-                <div class="project-meta">
-                    <h2>
-                        <span class="en">Milometri &mdash; Psychometric Vocabulary App</span>
-                        <span class="he">מילומטרי &mdash; אפליקציית אוצר מילים לפסיכומטרי</span>
-                    </h2>
-                    <div class="tag-row">
-                        <span class="tag tag-accent">Flutter</span>
-                        <span class="tag">Dart</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">Education</span>
-                        <span class="tag">iOS &amp; Android</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="project-desc">
-                <span class="en">A mobile vocabulary learning app for students preparing for Israel's psychometric (college admissions) exam. Built entirely solo, from the data pipeline and ML difficulty classification to the Flutter UI and store releases. Milometri uses adaptive learning to surface the words each user finds hardest, in both Hebrew and English. Available on both <strong>Google Play</strong> and the <strong>App Store</strong>.</span>
-                <span class="he">אפליקציית מובייל ללימוד אוצר מילים לתלמידים המתכוננים לפסיכומטרי. נבנתה לגמרי לבד, מה-Pipeline של הנתונים וסיווג הקושי ב-ML ועד ה-UI ב-Flutter ופרסום ב-Stores. מילומטרי משתמשת בלמידה אדפטיבית כדי להציג לכל משתמש את המילים שהוא מתקשה בהן ביותר, בעברית ובאנגלית. זמינה ב-<strong>Google Play</strong> ובאפ <strong>Store</strong>.</span>
-            </p>
-
-            <div class="detail-grid">
-                <div class="detail-block">
-                    <h4><span class="en">What I Built</span><span class="he">מה בניתי</span></h4>
-                    <p>
-                        <span class="en">Complete Flutter app with clean state management, local data persistence, and a smooth card-based review UI. Supports two word banks (Hebrew + English) with thousands of vocabulary items.</span>
-                        <span class="he">אפליקציית Flutter מלאה עם ניהול State נקי, שמירת נתונים מקומית וממשק כרטיסיות חלק לחזרה על מילים. תומכת בשני בנקי מילים (עברית + אנגלית) עם אלפי פריטי אוצר מילים.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Data Pipeline</span><span class="he">Pipeline נתונים</span></h4>
-                    <p>
-                        <span class="en">Wrote Python scripts (<code>classify_levels.py</code>, <code>rate_difficulty.py</code>) to automatically classify and rank vocabulary words by difficulty using frequency analysis and ML techniques.</span>
-                        <span class="he">כתבתי סקריפטים ב-Python (<code>classify_levels.py</code>, <code>rate_difficulty.py</code>) לסיווג ודירוג אוטומטי של מילות אוצר לפי רמת קושי בעזרת ניתוח תדירות וטכניקות ML.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Architecture</span><span class="he">ארכיטקטורה</span></h4>
-                    <p>
-                        <span class="en">Clean architecture with separated layers for data, domain, and presentation. Optimised for fast startup and smooth performance on low-end Android devices.</span>
-                        <span class="he">ארכיטקטורה נקייה עם שכבות מופרדות לנתונים, Domain ו-Presentation. אופטימיזציה לזמן הפעלה מהיר וביצועים חלקים גם על מכשירי Android חלשים.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Deployment</span><span class="he">פרסום</span></h4>
-                    <p>
-                        <span class="en">Published to both Google Play and the App Store using Codemagic CI/CD. Maintained a privacy policy page and handled full store compliance end-to-end.</span>
-                        <span class="he">פורסם ב-Google Play ובאפ סטור בעזרת Codemagic CI/CD. טיפול מלא בדרישות ה-Store כולל דף מדיניות פרטיות.</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="gallery">
-                <img src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/logo.jpg" alt="Milometri logo" class="logo-style">
-                <img src="https://raw.githubusercontent.com/pappostudios/milometry/main/assets/icon.png" alt="Milometri app icon" class="logo-style">
-            </div>
-
-            <div class="project-links">
-                <a href="https://play.google.com/store/apps/details?id=com.pappostudios.milometry" target="_blank" rel="noopener" class="btn-solid">
-                    &#9654; Google Play
-                </a>
-                <a href="https://apps.apple.com/il/app/%D7%9E%D7%99%D7%9C%D7%95%D7%9E%D7%98%D7%A8%D7%99/id6762563156" target="_blank" rel="noopener" class="btn-solid">
-                    &#63743; App Store
-                </a>
-                <a href="https://github.com/pappostudios/milometry" target="_blank" rel="noopener" class="btn-ghost">
-                    <span class="en">GitHub Repository</span>
-                    <span class="he">מאגר GitHub</span>
-                </a>
-            </div>
-        </div>
-
-
-        <!-- ══ PROJECT 2 — KJ FITNESS APP ══ -->
-        <div class="section-divider reveal">
-            <span>KJ Fitness App</span>
-        </div>
-
-        <div class="project-card reveal reveal-d1">
-            <div class="project-header">
-                <div class="project-icon-text">KJ</div>
-                <div class="project-meta">
-                    <h2>
-                        <span class="en">KJ Fitness &mdash; Coaching Mobile App</span>
-                        <span class="he">KJ Fitness &mdash; אפליקציית אימון מובייל</span>
-                    </h2>
-                    <div class="tag-row">
-                        <span class="tag tag-accent">React Native</span>
-                        <span class="tag">Expo</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">Firestore</span>
-                        <span class="tag">iOS &amp; Android</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="project-desc">
-                <span class="en">A full fitness coaching platform built for a real client &mdash; KJ Fitness. The app serves two roles: clients see their weekly training plans, track sessions, and pay for sessions; coaches manage client rosters, create weekly content, and monitor progress. Built with React Native + Expo for cross-platform delivery and Firebase for real-time backend.</span>
-                <span class="he">פלטפורמת אימון מלאה שנבנתה עבור לקוח אמיתי — KJ Fitness. האפליקציה משרתת שני תפקידים: לקוחות רואים תוכניות אימון שבועיות, עוקבים אחרי אימונים ומשלמים; מאמנים מנהלים לקוחות, יוצרים תוכן שבועי ועוקבים אחרי התקדמות. נבנה עם React Native + Expo לפיתוח Cross-platform ו-Firebase ל-Backend בזמן אמת.</span>
-            </p>
-
-            <div class="detail-grid">
-                <div class="detail-block">
-                    <h4><span class="en">Dual-role Architecture</span><span class="he">ארכיטקטורת שני תפקידים</span></h4>
-                    <p>
-                        <span class="en">Separate screen flows for clients and coaches, unified under a single codebase. Role-based access controlled via Firebase Auth and Firestore security rules.</span>
-                        <span class="he">זרימות מסך נפרדות ללקוחות ולמאמנים, תחת Codebase אחד. בקרת גישה מבוססת תפקיד דרך Firebase Auth וחוקי אבטחת Firestore.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Client Features</span><span class="he">פיצ'רים ללקוח</span></h4>
-                    <p>
-                        <span class="en">Weekly plan cards, session tracking, in-app payment (Bit Pay integration), quick-action grid, and bottom tab navigation with 5 tabs.</span>
-                        <span class="he">כרטיסיות תוכנית שבועית, מעקב אימונים, תשלום In-app (Bit Pay), רשת פעולות מהירות וניווט Tab תחתון עם 5 טאבים.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Tech Stack</span><span class="he">Stack טכנולוגי</span></h4>
-                    <p>
-                        <span class="en">React Navigation v6, Firebase Firestore + Auth + Storage, Expo managed workflow, custom theme system with design tokens (colors, typography, spacing).</span>
-                        <span class="he">React Navigation v6, Firebase Firestore + Auth + Storage, Expo managed workflow, מערכת Theme מותאמת עם Design Tokens (צבעים, טיפוגרפיה, ריווח).</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4>Backend</h4>
-                    <p>
-                        <span class="en">Firestore with complex security rules ensuring clients only access their own data. Custom indexes for efficient coach-client queries. Firebase Storage for profile media.</span>
-                        <span class="he">Firestore עם חוקי אבטחה מורכבים שמבטיחים שלקוחות ניגשים רק לנתונים שלהם. Indexes מותאמים לשאילתות coach-client יעילות. Firebase Storage לתמונות פרופיל.</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="gallery">
-                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg" alt="KJ Fitness training">
-                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness brand" class="logo-style">
-            </div>
-
-            <div class="project-links">
-                <a href="https://github.com/pappostudios/KJ-Fitness-App" target="_blank" rel="noopener" class="btn-ghost">
-                    <span class="en">GitHub Repository</span>
-                    <span class="he">מאגר GitHub</span>
-                </a>
-            </div>
-        </div>
-
-
-        <!-- ══ PROJECT 3 — KJ FITNESS WEBSITE ══ -->
-        <div class="section-divider reveal">
-            <span>KJ Fitness Website</span>
-        </div>
-
-        <div class="project-card reveal reveal-d1">
-            <div class="project-header">
-                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness logo" class="project-icon">
-                <div class="project-meta">
-                    <h2>
-                        <span class="en">KJ Fitness &mdash; Coaching Website</span>
-                        <span class="he">KJ Fitness &mdash; אתר האימון</span>
-                    </h2>
-                    <div class="tag-row">
-                        <span class="tag tag-accent">HTML / CSS / JS</span>
-                        <span class="tag">Firebase Auth</span>
-                        <span class="tag">Firestore</span>
-                        <span class="tag">Responsive</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="project-desc">
-                <span class="en">The web companion to the KJ Fitness mobile app. A full multi-page coaching website that includes a marketing landing page, a Firebase-authenticated login system, and separate dashboards for clients and coaches. Clients view their plans and progress; coaches manage clients and edit weekly content &mdash; all without a traditional backend server.</span>
-                <span class="he">האתר הנלווה לאפליקציית KJ Fitness למובייל. אתר אימון רב-עמודי מלא הכולל דף נחיתה שיווקי, מערכת התחברות עם Firebase ודשבורדים נפרדים ללקוחות ולמאמנים. לקוחות צופים בתוכניות ובהתקדמות; מאמנים מנהלים לקוחות ועורכים תוכן שבועי — הכל ללא שרת Backend מסורתי.</span>
-            </p>
-
-            <div class="detail-grid">
-                <div class="detail-block">
-                    <h4><span class="en">Pages Built</span><span class="he">עמודים שנבנו</span></h4>
-                    <p>
-                        <span class="en">Landing page (<code>index.html</code>), login page, client dashboard, and coach dashboard &mdash; each a fully functional HTML/CSS/JS page.</span>
-                        <span class="he">דף נחיתה (<code>index.html</code>), דף התחברות, דשבורד לקוח ודשבורד מאמן — כל אחד עמוד HTML/CSS/JS פונקציונלי לחלוטין.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Auth &amp; Data</span><span class="he">אימות ונתונים</span></h4>
-                    <p>
-                        <span class="en">Firebase Auth for secure login. Firestore for reading and writing client/coach data live in the browser &mdash; no backend server required.</span>
-                        <span class="he">Firebase Auth להתחברות מאובטחת. Firestore לקריאה וכתיבה של נתוני לקוח/מאמן חיים בדפדפן — ללא שרת Backend נדרש.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Design</span><span class="he">עיצוב</span></h4>
-                    <p>
-                        <span class="en">Fully responsive layout. Matches the mobile app's KJ Fitness branding. Optimised for both desktop and mobile browsers.</span>
-                        <span class="he">פריסה Responsive מלאה. תואמת את עיצוב המיתוג של KJ Fitness באפליקציה. מותאמת גם לדסקטופ וגם לנייד.</span>
-                    </p>
-                </div>
-                <div class="detail-block">
-                    <h4><span class="en">Real Client Delivery</span><span class="he">מסירה ללקוח אמיתי</span></h4>
-                    <p>
-                        <span class="en">Designed and delivered for KJ Fitness &mdash; an actual coaching business. Handled client requirements, branding integration, and production deployment.</span>
-                        <span class="he">עוצב ונמסר ל-KJ Fitness — עסק אימון פעיל. טיפלתי בדרישות הלקוח, שילוב המיתוג ופריסה לפרודקשן.</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="gallery">
-                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kj%20fitness.jpg" alt="KJ Fitness brand logo" class="logo-style">
-                <img src="https://raw.githubusercontent.com/pappostudios/KJ-Fitness-Website/main/kirsten-training.jpg" alt="Kirsten training">
-            </div>
-
-            <div class="project-links">
-                <a href="https://pappostudios.github.io/KJ-Fitness-Website/" target="_blank" rel="noopener" class="btn-solid">
-                    &#127760; <span class="en">Live Site</span><span class="he">אתר חי</span>
-                </a>
-                <a href="https://github.com/pappostudios/KJ-Fitness-Website" target="_blank" rel="noopener" class="btn-ghost">
-                    <span class="en">GitHub Repository</span>
-                    <span class="he">מאגר GitHub</span>
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <p>
-            <span class="en">&copy; 2026 Erez Pappo &middot; Pappo Studios. All rights reserved.</span>
-            <span class="he">&copy; 2026 ארז פפו &middot; Pappo Studios. כל הזכויות שמורות.</span>
-        </p>
     </footer>
 
+    <script src="assets/site.js"></script>
     <script>
-        function setLang(lang) {
-            var isHe = lang === 'he';
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', isHe ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute('data-lang', lang);
-            var btn = document.getElementById('langBtn');
-            if (btn) btn.textContent = isHe ? 'EN' : 'עב';
-            localStorage.setItem('lang', lang);
-        }
-        function toggleLang() {
-            setLang((localStorage.getItem('lang') || 'en') === 'en' ? 'he' : 'en');
-        }
+        /* Cursor-following preview (mouse only; hidden on small screens via CSS). */
         (function () {
-            var saved = localStorage.getItem('lang') || 'en';
-            var btn = document.getElementById('langBtn');
-            if (btn) btn.textContent = saved === 'he' ? 'EN' : 'עב';
-        })();
-
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            if (!window.matchMedia('(pointer: fine)').matches) return;
+            var box = document.querySelector('.preview');
+            var imgs = box.querySelectorAll('img'), lab = box.querySelector('.lab-art');
+            var x = 0, y = 0, cx = 0, cy = 0, raf = null;
+            function loop() {
+                cx += (x - cx) * 0.16; cy += (y - cy) * 0.16;
+                box.style.left = cx + 'px'; box.style.top = cy + 'px';
+                raf = requestAnimationFrame(loop);
+            }
+            document.querySelectorAll('.prow').forEach(function (row) {
+                row.addEventListener('pointerenter', function (e) {
+                    var src = row.getAttribute('data-preview');
+                    imgs.forEach(function (im) { im.classList.toggle('on', im.getAttribute('src') === src); });
+                    lab.classList.toggle('on', src === 'lab');
+                    x = cx = e.clientX; y = cy = e.clientY;
+                    box.classList.add('on');
+                    if (!raf) loop();
+                });
+                row.addEventListener('pointermove', function (e) { x = e.clientX + (document.documentElement.dir === 'rtl' ? -170 : 170); y = e.clientY; });
+                row.addEventListener('pointerleave', function () { box.classList.remove('on'); cancelAnimationFrame(raf); raf = null; });
             });
-        }, { threshold: 0.08 });
-        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+        })();
     </script>
-
 </body>
 </html>
